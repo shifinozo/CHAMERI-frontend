@@ -34,7 +34,7 @@ const AboutSection = () => {
             <span className="font-roundo font-medium text-[45px] leading-[45px] tracking-[-0.9px] text-[#1A1A1A]">
               {stat.val}
             </span>
-            <span className="font-sans font-normal text-[16px] leading-[19.44px] tracking-[-0.32px] text-black/60 mt-2">
+            <span className="font-sans font-normal text-[16px] leading-[19.44px] tracking-[-0.32px] text-black/60">
               {stat.label}
             </span>
           </div>

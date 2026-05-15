@@ -93,7 +93,7 @@ const ContactCard = () => (
 const TeamSection = () => {
   return (
     <section
-      className="w-full bg-[#EDE7DE] px-[40px] md:px-[82px] py-[47.75px]"
+      className="w-full h-150px] bg-[#EDE7DE] px-[40px] md:px-[82px] py-[47.75px]"
     >
       <div className="flex flex-col lg:flex-row gap-[20px] lg:gap-[44px] items-start">
 

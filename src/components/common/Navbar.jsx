@@ -1,97 +1,112 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
+import React from 'react';
 
 /**
- * Navbar — shared top navigation bar.
- * Designed to complement the CHAMERI brand palette (#334454 / #EDE7DE).
+ * Navbar — shared top navigation bar containing the Menu and Contact Us buttons.
  */
-const Navbar = () => {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  const navLinks = [
-    { label: 'Home',     href: '/' },
-    { label: 'About',    href: '/about' },
-    { label: 'Services', href: '/services' },
-    { label: 'Contact',  href: '/contact' },
-  ];
-
+const Navbar = ({ opacity = 1 }) => {
   return (
-    <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? 'bg-[#334454]/95 backdrop-blur-md shadow-lg' : 'bg-transparent'
-      }`}
+    <div 
+      className={`absolute top-0 left-0 w-full z-50 flex justify-center ${opacity > 0.05 ? 'pointer-events-auto' : 'pointer-events-none'}`}
+      style={{ opacity, paddingTop: "14px", paddingBottom: "14px", paddingLeft: "80px", paddingRight: "80px" }}
     >
-      <div className="w-full max-w-[1440px] mx-auto px-8 md:px-12 py-5 flex items-center justify-between">
-
-        {/* Hamburger (mobile) */}
-        <button
-          className="flex items-center gap-2 px-4 py-2 bg-black/20 backdrop-blur-md border border-white/10 rounded-lg text-white cursor-pointer hover:bg-black/30 transition-all"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-          <span className="text-sm font-medium">Menu</span>
-        </button>
-
-        {/* Logo */}
-        <Link href="/" className="flex flex-col items-center">
-          <Image src="/dummyimages/logo.svg" alt="CHAMERI" width={120} height={40} className="brightness-0 invert" />
-        </Link>
-
-        {/* Desktop nav links */}
-        <ul className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className="text-white/80 text-sm font-medium hover:text-white transition-colors tracking-wide uppercase"
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-
-        {/* Contact CTA */}
-        <Link
-          href="/contact"
-          className="flex items-center gap-2 px-6 py-3 bg-white text-black rounded-full font-medium hover:bg-zinc-100 transition-all text-sm"
-        >
-          Contact Us
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        </Link>
-      </div>
-
-      {/* Mobile dropdown */}
-      {menuOpen && (
-        <div className="md:hidden bg-[#334454]/95 backdrop-blur-md border-t border-white/10 px-8 py-6 flex flex-col gap-4">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-white/80 text-base font-medium hover:text-white transition-colors"
-              onClick={() => setMenuOpen(false)}
+      <div className="flex items-center justify-between w-full max-w-[1280px]" style={{ height: "68.38px" }}>
+        
+        {/* Menu Button & Dropdown Container */}
+        <div className="relative z-50 group" style={{ width: "125px", height: "56px" }}>
+          
+          {/* Expanding Morphing Container */}
+          <div 
+            className="absolute top-0 left-0 bg-[#1e293b]/40 backdrop-blur-md border border-white/10 text-white transition-all duration-[400ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] overflow-hidden w-[125px] h-[56px] group-hover:w-[260px] group-hover:h-[298px]"
+            style={{ borderRadius: "10px", padding: "9px 10px" }}
+          >
+            {/* Inner Content Box */}
+            <div 
+              className="relative bg-[#334454] transition-all duration-[400ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] overflow-hidden w-[105px] h-[38px] group-hover:w-[240px] group-hover:h-[280px]" 
+              style={{ borderRadius: "6px" }}
             >
-              {link.label}
-            </Link>
-          ))}
+              
+              {/* Default State: "Menu" Icon & Text */}
+              <div className="absolute inset-0 flex items-center justify-center gap-[10px] transition-opacity duration-300 opacity-100 group-hover:opacity-0 group-hover:pointer-events-none">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6B859E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{borderRadius: "10px"}}>
+                  <line x1="3" y1="12" x2="21" y2="12"></line>
+                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                  <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+                <span style={{ fontFamily: "Geist, sans-serif", fontSize: "16px", fontWeight: 400, color: "white", textTransform: "capitalize", letterSpacing: "0%", lineHeight: "100%" }}>
+                  Menu
+                </span>
+              </div>
+
+              {/* Expanded State: Navigation Links */}
+              <div className="absolute inset-0 flex flex-col transition-opacity duration-300 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto">
+                {["Home", "About", "Project", "Service", "Gallery"].map((item) => (
+                  <a 
+                    key={item} 
+                    href={`#${item.toLowerCase()}`} 
+                    className="group/item flex items-center justify-between px-6 flex-1 text-[#6B859E] hover:text-white transition-colors"
+                  >
+                    <span style={{ fontFamily: "Geist, sans-serif", fontSize: "20px", fontWeight: 400, letterSpacing: "0.5px" }}>
+                      {item}
+                    </span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-70 group-hover/item:opacity-100 transition-all group-hover/item:translate-x-1 duration-300">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </a>
+                ))}
+              </div>
+
+            </div>
+          </div>
         </div>
-      )}
-    </nav>
+        
+        {/* Center placeholder for logo to ensure justify-between works */}
+        <div style={{ width: "117.08px", height: "68.38px", pointerEvents: "none" }} />
+
+        {/* Contact Button */}
+        <button 
+          className="group flex items-center justify-between bg-white hover:bg-[#334454] transition-colors duration-300 overflow-hidden cursor-pointer border-none z-50"
+          style={{ width: "150px", height: "52px", paddingLeft: "16px", paddingRight: "16px", borderRadius: "12px" }}
+        >
+          {/* Sliding text container */}
+          <div 
+            className="relative overflow-hidden"
+            style={{ height: "23px", flex: 1 }}
+          >
+            <div className="flex flex-col transition-transform duration-[600ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-translate-y-1/2">
+              <span className="font-sans text-[16px] font-medium text-black whitespace-nowrap flex items-center" style={{ height: "23px" }}>
+                Contact Us
+              </span>
+              <span className="font-sans text-[16px] font-medium text-white whitespace-nowrap flex items-center" style={{ height: "23px" }}>
+                Contact Us
+              </span>
+            </div>
+          </div>
+
+          {/* Arrow icon box */}
+          <div 
+            className="relative overflow-hidden flex items-center justify-center shrink-0"
+            style={{ width: "21px", height: "20px", marginLeft: "8px" }}
+          >
+            {/* Original Arrow - Flies out to the right */}
+            <div className="absolute inset-0 flex items-center justify-center transition-transform duration-[600ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:translate-x-full">
+              <svg width="21" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-black">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </div>
+
+            {/* New Arrow - Comes in from the left */}
+            <div className="absolute inset-0 flex items-center justify-center transition-transform duration-[600ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] -translate-x-full group-hover:translate-x-0">
+              <svg width="21" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
   );
 };
 

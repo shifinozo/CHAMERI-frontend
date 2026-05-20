@@ -226,8 +226,10 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Layer 3: Navbar Header Layer (Menu, Contact) */}
         </div>
+
+        {/* Layer 3: Navbar Header Layer (Menu, Contact) */}
+        <Navbar opacity={navOpacity} />
       </div>
 
       {/* ── Scrolling Content (Text) ────────────────────────────────────────── */}

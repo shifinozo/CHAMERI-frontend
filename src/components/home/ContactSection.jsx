@@ -476,22 +476,25 @@ const ContactSection = () => {
 
       {/* ── Outer wrapper ─────────────────────────────────────────────── */}
       <div
-        className="w-full mx-auto flex flex-col lg:flex-row justify-between items-start gap-[40px] lg:gap-0"
+        className="w-full mx-auto flex flex-col md:flex-row justify-between items-start gap-[40px] md:gap-0"
         style={{
+          width:         '100%',
+          maxWidth:      '1440px',
+          minHeight:     'clamp(400px, 51.31vw, 739px)', // 739px at 1440px
           paddingTop:    'clamp(40px, 5.56vw, 80px)',
           paddingRight:  'clamp(20px, 6.11vw, 88px)',
           paddingBottom: 'clamp(40px, 3.54vw, 51px)',
           paddingLeft:   'clamp(20px, 5.56vw, 80px)',
-          maxWidth:      '1440px',
         }}
       >
 
         {/* ══ LEFT ════════════════════════════════════════════════════════ */}
         <div
-          className="flex flex-col justify-between flex-shrink-0 w-full lg:w-auto"
+          className="flex flex-col justify-between flex-shrink-0 w-full"
           style={{
-            width:  'clamp(280px, 31.25vw, 450px)',
-            height: 'clamp(320px, 35.42vw, 510px)',
+            width:     '100%',
+            maxWidth:  '450px', // Exact Figma width
+            minHeight: 'clamp(320px, 35.42vw, 510px)', // 510px at 1440px
           }}
         >
 
@@ -615,11 +618,11 @@ const ContactSection = () => {
 
         {/* ══ RIGHT — form ════════════════════════════════════════════════ */}
         <div
-          className="flex flex-col flex-shrink-0 w-full lg:w-auto"
+          className="flex flex-col flex-shrink-0 w-full"
           style={{
-            width:  'clamp(396px, 44.1vw, 635px)',
-            height: 'clamp(380px, 42.22vw, 608px)',
-            gap:    'clamp(6px, 0.69vw, 10px)',
+            width:     'clamp(300px, 44.097vw, 635px)',
+            minHeight: 'clamp(380px, 42.22vw, 608px)', // 608px at 1440px
+            gap:       'clamp(6px, 0.69vw, 10px)', // 10px at 1440px
           }}
         >
           {/* Heading */}

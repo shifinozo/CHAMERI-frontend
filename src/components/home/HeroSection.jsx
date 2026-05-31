@@ -439,14 +439,14 @@ const mapRange = (value, inMin, inMax, outMin, outMax) => {
   return outMin + t * (outMax - outMin);
 };
 
-const easeOutCubic  = (t) => 1 - Math.pow(1 - t, 3);
+const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 const easeInOutCubic = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-const easeOutQuart  = (t) => 1 - Math.pow(1 - t, 4);
+const easeOutQuart = (t) => 1 - Math.pow(1 - t, 4);
 
 export default function HeroSection() {
   const sectionRef = useRef(null);
 
-  const [progress,  setProgress]  = useState(0);
+  const [progress, setProgress] = useState(0);
   const [animState, setAnimState] = useState("intro"); // "intro" | "waiting" | "outro" | "done"
 
   // 1. Intro Animation (0 → 60%) on mount
@@ -468,7 +468,7 @@ export default function HeroSection() {
       setProgress(easedT * 0.6);
 
       if (t < 1.0) requestAnimationFrame(step);
-      else          setAnimState("waiting");
+      else setAnimState("waiting");
     };
 
     requestAnimationFrame(step);
@@ -504,12 +504,12 @@ export default function HeroSection() {
   // ── Derived values ─────────────────────────────────────────────────────────
   const pct = Math.round(progress * 100);
 
-  const phase1T = easeOutCubic   (mapRange(progress, 0.00, 0.40, 0, 1));
-  const phase2T = easeInOutCubic (mapRange(progress, 0.40, 0.60, 0, 1));
-  const phase3T =                 mapRange(progress, 0.60, 1.00, 0, 1);
+  const phase1T = easeOutCubic(mapRange(progress, 0.00, 0.40, 0, 1));
+  const phase2T = easeInOutCubic(mapRange(progress, 0.40, 0.60, 0, 1));
+  const phase3T = mapRange(progress, 0.60, 1.00, 0, 1);
 
   // ── Logo morph ─────────────────────────────────────────────────────────────
-  const vw = typeof window !== "undefined" ? window.innerWidth  : 1440;
+  const vw = typeof window !== "undefined" ? window.innerWidth : 1440;
   const vh = typeof window !== "undefined" ? window.innerHeight : 1110;
   const effectiveVw = clampVal(vw, 320, 1440);
 
@@ -522,44 +522,47 @@ export default function HeroSection() {
 
   // Intrinsic logo sizes — interpolated with phase1T
   // clamp ensures they never exceed Figma max on very wide viewports
-  const markWidth  = 140 + phase1T * (201.61 - 140);
+  const markWidth = 140 + phase1T * (201.61 - 140);
   const markHeight = 156.95 + phase1T * (226.03 - 156.95);
-  const textWidth  = 140 + phase1T * (600 - 140);
+  const textWidth = 140 + phase1T * (600 - 140);
   const textHeight = 17.82 + phase1T * (76.39 - 17.82);
-  const logoGap    = 11.31 + phase1T * (31.09 - 11.31);
+  const logoGap = 11.31 + phase1T * (31.09 - 11.31);
 
   // Logo Y drift
-  const figmaCenterY  = vh * 0.4056;
+  const figmaCenterY = vh * 0.4056;
   const navbarCenterY = 48.19;
   const driftToNavbar = navbarCenterY - figmaCenterY;
-  const driftStart    = vh * 0.05;
+  const driftStart = vh * 0.05;
 
   const groupY = progress <= 0.4
     ? driftStart * (1 - phase1T)
     : phase2T * driftToNavbar;
 
   // ── Beige curtain ──────────────────────────────────────────────────────────
+  // Navbar height per Figma: padding-top 14 + inner 68.38 + padding-bottom 14 = 96.38px
+  const NAVBAR_H = 96.37937927246094;
   let beigeClipTopPx = vh;
   if (progress > 0.4 && progress <= 0.6) {
-    beigeClipTopPx = vh - phase2T * (vh - 140);
+    beigeClipTopPx = vh - phase2T * (vh - NAVBAR_H);
   } else if (progress > 0.6) {
-    beigeClipTopPx = 140 - phase3T * 140;
+    beigeClipTopPx = NAVBAR_H - phase3T * NAVBAR_H;
   }
   const beigeClipPath = `inset(${beigeClipTopPx}px 0 0 0)`;
 
-  // ── House image scale (0.5 → 1.0) ─────────────────────────────────────────
-  const bgScale = 0.5 + phase3T * 0.5;
+  // ── House image scale: always fills viewport, subtle zoom-in during outro ──────────
+  // Starts at 1.0 (full viewport) and zooms to 1.08 — never appears as a small box
+  const bgScale = 0.7 + phase3T * 0.3;
 
   // ── Waves ──────────────────────────────────────────────────────────────────
   const waveDrift = mapRange(progress, 0.0, 0.6, 20, -20);
 
   // ── Staggered content reveal ───────────────────────────────────────────────
   const head1T = easeOutQuart(mapRange(progress, 0.78, 0.90, 0, 1));
-  const lineT  = easeOutQuart(mapRange(progress, 0.84, 0.94, 0, 1));
-  const sub1T  = easeOutQuart(mapRange(progress, 0.87, 0.96, 0, 1));
-  const sub2T  = easeOutQuart(mapRange(progress, 0.90, 0.98, 0, 1));
+  const lineT = easeOutQuart(mapRange(progress, 0.84, 0.94, 0, 1));
+  const sub1T = easeOutQuart(mapRange(progress, 0.87, 0.96, 0, 1));
+  const sub2T = easeOutQuart(mapRange(progress, 0.90, 0.98, 0, 1));
 
-  const navOpacity     = phase3T;
+  const navOpacity = phase3T;
   const counterOpacity = progress < 0.95 ? 1 : mapRange(progress, 0.95, 1.0, 1, 0);
 
   return (
@@ -575,10 +578,10 @@ export default function HeroSection() {
             className="absolute inset-0 w-full h-full opacity-50"
             style={{ transform: `translateY(${waveDrift}px)` }}
           >
-            <image href="/icons/Vector (1).svg" x="-15.98" y="-110"    width="1453.91" height="313.69" />
-            <image href="/icons/Vector (2).svg" x="-16"    y="53.02"   width="1455.59" height="482.03" />
-            <image href="/icons/Vector (3).svg" x="-16"    y="382.24"  width="1456"    height="482.43" />
-            <image href="/icons/Vector (4).svg" x="658.34" y="711.44"  width="781.16"  height="298.4"  />
+            <image href="/icons/Vector (1).svg" x="-15.98" y="-110" width="1453.91" height="313.69" />
+            <image href="/icons/Vector (2).svg" x="-16" y="53.02" width="1455.59" height="482.03" />
+            <image href="/icons/Vector (3).svg" x="-16" y="382.24" width="1456" height="482.43" />
+            <image href="/icons/Vector (4).svg" x="658.34" y="711.44" width="781.16" height="298.4" />
           </svg>
         </div>
 
@@ -618,8 +621,8 @@ export default function HeroSection() {
             className="absolute z-30 flex flex-col items-center"
             style={{
               left: "50%",
-              top:  "40.56vh",
-              gap:  `${logoGap}px`,
+              top: "40.56vh",
+              gap: `${logoGap}px`,
               transform: `translate(-50%, -50%) translateY(${groupY}px) scale(${groupScale})`,
               transformOrigin: "center center",
             }}
@@ -670,150 +673,186 @@ export default function HeroSection() {
           }}
         />
 
-        {/* ══ Heading group ══
-            Figma: w:1043.5 h:387.55  top:602.47 left:329.5
-            → top=58.83%  left=22.88%  width=72.47%
-        ════════════════════════════════════════════════════════════ */}
+        {/* ══════════════════════════════════════════════════════════════════════
+            SINGLE PARENT CONTAINER
+            Figma canvas: 1440 × 1024px
+            Container:  w:1043.5  h:387.55  top:602.47  left:329.5
+            Converted → top: 602.47/1024 = 58.83vh
+                        left: 329.5/1440 = 22.88vw
+                        width: 1043.5/1440 = 72.47vw
+                        height: 387.55/1024 = 37.85vh
+            overflow:visible so divider/label/description (below 387.55px)
+            are not clipped.
+        ════════════════════════════════════════════════════════════════════════ */}
         <div
           className="absolute pointer-events-none"
           style={{
-            top:       "58.83%",
-            left:      "22.88%",
-            width:     "72.47%",
-            opacity:   head1T,
+            top: "58.83%",         /* 602.47 / 1024 */
+            left: "22.88%",         /* 329.5  / 1440 */
+            width: "72.47%",         /* 1043.5 / 1440 */
+            height: "37.85%",        /* 387.55 / 1024 */
+            overflow: "visible",
+            opacity: head1T,
             transform: `translateY(${40 * (1 - head1T)}px)`,
           }}
         >
-          {/* Line 1 */}
+
+          {/* ── Title 1: "Premium residence for those"
+              Figma: w:780  h:65  top:602.47  left:329.5
+              Relative to parent (602.47, 329.5) → top:0  left:0
+          ─────────────────────────────────────────────────────── */}
           <h1
             style={{
-              fontFamily:    "var(--font-roundo), 'Roundo', system-ui, sans-serif",
-              fontWeight:    500,
-              fontSize:      "clamp(28px, 4.195vw, 60.41px)",
-              lineHeight:    1.06,
-              letterSpacing: "-0.032em",
-              color:         "#ffffff",
-              textAlign:     "left",
-              margin:        0,
-              padding:       0,
-              whiteSpace:    "nowrap",
-              textShadow:    "0 2px 16px rgba(0,0,0,0.25)",
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "clamp(200px, 54.17vw, 780px)",   /* 780/1440 */
+              height: "clamp(40px, 6.35vh, 65px)",      /* 65/1024  */
+              fontFamily: "var(--font-roundo), 'Roundo', var(--font-outfit), system-ui, sans-serif",
+              fontWeight: 500,
+              fontSize: "clamp(26px, 4.195vw, 60.41px)",
+              lineHeight: "clamp(30px, 6.26vh, 64.08px)",   /* 64.08/1024 */
+              letterSpacing: "clamp(-0.8px, -0.133vw, -1.92px)",
+              color: "#ffffff",
+              textAlign: "center",
+              margin: 0,
+              padding: 0,
+              whiteSpace: "nowrap",
+              textShadow: "0 2px 16px rgba(0,0,0,0.30)",
             }}
           >
             Premium residence for those
           </h1>
 
-          {/* Line 2 — indented */}
+          {/* ── Title 2: "who seek refined living."
+              Figma: w:611  h:65  top:667.01  left:414.19
+              Relative to parent (602.47, 329.5):
+                top = 667.01 - 602.47 = 64.54px
+                left = 414.19 - 329.5 = 84.69px
+          ─────────────────────────────────────────────────────── */}
           <h1
             style={{
-              fontFamily:    "var(--font-roundo), 'Roundo', system-ui, sans-serif",
-              fontWeight:    500,
-              fontSize:      "clamp(28px, 4.157vw, 59.86px)",
-              lineHeight:    1.07,
-              letterSpacing: "-0.032em",
-              color:         "#ffffff",
-              textAlign:     "left",
-              margin:        0,
-              padding:       0,
-              // 84.69px at 1440px → 5.88vw, floor at 12px mobile
-              paddingLeft:   "clamp(12px, 5.88vw, 84.69px)",
-              whiteSpace:    "nowrap",
-              textShadow:    "0 2px 16px rgba(0,0,0,0.25)",
+              position: "absolute",
+              top: "clamp(34px, 6.30vh, 64.54px)",   /* 64.54/1024 */
+              left: "clamp(14px, 5.88vw, 84.69px)",   /* 84.69/1440 */
+              width: "clamp(160px, 42.43vw, 611px)",   /* 611/1440   */
+              height: "clamp(40px, 6.35vh, 65px)",
+              fontFamily: "var(--font-roundo), 'Roundo', var(--font-outfit), system-ui, sans-serif",
+              fontWeight: 500,
+              fontSize: "clamp(26px, 4.157vw, 59.86px)",
+              lineHeight: "clamp(30px, 6.26vh, 64.08px)",
+              letterSpacing: "clamp(-0.8px, -0.133vw, -1.92px)",
+              color: "#ffffff",
+              textAlign: "center",
+              margin: 0,
+              padding: 0,
+              whiteSpace: "nowrap",
+              textShadow: "0 2px 16px rgba(0,0,0,0.30)",
             }}
           >
             who seek refined living.
           </h1>
-        </div>
 
-        {/* ══ Horizontal divider ══
-            Figma: top:866 left:672  → top=84.57%  left=46.67%  width=48.68%
-        ════════════════════════════════════════════════════════════ */}
-        <div
-          className="absolute pointer-events-none"
-          style={{
-            top:             "84.57%",
-            left:            "46.67%",
-            width:           "48.68%",
-            height:          "1px",
-            backgroundColor: "rgba(255,255,255,0.4)",
-            opacity:         lineT,
-          }}
-        />
-
-        {/* ══ Label: "YOUR VILLA PARTNER" ══
-            Figma: top:884.38 left:674.79  → top=86.36%  left=46.86%  width=11.81%
-            font: 600 14px / ls:1.26px  uppercase
-        ════════════════════════════════════════════════════════════ */}
-        <div
-          className="absolute pointer-events-none"
-          style={{
-            top:       "86.36%",
-            left:      "46.86%",
-            width:     "11.81%",
-            opacity:   sub1T,
-            transform: `translateY(${20 * (1 - sub1T)}px)`,
-          }}
-        >
-          <span
+          {/* ── Horizontal Divider
+              Figma: w:701  h:1  top:866  left:672
+              Relative to parent (602.47, 329.5):
+                top = 866 - 602.47 = 263.53px
+                left = 672 - 329.5 = 342.5px
+          ─────────────────────────────────────────────────────── */}
+          <div
             style={{
-              fontFamily:     "var(--font-geist-sans), 'Geist', system-ui, sans-serif",
-              fontWeight:     600,
-              // 14px at 1440px → 0.972vw, floor at 10px
-              fontSize:       "clamp(10px, 0.972vw, 14px)",
-              lineHeight:     "clamp(12px, 1.138vw, 16.38px)",
-              letterSpacing:  "clamp(0.8px, 0.0875vw, 1.26px)",
-              textTransform:  "uppercase",
-              textAlign:      "center",
-              color:          "rgba(255,255,255,0.9)",
-              display:        "block",
-              whiteSpace:     "nowrap",
+              position: "absolute",
+              top: "clamp(160px, 25.74vh, 263.53px)",  /* 263.53/1024 */
+              left: "clamp(120px, 23.78vw, 342.5px)",   /* 342.5/1440  */
+              width: "clamp(200px, 48.68vw, 701px)",     /* 701/1440    */
+              height: "1px",
+              borderTop: "1px solid rgba(255,255,255,0.45)",
+              opacity: lineT,
+            }}
+          />
+
+          {/* ── Label: "YOUR VILLA PARTNER"
+              Figma: w:170  h:17  top:884.38  left:674.79
+              Relative to parent (602.47, 329.5):
+                top = 884.38 - 602.47 = 281.91px
+                left = 674.79 - 329.5 = 345.29px
+          ─────────────────────────────────────────────────────── */}
+          <div
+            style={{
+              position: "absolute",
+              top: "clamp(170px, 27.53vh, 281.91px)",  /* 281.91/1024 */
+              left: "clamp(120px, 23.98vw, 345.29px)",  /* 345.29/1440 */
+              width: "clamp(100px, 11.81vw, 170px)",     /* 170/1440    */
+              height: "clamp(14px, 1.66vh, 17px)",        /* 17/1024     */
+              opacity: sub1T,
+              transform: `translateY(${20 * (1 - sub1T)}px)`,
             }}
           >
-            Your Villa Partner
-          </span>
-        </div>
+            <span
+              style={{
+                fontFamily: "var(--font-geist-sans), 'Geist', system-ui, sans-serif",
+                fontWeight: 600,
+                fontSize: "clamp(10px, 0.972vw, 14px)",
+                lineHeight: "clamp(12px, 1.600vh, 16.38px)",  /* 16.38/1024 */
+                letterSpacing: "clamp(0.8px, 0.0875vw, 1.26px)",
+                textTransform: "uppercase",
+                textAlign: "center",
+                color: "rgba(255,255,255,0.9)",
+                display: "block",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Your Villa Partner
+            </span>
+          </div>
 
-        {/* ══ Description ══
-            Figma: top:885.02 left:1102.25  → top=86.43%  left=76.54%  width=18.80%
-            font: 400 15.4px / 21px
-        ════════════════════════════════════════════════════════════ */}
-        <div
-          className="absolute pointer-events-none"
-          style={{
-            top:       "86.43%",
-            left:      "76.54%",
-            width:     "18.80%",
-            opacity:   sub2T,
-            transform: `translateY(${20 * (1 - sub2T)}px)`,
-          }}
-        >
-          <p
+          {/* ── Description Container
+              Figma container: w:270.75  h:105  top:885.02  left:1102.25
+              Figma text:      w:256     h:105
+              Relative to parent (602.47, 329.5):
+                top = 885.02 - 602.47 = 282.55px
+                left = 1102.25 - 329.5 = 772.75px
+          ─────────────────────────────────────────────────────── */}
+          <div
             style={{
-              fontFamily:    "var(--font-geist-sans), 'Geist', system-ui, sans-serif",
-              fontWeight:    400,
-              // 15.4px at 1440px → 1.069vw, floor at 11px
-              fontSize:      "clamp(11px, 1.069vw, 15.4px)",
-              // 21px at 1440px → 1.458vw, floor at 15px
-              lineHeight:    "clamp(15px, 1.458vw, 21px)",
-              letterSpacing: "0",
-              color:         "rgba(255,255,255,0.85)",
-              margin:        0,
-              padding:       0,
+              position: "absolute",
+              top: "clamp(170px, 27.59vh, 282.55px)",  /* 282.55/1024 */
+              left: "clamp(240px, 53.66vw, 772.75px)",  /* 772.75/1440 */
+              width: "clamp(140px, 18.80vw, 270.75px)",  /* 270.75/1440 */
+              height: "clamp(60px, 10.25vh, 105px)",      /* 105/1024    */
+              opacity: sub2T,
+              transform: `translateY(${20 * (1 - sub2T)}px)`,
             }}
           >
-            We design and install bespoke glass systems for ambitious architectural
-            projects. Every pane reflects our commitment to clarity, quality, and
-            collaboration.
-          </p>
-        </div>
+            <p
+              style={{
+                width: "clamp(120px, 17.78vw, 256px)",  /* 256/1440 */
+                height: "clamp(60px, 10.25vh, 105px)",
+                fontFamily: "var(--font-geist-sans), 'Geist', system-ui, sans-serif",
+                fontWeight: 400,
+                fontSize: "clamp(11px, 1.069vw, 15.4px)",
+                lineHeight: "clamp(15px, 2.051vh, 21px)",    /* 21/1024  */
+                letterSpacing: "0",
+                color: "rgba(255,255,255,0.85)",
+                margin: 0,
+                padding: 0,
+              }}
+            >
+              We design and install bespoke glass systems for ambitious architectural
+              projects. Every pane reflects our commitment to clarity, quality, and
+              collaboration.
+            </p>
+          </div>
+
+        </div>{/* ── end single parent container ── */}
 
         {/* ══ Percentage counter ══ */}
         <div
           className="absolute pointer-events-none"
           style={{
             // 85vh / 6vw are already viewport-relative — no change needed
-            top:     "85vh",
-            right:   "6vw",
+            top: "85vh",
+            right: "6vw",
             opacity: counterOpacity,
           }}
         >
@@ -821,7 +860,7 @@ export default function HeroSection() {
             className="font-outfit font-light text-white/90 leading-none tabular-nums"
             style={{
               // Already uses clamp — preserved as-is
-              fontSize:      "clamp(34px, 3.61vw, 80px)",
+              fontSize: "clamp(34px, 3.61vw, 80px)",
               letterSpacing: "-0.06vw",
             }}
           >

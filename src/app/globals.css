@@ -22,7 +22,7 @@
   --font-mono: var(--font-geist-mono);
   --font-roundo: var(--font-roundo);
   --font-outfit: var(--font-outfit);
-  
+
   /* ── Custom Screens / Breakpoints ───────── */
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;

@@ -49,13 +49,13 @@
 //       if (!containerRef.current) return;
 //       const { top, height } = containerRef.current.getBoundingClientRect();
 //       const windowHeight = window.innerHeight;
-      
+
 //       // The section height is 400vh. Scrollable distance is height - windowHeight.
 //       const scrollableDistance = height - windowHeight;
 //       if (scrollableDistance <= 0) return;
 
 //       const scrolled = -top;
-      
+
 //       if (scrolled < 0) {
 //         setActiveIndex(0);
 //         return;
@@ -76,14 +76,14 @@
 //     window.addEventListener('scroll', handleScroll, { passive: true });
 //     // Trigger once on mount to set initial state
 //     handleScroll();
-    
+
 //     return () => window.removeEventListener('scroll', handleScroll);
 //   }, []);
 
 //   return (
 //     // Wrapper height creates the scrollable track for the sticky layout
 //     <section ref={containerRef} style={{ height: '400vh', position: 'relative' }}>
-      
+
 //       {/* ── Sticky Viewport ────────────────────────────────────────────── */}
 //       <div 
 //         style={{
@@ -371,264 +371,224 @@ const features = [
  * Image        : stays fixed in place, does NOT move per row
  */
 export default function AboutSpecialSection() {
-  const containerRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!containerRef.current) return;
-      const { top, height } = containerRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const scrollableDistance = height - windowHeight;
-
-      if (scrollableDistance <= 0) return;
-
-      const scrolled = -top;
-
-      if (scrolled < 0) { setActiveIndex(0); return; }
-      if (scrolled >= scrollableDistance) { setActiveIndex(features.length - 1); return; }
-
-      const progress = scrolled / scrollableDistance;
-      const index = Math.min(features.length - 1, Math.floor(progress * features.length));
-      setActiveIndex(index);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
-    /* Scrollable track: 500vh gives a comfortable dwell per feature */
-    <section ref={containerRef} style={{ height: '500vh', position: 'relative' }}>
-
-      {/* ── Sticky Viewport ─────────────────────────────────────────── */}
+    <section
+      style={{
+        width: '100%',
+        backgroundColor: '#EDE7DE',
+        display: 'flex',
+        justifyContent: 'center',
+        paddingBottom: 'clamp(50px, 5vw, 100px)',
+      }}
+    >
+      {/* ── Page-width wrapper ──────────────────────────────────────── */}
       <div
         style={{
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
           width: '100%',
-          backgroundColor: '#EDE7DE',
-          overflow: 'hidden',
+          maxWidth: '1920px',
+          /* removed fixed height, let content dictate height */
+          /* horizontal gutters: 85px@1440 → 5.9vw */
+          paddingLeft: 'clamp(22px, 5.9vw, 113px)',
+          paddingRight: 'clamp(22px, 5.9vw, 113px)',
+          paddingTop: 'clamp(16px, 1.87vw, 36px)',
+          boxSizing: 'border-box',
           display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
+          flexDirection: 'column',
         }}
       >
-        {/* ── Page-width wrapper ──────────────────────────────────────── */}
+        {/* ── Top border line ─────────────────────────────────────── */}
+        <div style={{ borderTop: '1px solid rgba(33,35,37,0.2)', width: '100%' }} />
+
+        {/* ── Header row: label (left) + title (right) ──────────────── */}
         <div
           style={{
-            width: '100%',
-            maxWidth: '1920px',
-            /* vertical rhythm: map 945px@1440 → 65.6vw */
-            height: 'clamp(520px, 65.6vw, 1260px)',
-            /* horizontal gutters: 85px@1440 → 5.9vw */
-            paddingLeft:  'clamp(22px, 5.9vw, 113px)',
-            paddingRight: 'clamp(22px, 5.9vw, 113px)',
-            paddingTop:   'clamp(16px, 1.87vw, 36px)',
-            boxSizing: 'border-box',
             display: 'flex',
-            flexDirection: 'column',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
+            /* paddingTop 35px@1440 → 2.43vw */
+            paddingTop: 'clamp(14px, 2.43vw, 46px)',
+            /* paddingBottom 40px@1440 → 2.78vw */
+            paddingBottom: 'clamp(16px, 2.78vw, 53px)',
           }}
         >
-          {/* ── Top border line ─────────────────────────────────────── */}
-          <div style={{ borderTop: '1px solid rgba(33,35,37,0.2)', width: '100%' }} />
-
-          {/* ── Header row: label (left) + title (right) ──────────────── */}
+          {/* Label */}
           <div
             style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'flex-start',
-              /* paddingTop 35px@1440 → 2.43vw */
-              paddingTop: 'clamp(14px, 2.43vw, 46px)',
-              /* paddingBottom 40px@1440 → 2.78vw */
-              paddingBottom: 'clamp(16px, 2.78vw, 53px)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 'clamp(5px, 0.58vw, 11px)',
+              /* left col ~30% matches feature title column */
+              width: 'clamp(140px, 30vw, 576px)',
+              flexShrink: 0,
+              paddingTop: 'clamp(4px, 0.4vw, 8px)',
             }}
           >
-            {/* Label */}
             <div
               style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 'clamp(5px, 0.58vw, 11px)',
-                /* left col ~30% matches feature title column */
-                width: 'clamp(140px, 30vw, 576px)',
+                width: 'clamp(8px, 0.97vw, 18px)',
+                height: 'clamp(8px, 0.97vw, 18px)',
+                backgroundColor: '#334454',
+                borderRadius: '3px',
                 flexShrink: 0,
-                paddingTop: 'clamp(4px, 0.4vw, 8px)',
+              }}
+            />
+            <span
+              style={{
+                fontFamily: "var(--font-geist,'Geist'),system-ui,sans-serif",
+                fontWeight: 400,
+                fontSize: 'clamp(9px, 0.9vw, 17px)',
+                lineHeight: 1.2,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: '#1A1A1A',
+                whiteSpace: 'nowrap',
               }}
             >
-              <div
-                style={{
-                  width:  'clamp(8px, 0.97vw, 18px)',
-                  height: 'clamp(8px, 0.97vw, 18px)',
-                  backgroundColor: '#334454',
-                  borderRadius: '3px',
-                  flexShrink: 0,
-                }}
-              />
-              <span
-                style={{
-                  fontFamily: "var(--font-geist,'Geist'),system-ui,sans-serif",
-                  fontWeight: 400,
-                  fontSize: 'clamp(9px, 0.9vw, 17px)',
-                  lineHeight: 1.2,
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  color: '#1A1A1A',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                What Makes Us Special
-              </span>
-            </div>
-
-            {/* Heading — right side, roughly 55% of row width */}
-            <div style={{ width: 'clamp(200px, 55vw, 1056px)' }}>
-              <h2
-                style={{
-                  fontFamily: "var(--font-roundo,'Roundo'),system-ui,sans-serif",
-                  fontWeight: 500,
-                  /* 60px@1440 → 4.16vw */
-                  fontSize: 'clamp(28px, 4.16vw, 80px)',
-                  lineHeight: 1.08,
-                  letterSpacing: 'clamp(-2px, -0.18vw, -0.5px)',
-                  color: '#1A1A1A',
-                  margin: 0,
-                }}
-              >
-                Each project tells its own story of&nbsp;precision.
-              </h2>
-            </div>
+              What Makes Us Special
+            </span>
           </div>
 
-          {/* ── Features area ─────────────────────────────────────────── */}
-          {/*
+          {/* Heading — right side, roughly 55% of row width */}
+          <div style={{ width: 'clamp(300px, 45vw, 1000px)' }}>
+            <h2
+              style={{
+                fontFamily: "var(--font-roundo,'Roundo'),system-ui,sans-serif",
+                fontWeight: 500,
+                /* 60px@1440 → 4.16vw */
+                fontSize: 'clamp(28px, 4.16vw, 80px)',
+                lineHeight: 1.08,
+                letterSpacing: 'clamp(-2px, -0.18vw, -0.5px)',
+                color: '#1A1A1A',
+                margin: 0,
+              }}
+            >
+              Each project tells its own story of&nbsp;precision.
+            </h2>
+          </div>
+        </div>
+
+        {/* ── Features area ─────────────────────────────────────────── */}
+        {/*
               Three-column grid:
                 [left-title] [center-image] [right-description]
               30% | 25% | 40%  (gaps fill the remaining ~5%)
               Image is absolutely positioned so it spans across the rows.
           */}
-          <div
-            style={{
-              position: 'relative',
-              width: '100%',
-              flex: 1,
-            }}
-          >
-            {/* ── Fixed image — sits in the center column, spans rows 1-4 ── */}
-            {/*
-                Center column starts at ~30vw from left edge of content area.
-                Image width ≈ 25vw. We position it left: 30vw.
-                Image height covers approximately the top 4 rows.
-            */}
-            <div
-              style={{
-                position: 'absolute',
-                /* start of center column */
-                left:   'clamp(130px, 30vw, 576px)',
-                top:    0,
-                /* image width 25vw → fluid */
-                width:  'clamp(110px, 15vw, 288px)',
-                /* spans ~4 rows; row height ~100px@1440 → 6.94vw each, 4 rows = ~27.8vw */
-                height: 'clamp(280px, 29vw, 556px)',
-                borderRadius: 'clamp(4px, 0.55vw, 10px)',
-                overflow: 'hidden',
-                zIndex: 10,
-                boxShadow: '0 8px 32px rgba(0,0,0,0.10)',
-              }}
-            >
-              <Image
-                src={features[activeIndex].image}
-                alt={features[activeIndex].title}
-                fill
-                style={{ objectFit: 'cover', transition: 'opacity 0.5s ease' }}
-                onError={(e) => { e.currentTarget.style.display = 'none'; }}
-              />
-            </div>
+        <div
+          style={{
+            position: 'relative',
+            width: '100%',
+            flex: 1,
+          }}
+        >
 
-            {/* ── Feature rows ──────────────────────────────────────────── */}
-            {features.map((feature, index) => {
-              const isActive = index === activeIndex;
-              /* Active → dark charcoal; Inactive → muted blue-grey */
-              const color = isActive ? '#1A1A1A' : '#8A9BB0';
 
-              return (
+          {/* ── Feature rows ──────────────────────────────────────────── */}
+          {features.map((feature, index) => {
+            const color = '#1A1A1A';
+
+            return (
+              <div
+                key={index}
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  justifyContent: 'space-between',
+                  /* row height 100px@1440 → 6.94vw */
+                  minHeight: 'clamp(68px, 7.5vw, 144px)',
+                  paddingTop: 'clamp(8px, 1.18vw, 22px)',
+                  paddingBottom: 'clamp(8px, 1.18vw, 22px)',
+                  borderBottom: '1px solid rgba(33,35,37,0.12)',
+                  boxSizing: 'border-box',
+                  transition: 'color 0.4s ease',
+                  position: 'relative',
+                }}
+              >
+                {/* Left: Title — 30vw column */}
                 <div
-                  key={index}
                   style={{
-                    width: '100%',
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    justifyContent: 'space-between',
-                    /* row height 100px@1440 → 6.94vw */
-                    minHeight: 'clamp(68px, 7.5vw, 144px)',
-                    paddingTop:    'clamp(8px, 1.18vw, 22px)',
-                    paddingBottom: 'clamp(8px, 1.18vw, 22px)',
-                    borderBottom: '1px solid rgba(33,35,37,0.12)',
-                    boxSizing: 'border-box',
-                    transition: 'color 0.4s ease',
-                    position: 'relative',
+                    width: 'clamp(130px, 28vw, 537px)',
+                    flexShrink: 0,
                   }}
                 >
-                  {/* Left: Title — 30vw column */}
-                  <div
+                  <h3
                     style={{
-                      width: 'clamp(130px, 28vw, 537px)',
-                      flexShrink: 0,
+                      fontFamily: "var(--font-roundo,'Roundo'),system-ui,sans-serif",
+                      fontWeight: 500,
+                      /* 22px@1440 → 1.52vw */
+                      fontSize: 'clamp(14px, 1.52vw, 29px)',
+                      lineHeight: 1.2,
+                      color,
+                      margin: 0,
+                      whiteSpace: 'pre-line',
+                      transition: 'color 0.4s ease',
                     }}
                   >
-                    <h3
-                      style={{
-                        fontFamily: "var(--font-roundo,'Roundo'),system-ui,sans-serif",
-                        fontWeight: 500,
-                        /* 22px@1440 → 1.52vw */
-                        fontSize: 'clamp(14px, 1.52vw, 29px)',
-                        lineHeight: 1.2,
-                        color,
-                        margin: 0,
-                        whiteSpace: 'pre-line',
-                        transition: 'color 0.4s ease',
-                      }}
-                    >
-                      {feature.title}
-                    </h3>
-                  </div>
+                    {feature.title}
+                  </h3>
+                </div>
 
-                  {/*
+                {/*
                       Center gap: this spacer pushes description to the right,
                       letting the absolutely-positioned image sit in this space.
                       Width = image column = ~25vw
                   */}
-                  <div style={{ width: 'clamp(110px, 17vw, 326px)', flexShrink: 0 }} />
+                <div style={{ width: 'clamp(110px, 17vw, 326px)', flexShrink: 0 }} />
 
-                  {/* Right: Description — remaining ~40vw */}
-                  <div
+                {/* Image for this row */}
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: 'clamp(200px, 22vw, 440px)',
+                    bottom: '0px',
+                    top: '-100px',
+                    /* width 250px @ 1440 */
+                    width: 'clamp(150px, 18.36vw, 250px)',
+                    /* height 313.56px @ 1440 */
+                    height: 'clamp(150px, 18.77vw, 313.56px)',
+                    borderRadius: 'clamp(4px, 0.55vw, 10px)',
+                    overflow: 'hidden',
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.10)',
+                    pointerEvents: 'none',
+                  }}
+                >
+                  <Image
+                    src={feature.image}
+                    alt={feature.title}
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                  />
+                </div>
+
+                {/* Right: Description — remaining ~40vw */}
+                <div
+                  style={{
+                    flex: 1,
+                    paddingLeft: 'clamp(8px, 1vw, 19px)',
+                  }}
+                >
+                  <p
                     style={{
-                      flex: 1,
-                      paddingLeft: 'clamp(8px, 1vw, 19px)',
+                      fontFamily: "var(--font-geist,'Geist'),system-ui,sans-serif",
+                      fontWeight: 400,
+                      /* 16px@1440 → 1.11vw */
+                      fontSize: 'clamp(11px, 1.11vw, 21px)',
+                      width: 'clamp(150px, 40vw, 669px)',
+
+                      lineHeight: 1.35,
+                      color,
+                      margin: 0,
+                      transition: 'color 0.4s ease',
                     }}
                   >
-                    <p
-                      style={{
-                        fontFamily: "var(--font-geist,'Geist'),system-ui,sans-serif",
-                        fontWeight: 400,
-                        /* 16px@1440 → 1.11vw */
-                        fontSize: 'clamp(11px, 1.11vw, 21px)',
-                        lineHeight: 1.35,
-                        color,
-                        margin: 0,
-                        transition: 'color 0.4s ease',
-                      }}
-                    >
-                      {feature.description}
-                    </p>
-                  </div>
+                    {feature.description}
+                  </p>
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

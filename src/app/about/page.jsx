@@ -4,6 +4,9 @@ import AboutOriginStory from '@/components/about/AboutOriginStory';
 import AboutFounderNote from '@/components/about/AboutFounderNote';
 import AboutLogoSection from '@/components/about/AboutLogoSection';
 import AboutSpecialSection from '@/components/about/AboutSpecialSection';
+import AboutVisionMissionSection from '@/components/about/AboutVisionMissionSection';
+import AboutBoardSection from '@/components/about/AboutBoardSection';
+import AboutTestimonialSection from '@/components/about/AboutTestimonialSection';
 import Footer from '@/components/common/Footer';
 
 export const metadata = {
@@ -30,8 +33,17 @@ export default function AboutPage() {
       {/* ── Logo Marquee ──────────────────────────────────────────────── */}
       <AboutLogoSection />
 
+      {/* ── Vision & Mission (Scroll Stack Cards) ─────────────────────── */}
+      <AboutVisionMissionSection />
+
       {/* ── What Makes Us Special (Scroll Interactive) ────────────────── */}
       <AboutSpecialSection />
+
+      {/* ── Board of Directors ────────────────────────────────────────── */}
+      <AboutBoardSection />
+
+      {/* ── Testimonials ──────────────────────────────────────────────── */}
+      <AboutTestimonialSection />
 
       {/* ── Footer ────────────────────────────────────────────────────── */}
       <Footer />

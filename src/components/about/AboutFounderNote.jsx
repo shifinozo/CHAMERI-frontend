@@ -322,7 +322,7 @@ export default function AboutFounderNote() {
                74px @ 1440 → 5.14vw                         | min 20px | max 99px */
             gap: 'clamp(20px, 5.14vw, 99px)',
 
-            alignItems: 'flex-start',
+            alignItems: 'stretch',
             width: '100%',
           }}
         >
@@ -334,8 +334,8 @@ export default function AboutFounderNote() {
 
               /* Width: 251px @ 1440 → 17.43vw              | min 66px | max 334px */
               width: 'clamp(66px, 17.43vw, 334px)',
+              marginLeft: 'clamp(20px, 1vw, 30px)',
 
-              aspectRatio: '251 / 330',
               borderRadius: 'clamp(3px, 0.47vw, 9px)',
               overflow: 'hidden',
               backgroundColor: '#D1CDCA',
@@ -343,7 +343,7 @@ export default function AboutFounderNote() {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/Frame 2121454441.svg"
+              src="/dummyimages/8276099377b328194b10337a1dc6e4999a4103d5.png"
               alt="Founder"
               style={{
                 width: '100%',
@@ -366,6 +366,33 @@ export default function AboutFounderNote() {
               minWidth: 0,
             }}
           >
+
+             {/* Quote SVG placed inline with text */}
+              <svg
+                viewBox="0 0 25 18"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{
+                  width:  'clamp(14px, 1.74vw, 33px)',
+                  height: 'auto',
+                  marginLeft: '-40px',
+                  flexShrink: 0,
+                  display: 'inline-block',
+                  // marginLeft: 'clamp(-2px, -0.5vw, 2px)',
+                  /* 12px right margin @ 1440 → 0.83vw */
+                  // marginRight: 'clamp(6px, 0.83vw, 20px)',
+                  /* Slight vertical adjustment to align with text cap height */
+                  verticalAlign: 'baseline',
+                  position: 'relative',
+                  // top: 'clamp(-2px, -0.2vw, -4px)',
+                  marginBottom: 'clamp(-30px, 2.375vw, -25px)',
+                }}
+              >
+                <path
+                  d="M10.8242 0H6.01221C2.7041 0 0.5 2.50391 0.5 6.46875C0.5 12.3789 3.86182 17.0703 10.373 17.9297V13.8047C6.88379 13.0625 5.23438 10.5977 5.23438 7.375H10.8242V0ZM24.6211 0H19.8091C16.501 0 14.2969 2.50391 14.2969 6.46875C14.2969 12.3789 17.6587 17.0703 24.1699 17.9297V13.8047C20.6807 13.0625 19.0312 10.5977 19.0312 7.375H24.6211V0Z"
+                  fill="#1A1A1A"
+                />
+              </svg>
             {/* Quote text + SVG
                 40px @ 1440 → 2.78vw                        | min 20px | max 53px */}
             <p
@@ -380,36 +407,12 @@ export default function AboutFounderNote() {
                 margin: 0,
 
                 /* Bottom margin: 63px @ 1440 → 4.375vw     | min 24px | max 84px */
-                marginBottom: 'clamp(24px, 4.375vw, 84px)',
+                marginBottom: 'clamp(24px, 4.375vw, 70px)',
 
                 /* Max width: 847px @ 1440 → 58.8vw         | min 240px | max 1128px */
-                maxWidth: 'clamp(240px, 58.8vw, 1128px)',
+                maxWidth: 'clamp(240px, 64.8vw, 1158px)',
               }}
             >
-              {/* Quote SVG placed inline with text */}
-              <svg
-                viewBox="0 0 25 18"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                style={{
-                  width:  'clamp(14px, 1.74vw, 33px)',
-                  height: 'auto',
-                  flexShrink: 0,
-                  display: 'inline-block',
-                  marginLeft: 'clamp(-2px, -0.5vw, 2px)',
-                  /* 12px right margin @ 1440 → 0.83vw */
-                  marginRight: 'clamp(6px, 0.83vw, 16px)',
-                  /* Slight vertical adjustment to align with text cap height */
-                  verticalAlign: 'baseline',
-                  position: 'relative',
-                  top: 'clamp(-2px, -0.2vw, -4px)',
-                }}
-              >
-                <path
-                  d="M10.8242 0H6.01221C2.7041 0 0.5 2.50391 0.5 6.46875C0.5 12.3789 3.86182 17.0703 10.373 17.9297V13.8047C6.88379 13.0625 5.23438 10.5977 5.23438 7.375H10.8242V0ZM24.6211 0H19.8091C16.501 0 14.2969 2.50391 14.2969 6.46875C14.2969 12.3789 17.6587 17.0703 24.1699 17.9297V13.8047C20.6807 13.0625 19.0312 10.5977 19.0312 7.375H24.6211V0Z"
-                  fill="#1A1A1A"
-                />
-              </svg>
               Unrivaled customer service, cutting edge design and quality. Fluid Glass is firmly lodged in our list of prefer suppliers of glazing products. cutting edge design and quality. Fluid Glass is firmly lodged in our list of prefer suppliers of glazing products.
             </p>
 

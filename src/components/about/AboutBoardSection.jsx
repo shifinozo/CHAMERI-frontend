@@ -288,7 +288,7 @@ export default function AboutBoardSection() {
            * maxWidth — inner content boundary
            * Design : 1280px (hard cap, no fluid scaling needed)
            */
-          maxWidth: '1280px',
+          maxWidth: 'clamp(280px, 89vw, 1920px)',
 
           /*
            * Optical inner padding
@@ -316,7 +316,7 @@ export default function AboutBoardSection() {
              * Design : 60px @ 1440 → 4.17vw
              * Floor  : 26px (legible at 375px mobile)
              */
-            fontSize: 'clamp(26px, 4.17vw, 60px)',
+            fontSize: 'clamp(26px, 4.17vw, 80px)',
 
             lineHeight: 1.1,
 
@@ -334,7 +334,7 @@ export default function AboutBoardSection() {
              * Design : 668px @ 1440 → 46.39vw
              * Floor  : 260px
              */
-            maxWidth: 'clamp(260px, 46.39vw, 668px)',
+            maxWidth: 'clamp(260px, 46.39vw, 850px)',
             margin: 0,
           }}
         >
@@ -405,7 +405,7 @@ export default function AboutBoardSection() {
                * Design : 16.2px @ 1440 → 1.125vw
                * Floor  : 11px
                */
-              fontSize: 'clamp(11px, 1.125vw, 16.2px)',
+              fontSize: 'clamp(11px, 1.125vw, 18px)',
 
               lineHeight: 1.2,
 
@@ -447,13 +447,14 @@ export default function AboutBoardSection() {
            * maxWidth — grid boundary
            * Design : 1260px
            */
-          maxWidth: '1260px',
+          // maxWidth: 'clamp(300px, 100vw, 1920px)',
+
 
           /*
            * gap — between cards
            * Design : 19.77px @ 1440 → 1.373vw
            */
-          gap: 'clamp(10px, 1.37vw, 20px)',
+          gap: 'clamp(8px, 2vw, 12px)',
 
           /*
            * marginTop — extra header ↔ grid separation
@@ -465,9 +466,11 @@ export default function AboutBoardSection() {
         {boardMembers.map((member) => (
           <div
             key={member.id}
+            className="group"
             style={{
               position: 'relative',
-              width: 'clamp(400px, 10vw, 1260px)',
+              // width: 'clamp(400px, 10vw, 1290px)',
+              // width: 'clamp(100px, 80vw, 1920px)',
 
               /*
                * aspectRatio — portrait proportion from Figma
@@ -488,6 +491,7 @@ export default function AboutBoardSection() {
               src={member.image}
               alt={member.name}
               fill
+              className="transition-transform duration-700 ease-in-out group-hover:scale-105"
               style={{
                 objectFit: 'cover',
                 objectPosition: 'center top',
@@ -559,7 +563,7 @@ export default function AboutBoardSection() {
                    * Design : 21.8px @ 1440 → 1.514vw
                    * Floor  : 16px (legible on ~228px card @ 1024px)
                    */
-                  fontSize: 'clamp(16px, 1.514vw, 21.8px)',
+                  fontSize: 'clamp(16px, 1.514vw, 31.8px)',
 
                   lineHeight: 1.15,
 
@@ -588,7 +592,7 @@ export default function AboutBoardSection() {
                    * Design : 12.6px @ 1440 → 0.875vw
                    * Floor  : 11px (minimum legible on narrow cards)
                    */
-                  fontSize: 'clamp(11px, 0.875vw, 12.6px)',
+                  fontSize: 'clamp(11px, 0.875vw, 16.6px)',
 
                   lineHeight: 1.2,
                   letterSpacing: '0px',

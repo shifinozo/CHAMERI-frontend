@@ -380,7 +380,7 @@ const cards = [
   },
   {
     label: 'Mission',
-    image: '/dummyimages\d18115bcf5e039e1b2d60bfa8c4e93e2c4b1ea1f.png',
+    image: '/dummyimages/d18115bcf5e039e1b2d60bfa8c4e93e2c4b1ea1f.png',
     heading: 'Each project tells its own story of\u00a0precision.',
     body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.it, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.',
   },
@@ -405,7 +405,10 @@ export default function AboutVisionMissionSection() {
   const wrapperRef = useRef(null);
   const card1Ref = useRef(null);
   const card2Ref = useRef(null);
+  const sentinelRef = useRef(null);
   const [card1Phase, setCard1Phase] = useState('initial'); // 'initial' | 'expanded'
+  const [expansionDone, setExpansionDone] = useState(false);
+  const [isDark, setIsDark] = useState(false);
   const hasAutoExpanded = useRef(false);
   const timerRef = useRef(null);
 
@@ -418,7 +421,13 @@ export default function AboutVisionMissionSection() {
       ([entry]) => {
         if (entry.isIntersecting && !hasAutoExpanded.current) {
           hasAutoExpanded.current = true;
-          timerRef.current = setTimeout(() => setCard1Phase('expanded'), 2000);
+          timerRef.current = setTimeout(() => {
+            setCard1Phase('expanded');
+            // Transition takes 1.5s, wait for it to complete
+            setTimeout(() => {
+              setExpansionDone(true);
+            }, 1500);
+          }, 2000);
         }
       },
       { threshold: 0.15 }
@@ -431,37 +440,25 @@ export default function AboutVisionMissionSection() {
     };
   }, []);
 
-  // ── Card 2: directly drive translateY from scroll ────────────────────────
+  // ── Scroll Sentinel & Stacking State Listener ───────────────────────────
   useEffect(() => {
-    const onScroll = () => {
-      const wrapper = wrapperRef.current;
-      const card2 = card2Ref.current;
-      if (!wrapper || !card2) return;
-
-      const rect = wrapper.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const scrolledIn = Math.max(0, -rect.top);
-      const trackLen = wrapper.offsetHeight - vh; // 200vh - 100vh = 100vh
-
-      if (trackLen <= 0) return;
-
-      const progress = Math.min(1, scrolledIn / trackLen);
-      // Slide starts at progress=0.25, completes at progress=0.75
-      const slideProgress = Math.max(0, Math.min(1, (progress - 0.25) / 0.5));
-      const translateY = (1 - slideProgress) * 100;
-      card2.style.transform = `translateY(${translateY}%)`;
+    const handleScroll = () => {
+      if (!sentinelRef.current) return;
+      const rect = sentinelRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      setIsDark(rect.top <= viewportHeight / 2);
     };
 
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const card1Expanded = card1Phase === 'expanded';
 
   return (
     /**
-     * Outer wrapper: 200vh scroll track, full-bleed breakout.
+     * Outer wrapper: 200vh scroll track (totalCards * 100vh), full-bleed breakout.
      * negative margin trick keeps it edge-to-edge inside any padded parent.
      */
     <div
@@ -474,96 +471,87 @@ export default function AboutVisionMissionSection() {
         backgroundColor: '#EDE7DE',
       }}
     >
-      {/* ── Sticky viewport ─────────────────────────────────────────────── */}
+      {/* ── Header pill (sticky over all stacked cards) ──────────────── */}
       <div
         style={{
-          position: 'sticky',
+          position: 'absolute',
           top: 0,
+          left: 0,
           width: '100%',
-          height: '100vh',
-          backgroundColor: '#EDE7DE',
-          overflow: 'hidden',
+          height: '200vh',
+          pointerEvents: 'none',
+          zIndex: 30,
         }}
       >
-
-        {/* ── Header pill: ■ VISION & MISSION ─────────────────────────────
-         *
-         * Design baseline (1440px):
-         *   top  : 20px  → 20/1440 = 1.389vw  → clamp(12px, 1.39vw, 24px)
-         *   left : 51px  → 51/1440 = 3.542vw  → clamp(16px, 3.54vw, 56px)
-         *   icon : 14px  → 14/1440 = 0.972vw  → clamp(10px, 0.97vw, 14px)
-         *   gap  : 7.2px → 7.2/1440 = 0.5vw   → clamp(4px, 0.5vw, 8px)
-         *   font : 16.2px → 16.2/1440 = 1.125vw→ clamp(11px, 1.125vw, 16.2px)
-         *
-         * Mobile (≤640px): tighter top/left so it doesn't crowd the card edge.
-         */}
         <div
           style={{
-            position: 'absolute',
-            top: 'clamp(12px, 1.39vw, 24px)',
-            left: 'clamp(16px, 3.54vw, 56px)',
-            zIndex: 30,
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 'clamp(4px, 0.5vw, 8px)',
-            height: 'clamp(16px, 1.39vw, 20px)',
+            position: 'sticky',
+            top: 0,
+            width: '100%',
+            height: '100vh',
           }}
         >
-          {/* Square icon */}
           <div
             style={{
-              width: 'clamp(10px, 0.97vw, 14px)',
-              height: 'clamp(10px, 0.97vw, 14px)',
-              backgroundColor: '#334454',
-              borderRadius: '3px',
-              flexShrink: 0,
-            }}
-          />
-          {/* Label */}
-          <span
-            style={{
-              fontFamily: "var(--font-geist,'Geist'),system-ui,sans-serif",
-              fontWeight: 400,
-              /*
-               * 16.2px at 1440px → 1.125vw
-               * Floor 11px (mobile), ceiling 16.2px (1440+)
-               */
-              fontSize: 'clamp(11px, 1.125vw, 16.2px)',
-              lineHeight: 1.2,
-              letterSpacing: '-0.32px',
-              textTransform: 'uppercase',
-              color: '#1A1A1A',
-              whiteSpace: 'nowrap',
+              position: 'absolute',
+              top: 'clamp(12px, 1.39vw, 24px)',
+              left: 'clamp(16px, 6.54vw, 130px)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 'clamp(4px, 0.5vw, 8px)',
+              height: 'clamp(16px, 1.39vw, 20px)',
+              pointerEvents: 'auto',
             }}
           >
-            Vision &amp; Mission
-          </span>
+            {/* Square icon */}
+            <div
+              style={{
+                width: 'clamp(10px, 0.97vw, 14px)',
+                height: 'clamp(10px, 0.97vw, 14px)',
+                // fontSize: 'clamp(12px, 2.125vw, 30.2px)',
+                backgroundColor: '#334454',
+                borderRadius: '3px',
+                flexShrink: 0,
+              }}
+            />
+            {/* Label */}
+            <span
+              style={{
+                fontFamily: "var(--font-geist,'Geist'),system-ui,sans-serif",
+                fontWeight: 400,
+                fontSize: 'clamp(11px, 1.225vw, 20.2px)',
+                lineHeight: 1.2,
+                letterSpacing: '-0.32px',
+                textTransform: 'uppercase',
+                color: '#1A1A1A',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              Vision &amp; Mission
+            </span>
+          </div>
         </div>
+      </div>
 
-        {/* ── Card 1 — Vision ─────────────────────────────────────────────
-         *
-         * All values converted from Figma 1440px baseline → vw units.
-         *
-         * INITIAL (inset / before expand):
-         *   top  : -42.96px → -(42.96/1440)*100 = -2.983vw
-         *   left : -52.04px → -(52.04/1440)*100 = -3.614vw
-         *   w    : 1339.08px → (1339.08/1440)*100 = 92.99vw
-         *   h    : 540.79px  → (540.79/1440)*100  = 37.55vw
-         *
-         * EXPANDED (full-bleed, matches Figma expanded spec):
-         *   top  : -46.23px → -(46.23/1440)*100 = -3.21vw
-         *   left : -56px    → -(56/1440)*100    = -3.889vw
-         *   w    : 1441px   → (1441/1440)*100   = 100.069vw
-         *   h    : 581.95px → (581.95/1440)*100 = 40.41vw
-         */}
+      {/* ── Card 1 — Vision (Sticky Layer 1) ──────────────────────────── */}
+      <div
+        className="sticky top-0 flex items-center justify-center"
+        style={{
+          width: '100%',
+          height: '100vh',
+          zIndex: 1,
+          overflow: 'hidden',
+          backgroundColor: '#EDE7DE',
+        }}
+      >
         <div
           ref={card1Ref}
           style={{
             position: 'absolute',
-            top: card1Expanded ? '4vw' : '8.983vw',
-            left: card1Expanded ? '0vw' : '5vw',
-            width: card1Expanded ? '100.069vw' : '90vw',
-            height: card1Expanded ? '43.41vw' : '40.55vw',
+            top: card1Expanded ? '5.5vw' : '8.983vw',
+            left: card1Expanded ? '0' : '5vw',
+            width: card1Expanded ? '100%' : '90vw',
+            height: card1Expanded ? '100%' : '40.55vw',
             zIndex: 10,
             overflow: 'hidden',
             borderRadius: card1Expanded ? '0px' : 'clamp(4px, 0.56vw, 8px)',
@@ -586,11 +574,23 @@ export default function AboutVisionMissionSection() {
           <Overlay />
           <CardTexts card={cards[0]} showTexts={card1Expanded} />
         </div>
+      </div>
 
-        {/* ── Card 2 — Mission ────────────────────────────────────────────
-         * Full-bleed; translateY driven by scroll handler (no React state).
-         * willChange: 'transform' → GPU-composited layer for smooth animation.
-         */}
+      {/* ── Card 2 — Mission (Sticky Layer 2) ──────────────────────────── */}
+      <div
+        className="sticky top-0 flex items-center justify-center"
+        style={{
+          width: '100%',
+          height: '95vh',
+          top: '4vw',
+          zIndex: 2,
+          overflow: 'hidden',
+          backgroundColor: '#EDE7DE',
+          opacity: expansionDone ? 1 : 0,
+          pointerEvents: expansionDone ? 'auto' : 'none',
+          transition: 'opacity 0.6s ease',
+        }}
+      >
         <div
           ref={card2Ref}
           style={{
@@ -602,8 +602,6 @@ export default function AboutVisionMissionSection() {
             zIndex: 15,
             overflow: 'hidden',
             borderRadius: '0px',
-            transform: 'translateY(100%)',
-            willChange: 'transform',
           }}
         >
           <Image
@@ -616,8 +614,19 @@ export default function AboutVisionMissionSection() {
           <Overlay />
           <CardTexts card={cards[1]} showTexts={true} />
         </div>
-
       </div>
+
+      {/* ── Scroll Sentinel (placed near the bottom) ─────────────────── */}
+      <div
+        ref={sentinelRef}
+        style={{
+          position: 'absolute',
+          // bottom: '50vh',
+          height: '1px',
+          width: '100%',
+          pointerEvents: 'none',
+        }}
+      />
     </div>
   );
 }
@@ -664,9 +673,9 @@ function CardTexts({ card, showTexts }) {
       <style>{`
         .vm-body-text {
           position: absolute;
-          top: 56.52%;
-          left: 63.34%;
-          width: clamp(140px, 26.67vw, 384px);
+          top: 63%;
+          left: 65%;
+          width: clamp(140px, 28.67vw, 410px);
           z-index: 2;
         }
         @media (max-width: 640px) {
@@ -711,9 +720,9 @@ function CardTexts({ card, showTexts }) {
         <div
           style={{
             position: 'absolute',
-            top: '53.80%',
-            left: '2.44%',
-            width: 'clamp(180px, 40.97vw, 590px)',
+            top: '61%',
+            left: '6%',
+            width: 'clamp(180px, 40.97vw, 600px)',
             zIndex: 2,
           }}
         >
@@ -721,7 +730,7 @@ function CardTexts({ card, showTexts }) {
             style={{
               fontFamily: "var(--font-roundo,'Roundo'),system-ui,sans-serif",
               fontWeight: 500,
-              fontSize: 'clamp(20px, 3.845vw, 56px)',
+              fontSize: 'clamp(20px, 3.845vw, 62px)',
               lineHeight: 1.1,
               letterSpacing: 'clamp(-2.82px, -0.196vw, -1px)',
               color: '#FFFFFF',
@@ -738,7 +747,7 @@ function CardTexts({ card, showTexts }) {
             style={{
               fontFamily: "var(--font-geist,'Geist'),system-ui,sans-serif",
               fontWeight: 400,
-              fontSize: 'clamp(12px, 1.281vw, 18.46px)',
+              fontSize: 'clamp(12px, 1.281vw, 21.46px)',
               lineHeight: 1.35,
               letterSpacing: '-0.4px',
               color: '#FFFFFF',
@@ -753,9 +762,9 @@ function CardTexts({ card, showTexts }) {
         <div
           style={{
             position: 'absolute',
-            top: '77.61%',
-            left: '2.05%',
-            width: '95.9%',
+            top: '82.61%',
+            left: '5.9%',
+            width: '84%',
             height: 0,
             borderTop: '0.92px solid rgba(255,255,255,0.8)',
             zIndex: 2,
@@ -766,8 +775,8 @@ function CardTexts({ card, showTexts }) {
         <div
           style={{
             position: 'absolute',
-            top: '80.34%',
-            left: '2.77%',
+            top: '84.34%',
+            left: '6%',
             zIndex: 2,
           }}
         >
@@ -775,7 +784,7 @@ function CardTexts({ card, showTexts }) {
             style={{
               fontFamily: "var(--font-geist,'Geist'),system-ui,sans-serif",
               fontWeight: 400,
-              fontSize: 'clamp(10px, 1.038vw, 15px)',
+              fontSize: 'clamp(10px, 1.038vw, 17px)',
               lineHeight: 1.2,
               letterSpacing: '-0.3px',
               color: '#FFFFFF',

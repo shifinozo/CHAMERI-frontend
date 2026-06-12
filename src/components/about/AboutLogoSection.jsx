@@ -30,6 +30,7 @@ export default function AboutLogoSection() {
       style={{
         backgroundColor: '#EDE7DE',
         width: '100%',
+        // height: 'clamp(164px, 11.39vw, 219px)',
         /* 16px @ 1440 → 1.11vw */
         paddingTop: 'clamp(4px, 1.11vw, 21px)',
         paddingBottom: 'clamp(4px, 1.11vw, 21px)',

@@ -1,5 +1,10 @@
 import KiwanoHero from '@/components/kiwano/KiwanoHero';
+import Kiwano360Tour from '@/components/kiwano/Kiwano360Tour';
 import KiwanoFeatures from '@/components/kiwano/KiwanoFeatures';
+import KiwanoGallery from '@/components/kiwano/KiwanoGallery';
+import KiwanoAmenities from '@/components/kiwano/KiwanoAmenities';
+import KiwanoOtherProjects from '@/components/kiwano/KiwanoOtherProjects';
+import Footer from '@/components/common/Footer';
 
 export const metadata = {
   title: 'Kiwano — Chameri Premium Villa Residences',
@@ -15,6 +20,21 @@ export default function KiwanoPage() {
 
       {/* ── Features: Horizontal swipable cards ───────────────────── */}
       <KiwanoFeatures />
+
+      {/* ── 360° Tour: Full-width video player with drag badge ─────── */}
+      <Kiwano360Tour />
+
+      {/* ── Gallery: Tabbed masonry photo grid ────────────────────── */}
+      <KiwanoGallery />
+
+      {/* ── Amenities: Surrounding places with List/Map toggle ──────── */}
+      <KiwanoAmenities />
+
+      {/* ── Other Projects: Explore other projects card ────────────── */}
+      <KiwanoOtherProjects />
+
+      {/* ── Footer ─────────────────────────────────────────────────── */}
+      <Footer />
     </main>
   );
 }

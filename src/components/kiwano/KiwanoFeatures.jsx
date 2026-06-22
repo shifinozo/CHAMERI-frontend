@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useLayoutEffect } from "react";
 import Image from "next/image";
 
 /**
@@ -157,7 +157,7 @@ export default function KiwanoFeatures() {
     <section
       style={{
         width:           "100%",
-        maxWidth:        "1440px",
+        maxWidth:        "clamp(650px, 100vw, 1920px)",
         margin:          "0 auto",
         minHeight:       "clamp(600px, 57.35vw, 825.8px)",
         paddingTop:      "clamp(32px, 4.167vw, 60px)",
@@ -329,116 +329,111 @@ export default function KiwanoFeatures() {
   );
 }
 
-/* ────────────────────────────────────────────────────────────────────────────
-   FEATURE CARD
-   Figma: w:379.7  h:498.2
-   Image fills card with border-radius 12px
-   Text panel: bg:#FFF  w:345  h:128  absolute  bottom  left:17.16
-     ├── Title row  h:30  gap:11.41  Geist 400 24.7px/29.64px  ls:-0.49px
-     └── Sub text   h:88  Geist 400 20px/21.8px  ls:-0.44px
-──────────────────────────────────────────────────────────────────────────── */
 function FeatureCard({ feature }) {
+  const [hovered, setHovered]   = useState(false);
+  const descRef                  = useRef(null);
+  // Large default keeps description below card on first paint; useLayoutEffect
+  // replaces it with the exact measured value before the browser paints.
+  const [descShift, setDescShift] = useState(200);
+
+  useLayoutEffect(() => {
+    if (descRef.current) {
+      // 8px = gap between title and description
+      setDescShift(descRef.current.offsetHeight + 8);
+    }
+  }, []);
+
   return (
     <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       style={{
-        position:    "relative",
-        width:       "clamp(220px, 26.367vw, 379.68px)",
-        height:      "clamp(320px, 34.597vw, 498.16px)",
-        flexShrink:  0,
-        borderRadius:"clamp(8px, 0.833vw, 12px)",
-        overflow:    "hidden",
-        background:  "#1a1a1a",
+        position:     "relative",
+        width:        "clamp(220px, 26.367vw, 379.68px)",
+        height:       "clamp(320px, 34.597vw, 498.16px)",
+        flexShrink:   0,
+        borderRadius: "clamp(8px, 0.833vw, 12px)",
+        overflow:     "hidden",
+        background:   "#1a1a1a",
+        cursor:       "pointer",
       }}
     >
-      {/* ── IMAGE ─────────────────────────────────────────────────────────── */}
+      {/* ── IMAGE ───────────────────────────────────────────────────────── */}
       <Image
         src={feature.image}
         alt={feature.title}
         fill
         sizes="(max-width: 768px) 240px, 380px"
-        style={{ objectFit: "cover", objectPosition: "center" }}
+        style={{
+          objectFit:      "cover",
+          objectPosition: "center",
+          transition:     "transform 0.6s ease",
+          transform:      hovered ? "scale(1.05)" : "scale(1)",
+        }}
         draggable={false}
       />
 
-      {/* ── GRADIENT SCRIM (bottom readability) ───────────────────────────── */}
+      {/* ── GRADIENT ────────────────────────────────────────────────────── */}
       <div
         style={{
           position:   "absolute",
           inset:      0,
-          background: "linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.10) 55%, transparent 100%)",
+          background: "linear-gradient(to top, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.15) 55%, transparent 100%)",
           zIndex:     1,
+          opacity:    hovered ? 1 : 0.75,
+          transition: "opacity 0.4s ease",
         }}
       />
 
-      {/* ── TEXT PANEL ────────────────────────────────────────────────────── */}
+      {/* ── SINGLE CONTENT DIV ──────────────────────────────────────────── */}
       {/*
-       * Figma: bg:#FFFFFF  w:345  h:128  top:453.79  left:17.16
-       * Converted as percentage of card height 498.16:
-       *   top = 453.79/498.16 = 91.09% — but we anchor bottom instead
-       *   left = 17.16px (fixed)
+       * Anchored to bottom:0. Initially shifted DOWN by (descriptionHeight + gap)
+       * so only the title is visible above the card's bottom edge. The card's
+       * overflow:hidden clips everything below. On hover, translateY(0) slides
+       * the whole block up, revealing title + description together.
        */}
       <div
         style={{
-          position:     "absolute",
-          bottom:       "clamp(10px, 1.319vw, 19px)",
-          left:         "clamp(10px, 1.192vw, 17.16px)",
-          width:        "clamp(185px, 23.958vw, 345px)",
-          minHeight:    "clamp(80px, 8.889vw, 128px)",
-          background:   "#FFFFFF",
-          borderRadius: "clamp(6px, 0.556vw, 8px)",
-          padding:      "clamp(8px, 0.833vw, 12px) clamp(10px, 0.972vw, 14px)",
-          display:      "flex",
-          flexDirection:"column",
-          gap:          "clamp(4px, 0.417vw, 6px)",
-          zIndex:       2,
-          boxSizing:    "border-box",
+          position:      "absolute",
+          bottom:        0,
+          left:          "clamp(14px, 1.319vw, 19px)",
+          right:         "clamp(14px, 1.319vw, 19px)",
+          paddingBottom: "clamp(16px, 1.736vw, 25px)",
+          zIndex:        2,
+          display:       "flex",
+          flexDirection: "column",
+          gap:           "8px",
+          transform:     hovered ? "translateY(0)" : `translateY(${descShift}px)`,
+          transition:    "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
         }}
       >
-        {/* ── TITLE ROW ─────────────────────────────────────────────────── */}
-        {/* Figma: w:345  h:30  gap:11.41 */}
-        <div
+        {/* Title — always the anchor; sits at card bottom when not hovered */}
+        <span
           style={{
-            display:     "flex",
-            alignItems:  "center",
-            gap:         "clamp(6px, 0.792vw, 11.41px)",
-            width:       "100%",
-            minHeight:   "clamp(20px, 2.083vw, 30px)",
-            maxWidth:    "clamp(160px, 19.792vw, 285px)",
+            fontFamily:    "var(--font-geist-sans), 'Geist', system-ui, sans-serif",
+            fontWeight:    400,
+            fontSize:      "clamp(14px, 1.715vw, 24.7px)",
+            lineHeight:    "clamp(18px, 2.058vw, 29.64px)",
+            letterSpacing: "-0.49px",
+            color:         "#FFFFFF",
           }}
         >
-          <span
-            style={{
-              fontFamily:    "var(--font-geist-sans), 'Geist', system-ui, sans-serif",
-              fontWeight:    400,
-              fontSize:      "clamp(14px, 1.715vw, 24.7px)",
-              lineHeight:    "clamp(18px, 2.058vw, 29.64px)",
-              letterSpacing: "-0.49px",
-              textTransform: "capitalize",
-              color:         "#222F30",
-              whiteSpace:    "nowrap",
-              overflow:      "hidden",
-              textOverflow:  "ellipsis",
-            }}
-          >
-            {feature.title}
-          </span>
-        </div>
+          {feature.title}
+        </span>
 
-        {/* ── SUBTITLE ─────────────────────────────────────────────────── */}
-        {/* Figma: w:336  h:88  Geist 400  20px/21.8px  ls:-0.44px */}
+        {/* Description — below the title, starts clipped below card edge */}
         <p
+          ref={descRef}
           style={{
             fontFamily:    "var(--font-geist-sans), 'Geist', system-ui, sans-serif",
             fontWeight:    400,
             fontSize:      "clamp(10px, 1.042vw, 15px)",
             lineHeight:    "clamp(13px, 1.264vw, 18.2px)",
             letterSpacing: "-0.44px",
-            color:         "#334454",
+            color:         "rgba(255,255,255,0.88)",
             margin:        0,
-            display:       "-webkit-box",
-            WebkitLineClamp: 3,
-            WebkitBoxOrient:"vertical",
-            overflow:      "hidden",
+            opacity:       hovered ? 1 : 0,
+            transition:    "opacity 0.3s ease 0.15s",
           }}
         >
           {feature.description}

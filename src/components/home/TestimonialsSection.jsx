@@ -601,7 +601,9 @@ const TestimonialsSection = () => {
   const next = useCallback(() => setCurrent((c) => c + 1), []);
   const prev = useCallback(() => setCurrent((c) => c - 1), []);
 
-  const handleTransitionEnd = useCallback(() => {
+  const handleTransitionEnd = useCallback((e) => {
+    // Only respond to the track's own transform transition, not bubbled clip-path/opacity events from child cards
+    if (e.target !== e.currentTarget) return;
     if (current >= total * 2) {
       setTransitionEnabled(false);
       setCurrent(current - total);
@@ -740,7 +742,7 @@ const TestimonialsSection = () => {
                   height:     `${cardH}px`,
                   clipPath:   `inset(${clipPct.toFixed(2)}% 0 ${clipPct.toFixed(2)}% 0 round ${r}px)`,
                   opacity,
-                  transition: 'clip-path 500ms cubic-bezier(0.4,0,0.2,1), opacity 500ms ease',
+                  transition: transitionEnabled ? 'clip-path 500ms cubic-bezier(0.4,0,0.2,1), opacity 500ms ease' : 'none',
                 }}
               >
                 <Image src={item.img} alt={item.name} fill className="object-cover" />

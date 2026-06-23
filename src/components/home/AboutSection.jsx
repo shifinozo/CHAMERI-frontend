@@ -116,7 +116,7 @@ const AboutSection = () => {
           <div
             className="w-full flex flex-col justify-start"
             style={{
-              maxWidth:  'clamp(450px, 85.424vw, 1070.91px)', // 970.91px @ 1440px
+              maxWidth:  'clamp(450px, 68.424vw, 900.91px)', // 970.91px @ 1440px
               minHeight: 'clamp(80px, 20.833vw, 300px)',     // 300px    @ 1440px
             }}
           >

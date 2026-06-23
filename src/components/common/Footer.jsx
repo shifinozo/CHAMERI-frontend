@@ -545,6 +545,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 /*
   CLAMP FORMULA:
@@ -560,7 +561,14 @@ import Image from 'next/image';
   Copyright:    py=19px  text=12px
 */
 
-const QUICK_LINKS = ['Home', 'About Us', 'Project', 'Service', 'Gallery', 'Contact Us'];
+const QUICK_LINKS = [
+  { label: 'Home',       href: '/'         },
+  { label: 'About Us',  href: '/about'    },
+  { label: 'Project',   href: '/kiwano'   },
+  { label: 'Service',   href: '/services' },
+  { label: 'Gallery',   href: '/gallery'  },
+  { label: 'Contact Us',href: '/contact'  },
+];
 
 const SOCIALS = [
   {
@@ -583,8 +591,8 @@ const SOCIALS = [
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-[#334454] flex justify-center overflow-hidden">
-      <div className="w-full mx-auto" style={{ maxWidth: 'clamp(320px, 91.67vw, 1920px)' }}>
+    <footer className="w-full bg-[#334454] overflow-hidden">
+      <div className="w-full">
 
         {/* ── Main 2-column row ─────────────────────────────────────────── */}
         <div className="flex flex-col md:flex-row w-full border-t border-white/10">
@@ -647,6 +655,7 @@ const Footer = () => {
             <div
               className="footer-links-grid flex flex-col sm:flex-row flex-wrap md:flex-nowrap"
               style={{
+                // maxWidth: 'clamp(1000px, 120vw, 1920px)',
                 paddingTop:  'clamp(20px, 1.3vw, 25px)',
                 paddingLeft: 'clamp(16px, 1.04vw, 20px)',
                 gap:         'clamp(20px, 1.63vw, 25px)',
@@ -662,24 +671,24 @@ const Footer = () => {
                   Quick Links
                 </h3>
                 <div className="flex flex-col" style={{ gap: 'clamp(9.9px, 0.97vw, 18.6px)' }}>
-                  {QUICK_LINKS.map((link) => (
-                    <a
-                      key={link}
-                      href="#"
-                      className="font-sans font-normal text-[#EDE7DE]/80 hover:text-white transition-colors"
+                  {QUICK_LINKS.map(({ label, href }) => (
+                    <Link
+                      key={label}
+                      href={href}
+                      className="font-sans font-normal text-[#FFFFFF] hover:text-[#EDE7DE]/80 transition-colors"
                       style={{
                         fontSize:   'clamp(11.3px, 1.11vw, 21.3px)',
                         lineHeight: 1.1,
                       }}
                     >
-                      {link}
-                    </a>
+                      {label}
+                    </Link>
                   ))}
                 </div>
               </div>
 
               {/* Address */}
-              <div className="flex flex-col" style={{ gap: 'clamp(14.2px, 1.4vw, 26.6px)' }}>
+              <div className="flex flex-col" style={{ marginLeft: 'clamp(20px, 4.63vw, 150px)', gap: 'clamp(14.2px, 1.4vw, 26.6px)' }}>
                 <h3
                   className="font-roundo font-medium text-white"
                   style={{ fontSize: 'clamp(14.2px, 1.4vw, 26.6px)' }}
@@ -688,7 +697,7 @@ const Footer = () => {
                 </h3>
                 <a
                   href="#"
-                  className="font-sans font-normal text-[#EDE7DE]/80 hover:text-white transition-colors"
+                  className="font-sans font-normal text-[#FFFFFF] hover:text-[#EDE7DE]/80 transition-colors"
                   style={{
                     fontSize:   'clamp(10.6px, 1.04vw, 20px)',
                     lineHeight: 1.6,
@@ -700,7 +709,7 @@ const Footer = () => {
               </div>
 
               {/* Contact Us */}
-              <div className="flex flex-col" style={{ gap: 'clamp(14.2px, 1.4vw, 26.6px)' }}>
+              <div className="flex flex-col" style={{ marginLeft: 'clamp(20px, 3.63vw, 140px)', gap: 'clamp(14.2px, 1.4vw, 26.6px)' }}>
                 <h3
                   className="font-roundo font-medium text-white"
                   style={{ fontSize: 'clamp(14.2px, 1.4vw, 26.6px)' }}
@@ -712,7 +721,7 @@ const Footer = () => {
                     <a
                       key={i}
                       href="tel:+919188913114"
-                      className="font-sans font-normal text-[#EDE7DE]/80 hover:text-white transition-colors"
+                      className="font-sans font-normal text-[#FFFFFF] hover:text-[#EDE7DE]/80 transition-colors"
                       style={{ fontSize: 'clamp(10.6px, 1.04vw, 20px)' }}
                     >
                       {num}
@@ -758,8 +767,10 @@ const Footer = () => {
         >
           <a
             href="#"
-            className="font-sans font-normal text-[#EDE7DE]/80 hover:text-white transition-colors"
-            style={{ fontSize: 'clamp(8.5px, 0.83vw, 16px)' }}
+            className="font-sans font-normal text-[#FFFFFF] hover:text-[#EDE7DE]/80 transition-colors"
+            style={{ fontSize: 'clamp(8.5px, 0.83vw, 16px)',
+              marginRight: 'clamp(30px, 5vw, 75px)',
+             }}
           >
             © Chameri Builders pvt limited
           </a>

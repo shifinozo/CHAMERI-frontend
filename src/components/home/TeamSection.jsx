@@ -390,11 +390,11 @@ import Image from 'next/image';
 
 /* ─── Team data ──────────────────────────────────────────────────────── */
 const TEAM = [
-  { id: 1, name: 'John Doe', designation: 'Designation', img: 'https://i.pravatar.cc/600?img=11' },
-  { id: 2, name: 'John Doe', designation: 'Designation', img: 'https://i.pravatar.cc/600?img=14' },
-  { id: 3, name: 'John Doe', designation: 'Designation', img: 'https://i.pravatar.cc/600?img=15' },
-  { id: 4, name: 'John Doe', designation: 'Designation', img: 'https://i.pravatar.cc/600?img=52' },
-  { id: 5, name: 'John Doe', designation: 'Designation', img: 'https://i.pravatar.cc/600?img=60' },
+  { id: 1, name: 'John Doe', designation: 'Designation', img: '/dummyimages/8276099377b328194b10337a1dc6e4999a4103d5.png' },
+  { id: 2, name: 'John Doe', designation: 'Designation', img: '/dummyimages/8276099377b328194b10337a1dc6e4999a4103d5.png' },
+  { id: 3, name: 'John Doe', designation: 'Designation', img: '/dummyimages/8276099377b328194b10337a1dc6e4999a4103d5.png' },
+  { id: 4, name: 'John Doe', designation: 'Designation', img: '/dummyimages/8276099377b328194b10337a1dc6e4999a4103d5.png' },
+  { id: 5, name: 'John Doe', designation: 'Designation', img: '/dummyimages/8276099377b328194b10337a1dc6e4999a4103d5.png' },
 ];
 
 /* ─── Shared Arrow SVG ───────────────────────────────────────────────── */

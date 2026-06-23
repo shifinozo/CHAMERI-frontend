@@ -192,48 +192,46 @@ import React, { useState } from 'react';
 
 /*
  * ─── CLAMP REFERENCE ────────────────────────────────────────────────────────
+ *  preferred_vw = VALUE_AT_1440 / 1440 * 100
+ *  Viewport: 375px mobile → 1920px 4xl
  *
- *  Formula : preferred_vw = (MAX_px - MIN_px) / (1920 - 375) * 100
- *  Viewport range: 375px (mobile) → 1920px (4xl)
+ *  Section pt/pb       : clamp(40px,  4.17vw,  80px)   [60px @ 1440]
+ *  Section pl/pr       : clamp(20px,  5.56vw, 106px)   [80px @ 1440]
+ *  Section gap         : clamp(16px,  1.67vw,  32px)   [24px @ 1440]
  *
- *  WRAPPER
- *  px                  : clamp(20px,   5.59vw, 106px)
- *  py                  : clamp(40px,   2.59vw,  80px)
- *  gap                 : clamp(16px,   1.04vw,  32px)
- *  max-w               : clamp(60%,    ...,     86%)  → inline
+ *  Header gap          : clamp(8px,   0.97vw,  18.6px) [14px @ 1440]
+ *  Badge dot           : clamp(10px,  0.97vw,  18.6px) [14px @ 1440]
+ *  Badge gap           : clamp(5px,   0.5vw,   9.6px)  [7.2px @ 1440]
+ *  Badge font          : clamp(10px,  0.97vw,  18.6px) [14px @ 1440]
  *
- *  HEADER
- *  gap                 : clamp(11.3px, 0.65vw,  21.3px)
+ *  Heading font/lead   : clamp(28px,  4.17vw,  80px)   [60px @ 1440]
+ *  Heading tracking    : clamp(-0.5px,-0.063vw,-1.2px) [-0.9px @ 1440]
  *
- *  Badge dot size      : clamp(9.9px,  0.56vw,  18.6px)
- *  Badge dot radius    : clamp(2px,    0.13vw,    4px)
- *  Badge gap           : clamp(5.1px,  0.29vw,   9.6px)
- *  Badge font          : clamp(11px,   0.5vw,   18.6px)
+ *  Para font           : clamp(14px,  1.39vw,  26.6px) [20px @ 1440]
+ *  Para lead           : clamp(18.5px,1.83vw,  35.1px) [26.4px @ 1440]
+ *  Para tracking       : clamp(-0.3px,-0.031vw,-0.58px)[-0.44px @ 1440]
+ *  Para max-w          : clamp(260px,42.22vw,  810px)  [608px @ 1440]
  *
- *  Heading font        : clamp(28px,   3.36vw,   80px)
- *  Heading lead        : clamp(28px,   3.36vw,   80px)
- *  Heading tracking    : clamp(-0.5px,-0.046vw,  -1.2px)
+ *  List gap            : clamp(4px,   0.56vw,   8px)   [8px @ 1440]
+ *  Item radius/padding : clamp(4px,   0.56vw,   8px)   [8px @ 1440]
+ *  Item gap (open)     : clamp(8px,   0.83vw,  16px)   [12px @ 1440]
  *
- *  Para font           : clamp(14px,   0.81vw,  26.6px)
- *  Para lead           : clamp(18.5px, 1.08vw,  35.1px)
- *  Para tracking       : clamp(-0.3px,-0.018vw, -0.58px)
- *  Para max-w          : clamp(320px, 31.7vw,   810px)
+ *  Row min-height      : clamp(36px,  3.33vw,  52px)   [48px @ 1440]
+ *  Row px              : clamp(4px,   0.56vw,   8px)   [8px @ 1440]
  *
- *  FAQ LIST
- *  gap                 : clamp(5.6px,  0.33vw,  10.6px)
+ *  Q font              : clamp(14px,  1.53vw,  29.3px) [22px @ 1440]
+ *  Q lead              : clamp(18px,  1.83vw,  35.1px) [26.4px @ 1440]
+ *  Q tracking          : clamp(-0.3px,-0.031vw,-0.58px)[-0.44px @ 1440]
  *
- *  Question font       : clamp(14px,   0.97vw,  29.3px)
- *  Question lead       : clamp(18px,   1.11vw,  35.1px)
- *  Question tracking   : clamp(-0.3px,-0.018vw, -0.58px)
+ *  Icon box size       : clamp(22px,  2.22vw,  42.6px) [32px @ 1440]
+ *  Icon box radius     : clamp(5px,   0.56vw,  10.6px) [8px @ 1440]
+ *  Icon box padding    : clamp(4px,   0.44vw,  8.5px)  [6.4px @ 1440]
  *
- *  Icon box size       : clamp(22.7px, 1.29vw,  42.6px)
- *  Icon box radius     : clamp(5.7px,  0.32vw,  10.6px)
- *  Icon svg size       : clamp(10px,   0.07vw,  11.3px)   (barely changes)
- *
- *  Answer font         : clamp(12.8px, 0.72vw,  24px)
- *  Answer lead         : clamp(15.3px, 0.87vw,  28.8px)
- *  Answer tracking     : clamp(-0.26px,-0.014vw,-0.48px)
- *
+ *  Answer pt/pb        : clamp(14px,  1.11vw,  21.3px) [16px @ 1440]
+ *  Answer pl/pr        : clamp(10px,  0.83vw,  16px)   [12px @ 1440]
+ *  Answer font         : clamp(12px,  1.25vw,  24px)   [18px @ 1440]
+ *  Answer lead         : clamp(15px,  1.5vw,   28.8px) [21.6px @ 1440]
+ *  Answer tracking     : clamp(-0.26px,-0.025vw,-0.48px)[-0.36px @ 1440]
  * ────────────────────────────────────────────────────────────────────────────
  */
 
@@ -269,206 +267,181 @@ const FAQSection = () => {
   const toggle = (i) => setOpenIndex(openIndex === i ? null : i);
 
   return (
-    <section className="w-full bg-[#EDE7DE] flex justify-center overflow-hidden">
+    <section className="w-full bg-[#EDE7DE] overflow-hidden">
       <div
         className="w-full flex flex-col items-center mx-auto"
         style={{
-          maxWidth:      '1600px',
-          paddingTop:    'clamp(40px, 4.17vw, 60px)',
-          paddingBottom: 'clamp(40px, 4.17vw, 60px)',
-          paddingLeft:   'clamp(20px, 4.86vw, 70px)',
-          paddingRight:  'clamp(20px, 4.86vw, 70px)',
-          gap:           'clamp(16px, 1.67vw, 24px)',
+          paddingTop:    'clamp(40px, 4.17vw, 80px)',
+          paddingBottom: 'clamp(40px, 4.17vw, 80px)',
+          paddingLeft:   'clamp(20px, 5.56vw, 106px)',
+          paddingRight:  'clamp(20px, 5.56vw, 106px)',
+          gap:           'clamp(16px, 1.67vw, 32px)',
         }}
       >
 
         {/* ══ Header ══════════════════════════════════════════════════════ */}
         <div
-          className="flex flex-col items-center text-center"
-          style={{
-            width: 'clamp(600px, 90.28vw, 1300px)',
-            gap:   'clamp(10px, 1.11vw, 16px)'
-          }}
+          className="w-full flex flex-col items-center text-center"
+          style={{ gap: 'clamp(8px, 0.97vw, 18.6px)' }}
         >
+          {/* Badge */}
           <div
-            className="flex flex-col items-center justify-center"
-            style={{ width: 'clamp(300px, 51.04vw, 735px)', gap: 'clamp(8px, 0.97vw, 14px)' }}
+            className="flex items-center"
+            style={{ gap: 'clamp(5px, 0.5vw, 9.6px)' }}
           >
-            {/* Badge */}
             <div
-              className="flex items-center justify-center"
+              className="bg-[#334454] flex-shrink-0"
               style={{
-                width:  'clamp(40px, 3.56vw, 51.2px)',
-                height: 'clamp(22px, 2.14vw, 30.8px)',
-                gap:    'clamp(5px, 0.5vw, 7.2px)',
+                width:        'clamp(10px, 0.97vw, 18.6px)',
+                height:       'clamp(10px, 0.97vw, 18.6px)',
+                borderRadius: 'clamp(2px, 0.19vw, 4px)',
+              }}
+            />
+            <span
+              className="font-sans font-normal uppercase text-[#334454] tracking-widest"
+              style={{
+                fontSize:   'clamp(10px, 0.97vw, 18.6px)',
+                lineHeight: '1',
               }}
             >
-              <div
-                className="bg-[#334454] flex-shrink-0"
-                style={{
-                  width:        'clamp(10px, 0.97vw, 14px)',
-                  height:       'clamp(10px, 0.97vw, 14px)',
-                  borderRadius: 'clamp(2px, 0.21vw, 3px)',
-                  padding:      'clamp(2.5px, 0.25vw, 3.6px)',
-                }}
-              />
-              <span
-                className="font-sans font-normal uppercase text-[#334454] tracking-widest flex items-center justify-center"
-                style={{
-                  width:      'clamp(22px, 2.08vw, 30px)',
-                  height:     'clamp(14px, 1.39vw, 20px)',
-                  fontSize:   'clamp(10px, 0.83vw, 12px)',
-                  lineHeight: 1
-                }}
-              >
-                FAQ
-              </span>
-            </div>
-
-            {/* Heading */}
-            <h2
-              className="font-roundo font-medium text-[#1A1A1A] m-0 flex items-center justify-center text-center capitalize"
-              style={{
-                fontSize:      'clamp(36px, 4.17vw, 60px)',
-                lineHeight:    'clamp(36px, 4.17vw, 60px)',
-                letterSpacing: 'clamp(-0.5px, -0.06vw, -0.9px)',
-                width:         'clamp(300px, 51.04vw, 735px)',
-                height:        'clamp(40px, 4.17vw, 60px)'
-              }}
-            >
-              Frequent Asked Questions
-            </h2>
-
-            {/* Sub-heading */}
-            <p
-              className="font-sans font-normal text-[#334454]/70 text-center m-0 flex items-center justify-center"
-              style={{
-                fontSize:      'clamp(14px, 1.39vw, 20px)',
-                lineHeight:    'clamp(18.5px, 1.83vw, 26.4px)',
-                letterSpacing: 'clamp(-0.2px, -0.03vw, -0.44px)',
-                width:         'clamp(300px, 41.98vw, 604.5px)',
-                height:        'clamp(30px, 3.68vw, 53px)'
-              }}
-            >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            </p>
+              FAQ
+            </span>
           </div>
+
+          {/* Heading */}
+          <h2
+            className="font-roundo font-medium text-[#1A1A1A] m-0 text-center"
+            style={{
+              fontSize:      'clamp(28px, 4.17vw, 80px)',
+              lineHeight:    '1.05',
+              letterSpacing: 'clamp(-0.5px, -0.063vw, -1.2px)',
+              maxWidth:      'clamp(280px, 51.04vw, 980px)',
+            }}
+          >
+            Frequent Asked Questions
+          </h2>
+
+          {/* Sub-heading */}
+          <p
+            className="font-sans font-normal text-[#334454]/70 text-center m-0"
+            style={{
+              fontSize:      'clamp(14px, 1.39vw, 26.6px)',
+              lineHeight:    'clamp(18.5px, 1.83vw, 35.1px)',
+              letterSpacing: 'clamp(-0.3px, -0.031vw, -0.58px)',
+              maxWidth:      'clamp(260px, 42.22vw, 810px)',
+            }}
+          >
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+          </p>
         </div>
 
         {/* ══ FAQ Accordion ═══════════════════════════════════════════════ */}
         <div
-          className="flex flex-col items-center justify-center"
-          style={{ width: 'clamp(500px, 83.33vw, 1200px)' }}
+          className="flex flex-col"
+          style={{
+            width:    '100%',
+            maxWidth: 'clamp(300px, 80.19vw, 1650px)',
+            gap:      'clamp(4px, 0.56vw, 8px)',
+          }}
         >
-          <div
-            className="flex flex-col items-center justify-center"
-            style={{
-              width: 'clamp(450px, 78.19vw, 1126px)',
-              gap:   'clamp(4px, 0.56vw, 8px)'
-            }}
-          >
-            {FAQS.map((faq, i) => {
-              const isOpen = openIndex === i;
-              return (
-                <div
-                  key={i}
-                  className="flex flex-col transition-all duration-300 ease-in-out overflow-hidden w-full"
+          {FAQS.map((faq, i) => {
+            const isOpen = openIndex === i;
+            return (
+              <div
+                key={i}
+                className="flex flex-col w-full overflow-hidden"
+                style={{
+                  backgroundColor: '#6B859E',
+                  borderRadius:    'clamp(4px, 0.56vw, 8px)',
+                  padding:         'clamp(4px, 0.56vw, 8px)',
+                  gap:             isOpen ? 'clamp(8px, 0.83vw, 16px)' : '0px',
+                  transition:      'gap 300ms ease',
+                }}
+              >
+                {/* Question row */}
+                <button
+                  onClick={() => toggle(i)}
+                  className="flex items-center justify-between text-left cursor-pointer border-none bg-transparent w-full"
                   style={{
-                    backgroundColor: '#6B859E',
-                    borderRadius:    'clamp(2px, 0.28vw, 4px)',
-                    padding:         'clamp(4px, 0.56vw, 8px)',
-                    gap:             isOpen ? 'clamp(8px, 1.11vw, 16px)' : '0px'
+                    paddingTop:    'clamp(4px, 0.28vw, 5.3px)',
+                    paddingBottom: 'clamp(4px, 0.28vw, 5.3px)',
+                    paddingLeft:   'clamp(4px, 0.56vw, 8px)',
+                    paddingRight:  'clamp(4px, 0.56vw, 8px)',
+                    minHeight:     'clamp(36px, 3.33vw, 52px)',
                   }}
                 >
-                  {/* Question row */}
-                  <button
-                    onClick={() => toggle(i)}
-                    className="flex items-center justify-between text-left cursor-pointer border-none bg-transparent w-full"
+                  {/* Question text */}
+                  <span
+                    className="font-sans font-normal text-white"
                     style={{
-                      padding:   '0 clamp(4px, 0.56vw, 8px)',
-                      height:    'clamp(30px, 2.92vw, 42px)',
+                      fontSize:      'clamp(14px, 1.53vw, 29.3px)',
+                      lineHeight:    'clamp(18px, 1.83vw, 35.1px)',
+                      letterSpacing: 'clamp(-0.3px, -0.031vw, -0.58px)',
                     }}
                   >
-                    {/* Question text */}
-                    <span
-                      className="font-sans font-normal text-white"
-                      style={{
-                        fontSize:      'clamp(16px, 1.53vw, 22px)',
-                        lineHeight:    'clamp(18px, 1.83vw, 26.4px)',
-                        letterSpacing: 'clamp(-0.2px, -0.03vw, -0.44px)',
-                      }}
-                    >
-                      {faq.q}
-                    </span>
+                    {faq.q}
+                  </span>
 
-                    {/* Toggle icon box */}
-                    <div
-                      className="flex-shrink-0 flex items-center justify-center bg-white"
-                      style={{
-                        width:        'clamp(24px, 2.22vw, 32px)',
-                        height:       'clamp(24px, 2.22vw, 32px)',
-                        borderRadius: 'clamp(4px, 0.56vw, 8px)',
-                        padding:      'clamp(4px, 0.56vw, 8px)'
-                      }}
-                    >
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="#334454"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`}
-                        style={{
-                          width:  '100%',
-                          height: '100%',
-                        }}
-                      >
-                        <path d="m6 9 6 6 6-6" />
-                      </svg>
-                    </div>
-                  </button>
-
-                  {/* Answer panel */}
+                  {/* Toggle icon box */}
                   <div
-                    className="transition-all duration-300 ease-in-out overflow-hidden flex flex-col items-start justify-center"
+                    className="flex-shrink-0 flex items-center justify-center bg-white"
                     style={{
-                      opacity:         isOpen ? 1 : 0,
-                      maxHeight:       isOpen ? '300px' : '0px',
-                      backgroundColor: '#334454',
-                      borderRadius:    'clamp(2px, 0.28vw, 4px)',
-                      width:           '100%',
-                      paddingTop:      isOpen ? 'clamp(16px, 1.62vw, 23.3px)' : '0',
-                      paddingBottom:   isOpen ? 'clamp(16px, 1.67vw, 24px)' : '0',
-                      paddingLeft:     isOpen ? 'clamp(12px, 1.11vw, 16px)' : '0',
-                      paddingRight:    isOpen ? 'clamp(12px, 1.11vw, 16px)' : '0',
+                      marginLeft:   'clamp(8px, 0.83vw, 16px)',
+                      width:        'clamp(22px, 2.22vw, 42.6px)',
+                      height:       'clamp(22px, 2.22vw, 42.6px)',
+                      borderRadius: 'clamp(5px, 0.56vw, 10.6px)',
+                      padding:      'clamp(4px, 0.44vw, 8.5px)',
                     }}
                   >
-                    <div
-                      className="flex items-center"
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#334454"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`}
+                      style={{ width: '100%', height: '100%' }}
+                    >
+                      <path d="m6 9 6 6 6-6" />
+                    </svg>
+                  </div>
+                </button>
+
+                {/* Answer panel */}
+                <div
+                  className="overflow-hidden"
+                  style={{
+                    maxHeight:  isOpen ? '400px' : '0px',
+                    opacity:    isOpen ? 1 : 0,
+                    transition: 'max-height 300ms ease, opacity 300ms ease',
+                  }}
+                >
+                  <div
+                    style={{
+                      backgroundColor: '#334454',
+                      borderRadius:    'clamp(4px, 0.56vw, 8px)',
+                      paddingTop:      'clamp(14px, 1.11vw, 21.3px)',
+                      paddingBottom:   'clamp(14px, 1.11vw, 21.3px)',
+                      paddingLeft:     'clamp(10px, 0.83vw, 16px)',
+                      paddingRight:    'clamp(10px, 0.83vw, 16px)',
+                    }}
+                  >
+                    <p
+                      className="font-sans font-normal text-white/85 m-0"
                       style={{
-                        width:  'clamp(300px, 57.31vw, 825.3px)',
-                        height: isOpen ? 'clamp(30px, 3.06vw, 44px)' : '0px',
+                        fontSize:      'clamp(12px, 1.25vw, 24px)',
+                        lineHeight:    'clamp(15px, 1.5vw, 28.8px)',
+                        letterSpacing: 'clamp(-0.26px, -0.025vw, -0.48px)',
                       }}
                     >
-                      <p
-                        className="font-sans font-normal text-white/85 m-0 text-left"
-                        style={{
-                          width:         '100%',
-                          height:        '100%',
-                          fontSize:      'clamp(14px, 1.25vw, 18px)',
-                          lineHeight:    'clamp(16px, 1.5vw, 21.6px)',
-                          letterSpacing: 'clamp(-0.2px, -0.025vw, -0.36px)',
-                        }}
-                      >
-                        {faq.a}
-                      </p>
-                    </div>
+                      {faq.a}
+                    </p>
                   </div>
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
 
       </div>

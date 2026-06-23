@@ -727,18 +727,20 @@ const TestimonialsSection = () => {
             const dist     = Math.abs(i - current);
             const isCenter = dist === 0;
             const opacity  = isCenter ? 1 : dist === 1 ? 0.6 : 0;
-            const curCardH = isCenter ? cardH : sideH;
+            // clip top & bottom equally so the card appears shorter without moving in the layout
+            const clipPct  = isCenter ? 0 : ((1 - sideH / cardH) / 2) * 100;
+            const r        = (12 * scale).toFixed(1);
 
             return (
               <div
                 key={i}
                 className="relative flex-shrink-0 overflow-hidden"
                 style={{
-                  width:        `${cardW}px`,
-                  height:       `${curCardH}px`,
-                  borderRadius: `${12 * scale}px`,
+                  width:      `${cardW}px`,
+                  height:     `${cardH}px`,
+                  clipPath:   `inset(${clipPct.toFixed(2)}% 0 ${clipPct.toFixed(2)}% 0 round ${r}px)`,
                   opacity,
-                  transition:   'height 500ms cubic-bezier(0.4,0,0.2,1), opacity 500ms ease',
+                  transition: 'clip-path 500ms cubic-bezier(0.4,0,0.2,1), opacity 500ms ease',
                 }}
               >
                 <Image src={item.img} alt={item.name} fill className="object-cover" />

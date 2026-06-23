@@ -528,7 +528,7 @@ const GalleryNew = () => {
       <div
         className="mx-auto w-full"
         style={{
-          maxWidth:      '1440px',
+          maxWidth:      'clamp(300px,100vw,1920px)',
           paddingTop:    clamp(32, 60),
           paddingBottom: clamp(32, 60),
           paddingLeft:   clamp(16, 82),
@@ -540,7 +540,7 @@ const GalleryNew = () => {
           className="mx-auto flex flex-col"
           style={{
             width:        '100%',
-            maxWidth:     '1255.83px',
+            maxWidth:     'clamp(200px,100vw,1920px)',
             paddingLeft:  clamp(8, 18.17),
             paddingRight: clamp(8, 18.17),
             gap:          clamp(36, 72.68),
@@ -555,9 +555,9 @@ const GalleryNew = () => {
             Tablet  (768–1023): stack vertically
             Mobile  (<768px):   stack vertically, smaller text
           */}
-          <div className="flex flex-col lg:flex-row lg:justify-between w-full gap-6 lg:gap-0">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between w-full gap-6 lg:gap-0">
 
-            {/* Gallery Badge */}
+            {/* Gallery Badge — left */}
             <div
               className="flex items-center flex-shrink-0"
               style={{
@@ -592,38 +592,32 @@ const GalleryNew = () => {
               </span>
             </div>
 
-            {/* Title & Description */}
-            <div
-              className="flex flex-col md:flex-row md:justify-between gap-6 md:gap-0"
-              style={{ width: '100%', maxWidth: '975.6px' }}
-            >
-              {/* H2 Title */}
-              <div style={{ width: '100%', maxWidth: clamp(280, 668) }}>
-                <h2
-                  className="font-round font-medium text-[#334454]"
-                  style={{
-                    fontSize:      clamp(28, 60),
-                    lineHeight:    '1.1',
-                    letterSpacing: clamp(-1, -3.05),
-                  }}
-                >
-                  Elegant Spaces For Built<br/>Views Photo Frame
-                </h2>
-              </div>
+            {/* H2 Title — center */}
+            <div style={{ maxWidth: clamp(380, 878) }}>
+              <h2
+                className="font-round font-medium text-[#334454]"
+                style={{
+                  fontSize:      clamp(20, 60),
+                  lineHeight:    '1.1',
+                  letterSpacing: clamp(-1, -3.05),
+                }}
+              >
+                Elegant Spaces For Built<br/>Views Photo Frame
+              </h2>
+            </div>
 
-              {/* Description */}
-              <div className="self-start md:self-end" style={{ maxWidth: clamp(200, 264) }}>
-                <p
-                  className="font-geist text-[#334454]"
-                  style={{
-                    fontSize:      clamp(14, 20),
-                    lineHeight:    '1.09',
-                    letterSpacing: '-0.44px',
-                  }}
-                >
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                </p>
-              </div>
+            {/* Description — right */}
+            <div className="self-start lg:self-end" style={{ maxWidth: clamp(200, 284) }}>
+              <p
+                className="font-geist text-[#334454]"
+                style={{
+                  fontSize:      clamp(10, 22),
+                  lineHeight:    '1.09',
+                  letterSpacing: '-0.44px',
+                }}
+              >
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+              </p>
             </div>
           </div>
 

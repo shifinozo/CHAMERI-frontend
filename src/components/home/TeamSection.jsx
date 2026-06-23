@@ -412,7 +412,7 @@ const ArrowSVG = () => (
 const TeamCard = ({ member }) => (
   <div
     className="relative overflow-hidden group cursor-pointer flex-shrink-0 w-full aspect-[379/498]"
-    style={{ borderRadius: 'clamp(8px, 0.56vw, 8px)' }}
+    style={{ borderRadius: 'clamp(8px, 0.79vw, 15.2px)' }}  // 11.4px @ 1440 → 15.2px @ 1920
   >
     <Image
       src={member.img}
@@ -425,34 +425,32 @@ const TeamCard = ({ member }) => (
     {/* Name & Designation */}
     <div
       className="absolute bottom-0 left-0 right-0 flex items-end justify-center"
-      style={{ paddingBottom: 'clamp(13.5px, 1.39vw, 20px)' }}
+      style={{ paddingBottom: 'clamp(13.5px, 1.31vw, 25.3px)' }}  // 19px @ 1440 → 25.3px @ 1920
     >
       <div
         className="flex flex-col items-center"
         style={{
-          maxWidth:      'clamp(195px, 19.08vw, 274.75px)',
-          paddingTop:    'clamp(6.7px, 0.66vw, 9.51px)',
-          paddingBottom: 'clamp(6.7px, 0.66vw, 9.51px)',
-          gap:           'clamp(6.7px, 0.66vw, 9.51px)',
+          maxWidth:      'clamp(195px, 19.08vw, 366px)',    // 274.75px @ 1440 → 366px @ 1920
+          paddingTop:    'clamp(6.7px, 0.66vw, 12.6px)',
+          paddingBottom: 'clamp(6.7px, 0.66vw, 12.6px)',
+          gap:           'clamp(6.7px, 0.66vw, 12.6px)',
         }}
       >
         <span
-          className="font-sans font-normal text-white text-center flex items-center justify-center"
+          className="font-sans font-normal text-white text-center"
           style={{
-            fontSize:      'clamp(14.7px, 1.1vw, 15.8px)',
-            lineHeight:    'clamp(16.2px, 1.6vw, 23px)',
-            letterSpacing: 'clamp(-0.04px, -0.002vw, -0.04px)',
-            height:        'clamp(18px, 1.6vw, 23px)',
+            fontSize:      'clamp(14.7px, 1.44vw, 27.6px)', // 20.72px @ 1440 → 27.6px @ 1920
+            lineHeight:    'clamp(16.2px, 1.58vw, 30.4px)',
+            letterSpacing: 'clamp(-0.04px, -0.004vw, -0.08px)',
           }}
         >
           {member.name}
         </span>
         <span
-          className="font-sans font-normal text-white/75 text-center flex items-center justify-center"
+          className="font-sans font-normal text-white/75 text-center"
           style={{
-            fontSize:   'clamp(8.5px, 0.69vw, 10px)',
-            lineHeight: 'clamp(9.5px, 0.97vw, 14px)',
-            height:     'clamp(10px, 0.97vw, 14px)',
+            fontSize:   'clamp(8.5px, 0.83vw, 15.9px)',  // 11.98px @ 1440 → 15.9px @ 1920
+            lineHeight: 'clamp(9.5px, 0.92vw, 17.7px)',
           }}
         >
           {member.designation}
@@ -466,7 +464,7 @@ const TeamCard = ({ member }) => (
 const ContactCard = () => (
   <div
     className="relative overflow-hidden flex-shrink-0 bg-[#334454] w-full aspect-[379/498]"
-    style={{ borderRadius: 'clamp(8px, 0.56vw, 8px)' }}
+    style={{ borderRadius: 'clamp(8px, 0.79vw, 15.2px)' }}
   >
     {/* Decorative blobs */}
     <div className="absolute -top-12 -right-12 w-[240px] h-[240px] rounded-full bg-[#4a6070]/40" />
@@ -477,18 +475,17 @@ const ContactCard = () => (
     <div
       className="absolute"
       style={{
-        top:   'clamp(112.8px, 11.01vw, 158.49px)',
-        left:  'clamp(22.9px, 2.24vw, 32.25px)',
-        width: 'clamp(178.9px, 17.49vw, 251.92px)',
-        height:'clamp(160px, 16.67vw, 240px)',
+        top:   'clamp(112.8px, 11.01vw, 211px)',    // 158.49px @ 1440 → 211px @ 1920
+        left:  'clamp(22.9px, 2.24vw, 43px)',       // 32.25px @ 1440 → 43px @ 1920
+        width: 'clamp(178.9px, 17.49vw, 335px)',    // 251.92px @ 1440 → 335px @ 1920
       }}
     >
       <h3
         className="font-roundo font-medium capitalize text-[#EDE7DE] m-0"
         style={{
-          fontSize:      'clamp(35.5px, 3.47vw, 50px)',
-          lineHeight:    'clamp(42.6px, 4.17vw, 60px)',
-          letterSpacing: 'clamp(-0.64px, -0.06vw, -0.9px)',
+          fontSize:      'clamp(35.5px, 3.47vw, 66.6px)', // 50px @ 1440 → 66.6px @ 1920
+          lineHeight:    'clamp(42.6px, 4.17vw, 80px)',
+          letterSpacing: 'clamp(-0.64px, -0.036vw, -1.2px)',
         }}
       >
         Lorum Ipsum?<br />Dolor Sit<br />Amet.
@@ -499,26 +496,26 @@ const ContactCard = () => (
     <div
       className="absolute"
       style={{
-        top:  'clamp(293.9px, 28.74vw, 413.82px)',
-        left: 'clamp(22.9px, 2.24vw, 32.25px)',
+        top:  'clamp(293.9px, 28.74vw, 551.3px)', // 413.82px @ 1440 → 551.3px @ 1920
+        left: 'clamp(22.9px, 2.24vw, 43px)',
       }}
     >
       <button
         className="group relative flex items-center justify-center bg-[#6B859E] hover:bg-[#334454] transition-colors duration-500 overflow-hidden cursor-pointer border-none"
         style={{
-          width:        'clamp(118.6px, 11.6vw, 167px)',
-          height:       'clamp(36.9px, 3.61vw, 52px)',
-          borderRadius: 'clamp(8.5px, 0.83vw, 12px)',
+          width:        'clamp(118.6px, 11.6vw, 222.6px)', // 167px @ 1440 → 222.6px @ 1920
+          height:       'clamp(36.9px, 3.61vw, 69.3px)',
+          borderRadius: 'clamp(8.5px, 0.83vw, 16px)',
         }}
       >
         {/* Sliding text */}
         <div
           className="absolute overflow-hidden"
           style={{
-            top:    'clamp(10px, 1.01vw, 14.5px)',
-            left:   'clamp(10px, 0.83vw, 12px)',
-            width:  'clamp(70px, 6.74vw, 97px)',
-            height: 'clamp(18px, 1.6vw, 23px)',
+            top:    'clamp(9.9px, 0.97vw, 18.6px)',
+            left:   'clamp(8.5px, 0.83vw, 16px)',
+            width:  'clamp(69px, 6.74vw, 129px)',
+            height: 'clamp(16.3px, 1.6vw, 30.6px)',
           }}
         >
           <div className="flex flex-col transition-transform duration-500 ease-in-out group-hover:-translate-y-1/2">
@@ -527,8 +524,8 @@ const ContactCard = () => (
                 key={i}
                 className="font-sans font-medium text-white whitespace-nowrap flex items-center"
                 style={{
-                  height:   'clamp(18px, 1.6vw, 23px)',
-                  fontSize: 'clamp(13px, 1.04vw, 15px)',
+                  height:   'clamp(16.3px, 1.6vw, 30.6px)',
+                  fontSize: 'clamp(10.6px, 1.04vw, 20px)',
                 }}
               >
                 {label}
@@ -541,10 +538,10 @@ const ContactCard = () => (
         <div
           className="absolute bg-white group-hover:bg-[#EDE7DE] transition-colors duration-500 overflow-hidden"
           style={{
-            right:        'clamp(8.5px, 0.83vw, 12px)',
-            width:        'clamp(21.3px, 2.08vw, 30px)',
-            height:       'clamp(21.3px, 2.08vw, 30px)',
-            borderRadius: 'clamp(5px, 0.49vw, 7px)',
+            right:        'clamp(8.5px, 0.83vw, 16px)',
+            width:        'clamp(21.3px, 2.08vw, 40px)',
+            height:       'clamp(21.3px, 2.08vw, 40px)',
+            borderRadius: 'clamp(5px, 0.49vw, 9.3px)',
           }}
         >
           <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-in-out group-hover:translate-x-full">
@@ -563,52 +560,50 @@ const ContactCard = () => (
 const TeamSection = () => (
   <section className="w-full bg-[#EDE7DE] flex justify-center">
     <div
-      className="w-full flex flex-col lg:flex-row items-start mx-auto justify-between"
+      className="w-full flex flex-col lg:flex-row lg:items-start lg:justify-between"
       style={{
-        paddingLeft:  'clamp(20px, 5.69vw, 82px)',
-        paddingRight: 'clamp(20px, 5.69vw, 82px)',
-        paddingTop:   'clamp(34px, 3.32vw, 47.75px)',
-        paddingBottom:'clamp(34px, 3.32vw, 47.75px)',
-        gap:          'clamp(16px, 2.22vw, 32px)',
-        maxWidth:     '1440px',
+        paddingLeft:   'clamp(20px, 5.69vw, 109.3px)',
+        paddingRight:  'clamp(20px, 5.69vw, 109.3px)',
+        paddingTop:    'clamp(34px, 3.32vw, 63.6px)',
+        paddingBottom: 'clamp(34px, 3.32vw, 63.6px)',
+        gap:           'clamp(14px, 1.3vw, 26.6px)',
       }}
     >
 
       {/* ══ LEFT: Sticky Sidebar ════════════════════════════════════════ */}
       <aside
-        className="flex-shrink-0 flex flex-col w-full lg:sticky"
+        className="flex-shrink-0 flex flex-col lg:sticky"
         style={{
-          width:     'clamp(299.7px, 29.31vw, 422px)',
-          gap:       'clamp(18.4px, 1.81vw, 26px)',
-          paddingTop:'clamp(0px, 3.33vw, 48px)',
-          top:       'clamp(33.9px, 3.32vw, 47.75px)',
+          width:      'clamp(260px, 29.31vw, 562.6px)',
+          gap:        'clamp(18.4px, 1.81vw, 34.6px)',
+          paddingTop: 'clamp(0px, 3.33vw, 64px)',
+          top:        0,
+          alignSelf:  'flex-start',
         }}
       >
         {/* Badge */}
         <div
           className="flex items-center rounded-[90px] self-start"
           style={{
-            paddingTop:    'clamp(3.5px, 0.38vw, 5.4px)',
-            paddingBottom: 'clamp(3.5px, 0.38vw, 5.4px)',
-            gap:           'clamp(5px, 0.5vw, 7.2px)',
+            paddingTop:    'clamp(3.5px, 0.38vw, 7.2px)',
+            paddingBottom: 'clamp(3.5px, 0.38vw, 7.2px)',
+            gap:           'clamp(5px, 0.5vw, 9.6px)',
           }}
         >
           <div
             className="bg-[#334454] flex-shrink-0"
             style={{
-              width:        'clamp(10px, 0.97vw, 14px)',
-              height:       'clamp(10px, 0.97vw, 14px)',
-              borderRadius: 'clamp(2px, 0.21vw, 3px)',
+              width:        'clamp(10px, 0.97vw, 18.6px)',
+              height:       'clamp(10px, 0.97vw, 18.6px)',
+              borderRadius: 'clamp(2px, 0.21vw, 4px)',
             }}
           />
           <span
             className="font-sans font-normal uppercase text-[#334454] flex items-center justify-center"
             style={{
-              width:         'clamp(60px, 5.49vw, 79px)',
-              height:        'clamp(16px, 1.39vw, 20px)',
-              fontSize:      'clamp(10px, 0.83vw, 12px)',
+              fontSize:      'clamp(10px, 0.83vw, 16px)',
               letterSpacing: 'clamp(-0.24px, -0.02vw, -0.32px)',
-              lineHeight: 1
+              lineHeight:    1,
             }}
           >
             OUR TEAM
@@ -617,13 +612,11 @@ const TeamSection = () => (
 
         {/* Heading */}
         <h2
-          className="font-roundo font-medium capitalize text-[#1A1A1A] m-0 flex items-center"
+          className="font-roundo font-medium capitalize text-[#1A1A1A] m-0"
           style={{
-            fontSize:      'clamp(36px, 4.17vw, 60px)',
-            lineHeight:    'clamp(36px, 4.17vw, 60px)',
-            letterSpacing: 'clamp(-0.64px, -0.06vw, -0.9px)',
-            width:         'clamp(299px, 29.31vw, 422px)',
-            height:        'clamp(80px, 8.33vw, 120px)'
+            fontSize:      'clamp(36px, 4.17vw, 80px)',  // 60px @ 1440 → 80px @ 1920
+            lineHeight:    'clamp(36px, 4.17vw, 80px)',
+            letterSpacing: 'clamp(-0.64px, -0.078vw, -1.2px)',
           }}
         >
           Peoples Builds<br/>This Firm
@@ -631,13 +624,12 @@ const TeamSection = () => (
 
         {/* Sub-heading */}
         <p
-          className="font-sans font-normal text-[#334454]/75 m-0 flex items-center"
+          className="font-sans font-normal text-[#334454]/75 m-0"
           style={{
-            fontSize:      'clamp(14.9px, 1.39vw, 20px)',
-            lineHeight:    'clamp(18.4px, 1.72vw, 24.7px)',
-            letterSpacing: 'clamp(-0.27px, -0.03vw, -0.38px)',
-            width:         'clamp(262px, 26.88vw, 387px)',
-            height:        'clamp(60px, 6.88vw, 99px)'
+            fontSize:      'clamp(14.9px, 1.39vw, 26.6px)', // 20px @ 1440 → 26.6px @ 1920
+            lineHeight:    'clamp(18.4px, 1.72vw, 32.9px)',
+            letterSpacing: 'clamp(-0.27px, -0.03vw, -0.5px)',
+            maxWidth:      'clamp(262px, 26.88vw, 493px)',   // 370px @ 1440 → 493px @ 1920
           }}
         >
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -646,23 +638,18 @@ const TeamSection = () => (
       </aside>
 
       {/* ══ RIGHT: 2-col photo grid ══════════════════════════════════════ */}
-      <aside
-        className="flex-shrink-0 w-full lg:w-auto"
-        style={{
-          width: 'clamp(583px, 57.08vw, 822px)'
-        }}
-      >
+      <aside className="flex-shrink-0 w-full lg:w-auto">
         <div
           className="grid grid-cols-2"
           style={{
-            columnGap: 'clamp(16px, 4.35vw, 62.64px)',
-            rowGap:    'clamp(16px, 3.06vw, 44px)',
+            width:     'clamp(300px, 57.08vw, 1097.3px)', // 822px @ 1440 → 1097.3px @ 1920
+            columnGap: 'clamp(16px, 4.4vw, 84.5px)',      // 63.36px @ 1440 → 84.5px @ 1920
+            rowGap:    'clamp(16px, 3.06vw, 58.6px)',      // 44px @ 1440 → 58.6px @ 1920
           }}
         >
           {TEAM.map((member) => (
             <TeamCard key={member.id} member={member} />
           ))}
-          {/* 6th slot: Contact CTA */}
           <ContactCard />
         </div>
       </aside>

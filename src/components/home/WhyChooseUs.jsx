@@ -693,7 +693,7 @@ const WhyChooseUs = () => {
       <div
         className="w-full flex flex-col items-center"
         style={{
-          maxWidth: '1280px',
+          maxWidth: 'clamp(375px, 90vw, 1920px)',
           gap:      'clamp(14px, 1.04vw, 15px)',
         }}
       >
@@ -711,8 +711,8 @@ const WhyChooseUs = () => {
           <div
             className="bg-[#334454]"
             style={{
-              width:        'clamp(10px, 0.97vw, 14px)',
-              height:       'clamp(10px, 0.97vw, 14px)',
+              width:        'clamp(10px, 1vw, 16px)',
+              height:       'clamp(10px, 1vw, 16px)',
               borderRadius: 'clamp(2px, 0.21vw, 3px)',
             }}
           />
@@ -721,7 +721,7 @@ const WhyChooseUs = () => {
             style={{
               width:         'clamp(90px, 8.89vw, 128px)',
               height:        'clamp(16px, 1.39vw, 20px)',
-              fontSize:      'clamp(10px, 0.83vw, 12px)',
+              fontSize:      'clamp(12px, 0.83vw, 16px)',
               letterSpacing: 'clamp(-0.24px, -0.02vw, -0.32px)',
               lineHeight: 1
             }}
@@ -738,10 +738,10 @@ const WhyChooseUs = () => {
           <h2
             className="font-roundo font-medium text-[#1A1A1A] capitalize m-0 flex items-center"
             style={{
-              fontSize:      'clamp(28px, 3.13vw, 45px)',
+              fontSize:      'clamp(28px, 3.13vw, 52px)',
               lineHeight:    'clamp(28px, 3.13vw, 45px)',
               letterSpacing: 'clamp(-0.5px, -0.06vw, -0.9px)',
-              width:         'clamp(280px, 35.56vw, 512.08px)',
+              width:         'clamp(280px, 35.56vw, 522.08px)',
               height:        'clamp(40px, 6.25vw, 90px)'
             }}
           >
@@ -751,7 +751,7 @@ const WhyChooseUs = () => {
           <p
             className="font-sans font-normal text-black/60 m-0 flex items-center"
             style={{
-              fontSize:      'clamp(14px, 1.39vw, 20px)',
+              fontSize:      'clamp(14px, 1.39vw, 22px)',
               lineHeight:    'clamp(18px, 1.51vw, 21.8px)',
               letterSpacing: 'clamp(-0.28px, -0.03vw, -0.44px)',
               width:         'clamp(300px, 38.75vw, 558px)',
@@ -767,7 +767,7 @@ const WhyChooseUs = () => {
       <div
         className="w-full flex flex-col md:flex-row justify-center"
         style={{
-          maxWidth: '1280px',
+          maxWidth: 'clamp(375px, 96vw, 1920px)',
           gap:      'clamp(6px, 0.69vw, 10px)',
         }}
       >
@@ -779,8 +779,8 @@ const WhyChooseUs = () => {
               onMouseEnter={() => setActiveCard(i)}
               className="relative rounded-[8px] overflow-hidden transition-all duration-700 ease-in-out cursor-pointer flex-shrink-0"
               style={{
-                width:        isActive ? 'clamp(280px, 31.81vw, 458px)' : 'clamp(240px, 27.78vw, 400px)',
-                height:       'clamp(220px, 24.48vw, 352.5px)',
+                width:        isActive ? 'clamp(280px, 31.81vw, 4658px)' : 'clamp(240px, 27.78vw, 600px)',
+                height:       'clamp(220px, 24.48vw, 452.5px)',
                 padding:      'clamp(20px, 2.6vw, 37.5px)',
                 borderRadius: 'clamp(6px, 0.56vw, 8px)',
               }}

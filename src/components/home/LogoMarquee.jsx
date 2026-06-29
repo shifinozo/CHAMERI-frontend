@@ -43,16 +43,18 @@
 import React from 'react';
 import Image from 'next/image';
 
-const LogoMarquee = () => {
-  const logos = [
-    '/dummyimages/Logo.png',
-    '/dummyimages/Logo (1).png',
-    '/dummyimages/Logo (2).png',
-    '/dummyimages/Logo (3).png',
-    '/dummyimages/Logo (4).png',
-    '/dummyimages/Logo (5).png',
-    '/dummyimages/Logo (6).png',
-  ];
+const DEFAULT_LOGOS = [
+  '/dummyimages/Logo.png',
+  '/dummyimages/Logo (1).png',
+  '/dummyimages/Logo (2).png',
+  '/dummyimages/Logo (3).png',
+  '/dummyimages/Logo (4).png',
+  '/dummyimages/Logo (5).png',
+  '/dummyimages/Logo (6).png',
+];
+
+const LogoMarquee = ({ logos: apiLogos }) => {
+  const logos = (apiLogos && apiLogos.length > 0) ? apiLogos : DEFAULT_LOGOS;
 
   // Multiple sets for seamless scroll
   const scrollLogos = [...logos, ...logos, ...logos, ...logos];

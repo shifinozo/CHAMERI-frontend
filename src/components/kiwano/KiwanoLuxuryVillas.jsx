@@ -395,7 +395,7 @@ function ZoomableSitePlan() {
 
 // ─── Main section ─────────────────────────────────────────────────────────────
 
-export default function KiwanoLuxuryVillas() {
+export default function KiwanoLuxuryVillas({ luxuryVillas }) {
   const [brochureHovered, setBrochureHovered] = useState(false);
 
   return (
@@ -508,7 +508,7 @@ export default function KiwanoLuxuryVillas() {
                 margin: 0,
               }}
             >
-              Lorem ipsum dolor sit amet, consectetur
+              {luxuryVillas?.subheading || 'Lorem ipsum dolor sit amet, consectetur'}
             </p>
 
             <div

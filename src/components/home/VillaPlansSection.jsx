@@ -400,8 +400,17 @@ import Image from 'next/image';
  * ────────────────────────────────────────────────────────────────────────────
  */
 
-const VillaPlansSection = () => {
+const VillaPlansSection = ({ villaPlan }) => {
   const [activeTab, setActiveTab] = useState('villas');
+
+  const tab1Label = villaPlan?.card1?.heading || 'Kiwano Villas';
+  const tab2Label = villaPlan?.card2?.heading || 'Kiwano Villament';
+  const tab1Description = villaPlan?.card1?.description || 'Discover crafted living spaces where modern design meets timeless comfort for every family with smart layouts bright views and premium details built to inspire daily today always now us';
+  const tab2Description = villaPlan?.card2?.description || 'Discover crafted living spaces where modern design meets timeless comfort for every family with smart layouts bright views and premium details built to inspire daily today always now us';
+  const tab1Image = villaPlan?.card1?.image || '/dummyimages/Overlay.png';
+  const tab2Image = villaPlan?.card2?.image || '/dummyimages/Frame 2121454280.png';
+  const sectionHeading = villaPlan?.heading || 'Luxury Villa Plans';
+  const sectionSubheading = villaPlan?.subheading || 'Explore crafted villa spaces with modern comfort built beautifully';
 
   return (
     <section
@@ -442,7 +451,7 @@ const VillaPlansSection = () => {
               width:         'clamp(300px, 30.56vw, 440px)',
             }}
           >
-            Luxury Villa Plans
+            {sectionHeading}
           </h2>
 
           <p
@@ -454,7 +463,7 @@ const VillaPlansSection = () => {
               width:      'clamp(300px, 30.56vw, 440px)',
             }}
           >
-            Explore crafted villa spaces with modern comfort built beautifully
+            {sectionSubheading}
           </p>
         </div>
 
@@ -469,11 +478,7 @@ const VillaPlansSection = () => {
           }}
         >
           <Image
-            src={
-              activeTab === 'villas'
-                ? '/dummyimages/Overlay.png'
-                : '/dummyimages/Frame 2121454280.png'
-            }
+            src={activeTab === 'villas' ? tab1Image : tab2Image}
             alt="Luxury Villa Plan"
             fill
             className="object-cover transition-all duration-700"
@@ -520,7 +525,7 @@ const VillaPlansSection = () => {
                 className="font-sans font-normal whitespace-nowrap"
                 style={{ fontSize: 'clamp(13px, 1.35vw, 19.49px)', lineHeight: 1 }}
               >
-                Kiwano Villas
+                {tab1Label}
               </span>
             </button>
 
@@ -555,7 +560,7 @@ const VillaPlansSection = () => {
                 className="font-sans font-normal whitespace-nowrap"
                 style={{ fontSize: 'clamp(13px, 1.35vw, 19.49px)', lineHeight: 1 }}
               >
-                Kiwano Villament
+                {tab2Label}
               </span>
             </button>
           </div>
@@ -590,9 +595,7 @@ const VillaPlansSection = () => {
                     width:     'clamp(300px, 39.93vw, 575.03px)',
                   }}
                 >
-                  Discover crafted living spaces where modern design meets timeless comfort
-                  for every family with smart layouts bright views and premium details
-                  built to inspire daily today always now us
+                  {activeTab === 'villas' ? tab1Description : tab2Description}
                 </p>
               </div>
 

@@ -3,39 +3,11 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import Image from 'next/image';
 
-const TESTIMONIALS = [
-  {
-    id: 1,
-    quote: '"Lorem amet dolo elit nisi urna erat odio enim duis cras nunc orci ante quis arcu vero pede just urna."',
-    name: 'Richard',
-    role: 'Entrepreneur',
-    img: '/dummyimages/d18115bcf5e039e1b2d60bfa8c4e93e2c4b1ea1f.png',
-    avatar: 'https://i.pravatar.cc/80?img=11',
-  },
-  {
-    id: 2,
-    quote: '"Lorem amet dolo elit nisi urna erat odio enim duis cras nunc orci ante quis arcu vero pede just urna."',
-    name: 'Haruto & Aiko',
-    role: 'Tech Startup Founders',
-    img: '/dummyimages/7bceb1a3a08e49797c18d0a236cd66cd0abf999b.png',
-    avatar: 'https://i.pravatar.cc/80?img=14',
-  },
-  {
-    id: 3,
-    quote: '"Lorem amet dolo elit nisi urna erat odio enim duis cras nunc orci ante quis arcu vero pede just urna."',
-    name: 'Priya Menon',
-    role: 'Interior Designer',
-    img: '/dummyimages/d18115bcf5e039e1b2d60bfa8c4e93e2c4b1ea1f.png',
-    avatar: 'https://i.pravatar.cc/80?img=47',
-  },
-  {
-    id: 4,
-    quote: '"Lorem amet dolo elit nisi urna erat odio enim duis cras nunc orci ante quis arcu vero pede just urna."',
-    name: 'James Keller',
-    role: 'Real Estate Investor',
-    img: '/dummyimages/7bceb1a3a08e49797c18d0a236cd66cd0abf999b.png',
-    avatar: 'https://i.pravatar.cc/80?img=52',
-  },
+const STATIC_TESTIMONIALS = [
+  { id: 1, quote: '"Lorem amet dolo elit nisi urna erat odio enim duis cras nunc orci ante quis arcu vero pede just urna."', name: 'Richard', role: 'Entrepreneur', img: '/dummyimages/d18115bcf5e039e1b2d60bfa8c4e93e2c4b1ea1f.png', avatar: 'https://i.pravatar.cc/80?img=11' },
+  { id: 2, quote: '"Lorem amet dolo elit nisi urna erat odio enim duis cras nunc orci ante quis arcu vero pede just urna."', name: 'Haruto & Aiko', role: 'Tech Startup Founders', img: '/dummyimages/7bceb1a3a08e49797c18d0a236cd66cd0abf999b.png', avatar: 'https://i.pravatar.cc/80?img=14' },
+  { id: 3, quote: '"Lorem amet dolo elit nisi urna erat odio enim duis cras nunc orci ante quis arcu vero pede just urna."', name: 'Priya Menon', role: 'Interior Designer', img: '/dummyimages/d18115bcf5e039e1b2d60bfa8c4e93e2c4b1ea1f.png', avatar: 'https://i.pravatar.cc/80?img=47' },
+  { id: 4, quote: '"Lorem amet dolo elit nisi urna erat odio enim duis cras nunc orci ante quis arcu vero pede just urna."', name: 'James Keller', role: 'Real Estate Investor', img: '/dummyimages/7bceb1a3a08e49797c18d0a236cd66cd0abf999b.png', avatar: 'https://i.pravatar.cc/80?img=52' },
 ];
 
 function useCardDimensions() {
@@ -60,7 +32,17 @@ function useCardDimensions() {
   return dims;
 }
 
-export default function AboutTestimonialSection() {
+export default function AboutTestimonialSection({ testimonialSection }) {
+  const TESTIMONIALS = testimonialSection?.cards?.length
+    ? testimonialSection.cards.map((c, i) => ({
+        id: i + 1,
+        quote: c.quote,
+        name: c.name,
+        role: c.designation,
+        img: c.cardImage || STATIC_TESTIMONIALS[i % STATIC_TESTIMONIALS.length]?.img,
+        avatar: c.image || STATIC_TESTIMONIALS[i % STATIC_TESTIMONIALS.length]?.avatar,
+      }))
+    : STATIC_TESTIMONIALS;
   const total = TESTIMONIALS.length;
   const [current, setCurrent]                     = useState(total);
   const [containerW, setContainerW]               = useState(1440);

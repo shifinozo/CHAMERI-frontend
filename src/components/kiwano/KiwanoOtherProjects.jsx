@@ -9,7 +9,7 @@ import Image from "next/image";
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-export default function KiwanoOtherProjects() {
+export default function KiwanoOtherProjects({ otherProjects }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -61,7 +61,7 @@ export default function KiwanoOtherProjects() {
               textTransform: "capitalize",
             }}
           >
-            Explore Our Other Projects
+            {otherProjects?.heading || 'Explore Our Other Projects'}
           </h2>
           <p
             style={{
@@ -75,7 +75,7 @@ export default function KiwanoOtherProjects() {
               maxWidth: "clamp(375px, 89.2vw, 693px)",
             }}
           >
-            Explore crafted villa spaces with modern comfort built beautifully
+            {otherProjects?.subheading || 'Explore crafted villa spaces with modern comfort built beautifully'}
           </p>
         </div>
 
@@ -99,7 +99,7 @@ export default function KiwanoOtherProjects() {
         >
           {/* Background Image */}
           <Image
-            src="/dummyimages/e273958d502607f06d62edd61792f48b69b84f3e.jpg" // Using an existing dummy image that resembles a building
+            src={otherProjects?.image || "/dummyimages/e273958d502607f06d62edd61792f48b69b84f3e.jpg"}
             alt="Kiwano Villaments"
             fill
             style={{

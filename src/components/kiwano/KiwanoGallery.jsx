@@ -147,9 +147,26 @@ function Tab({ label, active, isFirst, isLast, onClick }) {
   );
 }
 
-export default function KiwanoGallery() {
+function toColumns(urls, tabLabel) {
+  if (!urls || urls.length === 0) return null;
+  const filtered = urls.filter(Boolean);
+  if (filtered.length === 0) return null;
+  const all = filtered.map((src, i) => ({ id: i + 1, src, alt: `${tabLabel} ${i + 1}`, w: 441, h: 512 }));
+  return {
+    col1: all.filter((_, i) => i % 3 === 0),
+    col2: all.filter((_, i) => i % 3 === 1),
+    col3: all.filter((_, i) => i % 3 === 2),
+  };
+}
+
+export default function KiwanoGallery({ gallery }) {
   const [activeTab, setActiveTab] = useState("Exterior");
-  const { col1, col2, col3 } = GALLERY_DATA[activeTab];
+  const apiData = {
+    Exterior:  toColumns(gallery?.exteriorImages,  'Exterior'),
+    Interior:  toColumns(gallery?.interiorImages,  'Interior'),
+    Amenities: toColumns(gallery?.amenitiesImages, 'Amenities'),
+  };
+  const { col1, col2, col3 } = apiData[activeTab] || GALLERY_DATA[activeTab];
 
   return (
     /*

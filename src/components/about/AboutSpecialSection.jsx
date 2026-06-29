@@ -4,7 +4,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 
-const features = [
+const STATIC_FEATURES = [
   {
     title: "Design-Driven,\nModern Approach",
     description: "With A Portfolio Of Completed Projects And Collaborations With Experienced Architects, We Bring Proven Expertise To Every Build. Our Work Speaks Through Real Results, Client Satisfaction, And Trust",
@@ -32,13 +32,28 @@ const features = [
   },
 ];
 
-const N = features.length;
-
 // Design spec: 281.95 × 353.64 px at 1440px canvas
 const IMG_W = 281.95;
 const IMG_H = 353.64;
 
-export default function AboutSpecialSection() {
+export default function AboutSpecialSection({ specialSection }) {
+  const apiItems = [
+    specialSection?.first,
+    specialSection?.second,
+    specialSection?.third,
+    specialSection?.fourth,
+    specialSection?.fifth,
+  ];
+  const hasData = apiItems.some(item => item?.heading);
+  const features = hasData
+    ? apiItems.map((item, i) => ({
+        title:       item?.heading     || STATIC_FEATURES[i].title,
+        description: item?.subheading  || STATIC_FEATURES[i].description,
+        image:       item?.image       || STATIC_FEATURES[i].image,
+      }))
+    : STATIC_FEATURES;
+  const N = features.length;
+
   const containerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -156,7 +171,7 @@ export default function AboutSpecialSection() {
                   margin: 0,
                 }}
               >
-                Each project tells its own story of&nbsp;precision.
+                {specialSection?.title || 'Each project tells its own story of precision.'}
               </h2>
             </div>
           </div>

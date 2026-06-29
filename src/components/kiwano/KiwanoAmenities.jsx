@@ -138,7 +138,7 @@ function getAmenityIcon(type) {
   }
 }
 
-export default function KiwanoAmenities() {
+export default function KiwanoAmenities({ amenities }) {
   const [viewMode, setViewMode] = useState("list"); // 'list' | 'map'
   const [activeLocation, setActiveLocation] = useState(null);
 
@@ -244,7 +244,7 @@ export default function KiwanoAmenities() {
                 margin: 0,
               }}
             >
-              Luxury Smart Living<br />Villa Feature Hubs
+              {amenities?.heading || 'Luxury Smart Living Villa Feature Hubs'}
             </h2>
 
             {/* Subtitle & Toggle */}
@@ -268,7 +268,7 @@ export default function KiwanoAmenities() {
                   margin: 0,
                 }}
               >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.
+                {amenities?.subheading || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.'}
               </p>
 
               {/* Toggle Buttons */}

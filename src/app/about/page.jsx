@@ -8,6 +8,7 @@ import AboutVisionMissionSection from '@/components/about/AboutVisionMissionSect
 import AboutBoardSection from '@/components/about/AboutBoardSection';
 import AboutTestimonialSection from '@/components/about/AboutTestimonialSection';
 import Footer from '@/components/common/Footer';
+import { getAboutData } from '@/lib/api';
 
 export const metadata = {
   title: 'About Us — Chameri Premium Villa Residences',
@@ -15,37 +16,20 @@ export const metadata = {
     'Learn about Chameri — our story, our values, and the people behind every premium villa we build. Crafting timeless villas and landmark spaces since 1985.',
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const about = await getAboutData();
+
   return (
     <main className="min-h-screen bg-[#EFEDE7] relative">
-      {/* ── Navbar ────────────────────────────────────────────────────── */}
       <NewNavbar />
-
-      {/* ── Hero: Full-width image + headline ─────────────────────────── */}
-      <AboutHeroSection />
-
-      {/* ── Origin Story ──────────────────────────────────────────────── */}
-      <AboutOriginStory />
-
-      {/* ── Founder Note ──────────────────────────────────────────────── */}
-      <AboutFounderNote />
-
-      {/* ── Logo Marquee ──────────────────────────────────────────────── */}
-      <AboutLogoSection />
-
-      {/* ── Vision & Mission (Scroll Stack Cards) ─────────────────────── */}
-      <AboutVisionMissionSection />
-
-      {/* ── What Makes Us Special (Scroll Interactive) ────────────────── */}
-      <AboutSpecialSection />
-
-      {/* ── Board of Directors ────────────────────────────────────────── */}
-      <AboutBoardSection />
-
-      {/* ── Testimonials ──────────────────────────────────────────────── */}
-      <AboutTestimonialSection />
-
-      {/* ── Footer ────────────────────────────────────────────────────── */}
+      <AboutHeroSection hero={about?.hero} />
+      <AboutOriginStory story={about?.story} />
+      <AboutFounderNote founder={about?.founder} />
+      <AboutLogoSection workLogos={about?.workLogos} />
+      <AboutVisionMissionSection vision={about?.vision} mission={about?.mission} />
+      <AboutSpecialSection specialSection={about?.specialSection} />
+      <AboutBoardSection boardSection={about?.boardSection} />
+      <AboutTestimonialSection testimonialSection={about?.testimonialSection} />
       <Footer />
     </main>
   );

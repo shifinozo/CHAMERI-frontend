@@ -2,26 +2,45 @@
 
 import Image from 'next/image';
 
-const col1 = [
+const STATIC_COL1 = [
   { id: 1, src: '/dummyimages/Figure → Hepburn-20-480x320.jpg.svg', alt: 'Gallery Image 1', w: 441, h: 512 },
   { id: 3, src: '/dummyimages/e273958d502607f06d62edd61792f48b69b84f3e.jpg', alt: 'Gallery Image 3', w: 441, h: 483 },
   { id: 6, src: '/dummyimages/ab2a95a06e83c0793c45aa84bc54cd800e1c8716.jpg', alt: 'Gallery Image 6', w: 441, h: 489 },
 ];
-
-const col2 = [
+const STATIC_COL2 = [
   { id: 2, src: '/dummyimages/Figure → Argo-5-480x720.jpg.svg', alt: 'Gallery Image 2', w: 349, h: 336 },
   { id: 4, src: '/dummyimages/b41115b835e2232a8e61bd8d04a193c1d7a5d351.png', alt: 'Gallery Image 4', w: 349, h: 384 },
   { id: 10, src: '/dummyimages/81b44908c049fd8e0792ca40e0fdee715ba1f7b0.jpg', alt: 'Gallery Image 10', w: 349, h: 433 },
   { id: 9, src: '/dummyimages/87e89594da613bb98c472da2cf1f7376200c358b.jpg', alt: 'Gallery Image 9', w: 348, h: 301 },
 ];
-
-const col3 = [
+const STATIC_COL3 = [
   { id: 5, src: '/dummyimages/af18e0d9d8fdfe4f4a5d97f4fbf9edd12b1ff9df.png', alt: 'Gallery Image 5', w: 441, h: 512 },
   { id: 7, src: '/dummyimages/6bdc232e1c143f702a3a37c1909ea6a7c38d0002.png', alt: 'Gallery Image 7', w: 440, h: 449 },
   { id: 8, src: '/dummyimages/4366c570846f17b0de12329eb1fab383893fbc5c.jpg', alt: 'Gallery Image 8', w: 440, h: 522 },
 ];
 
-export default function GalleryGrid() {
+export default function GalleryGrid({ galleryImages }) {
+  let col1, col2, col3;
+  if (galleryImages && galleryImages.length > 0) {
+    // galleryImages is [String] — plain Cloudinary URLs
+    const all = galleryImages
+      .filter((src) => src)
+      .map((src, i) => ({ id: i + 1, src, alt: `Gallery Image ${i + 1}`, w: 441, h: 512 }));
+    if (all.length > 0) {
+      col1 = all.filter((_, i) => i % 3 === 0);
+      col2 = all.filter((_, i) => i % 3 === 1);
+      col3 = all.filter((_, i) => i % 3 === 2);
+    } else {
+      col1 = STATIC_COL1;
+      col2 = STATIC_COL2;
+      col3 = STATIC_COL3;
+    }
+  } else {
+    col1 = STATIC_COL1;
+    col2 = STATIC_COL2;
+    col3 = STATIC_COL3;
+  }
+
   return (
     <section className="w-full flex flex-col items-center" style={{ backgroundColor: '#EDE7DE' }}>
       

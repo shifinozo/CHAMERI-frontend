@@ -29,7 +29,7 @@ const LERP_FACTOR = 0.08;
 const clamp     = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
 const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
-export default function KiwanoHero() {
+export default function KiwanoHero({ hero }) {
   const wrapperRef = useRef(null);
   const videoRef   = useRef(null);
   const textRef    = useRef(null);
@@ -123,7 +123,7 @@ export default function KiwanoHero() {
           {/* ── VIDEO ─────────────────────────────────────────────────── */}
           <video
             ref={videoRef}
-            src="/videos/kiwano-hero.mp4"
+            src={hero?.video || "/videos/kiwano-hero.mp4"}
             muted
             playsInline
             preload="auto"
@@ -180,9 +180,7 @@ export default function KiwanoHero() {
                 marginLeft:"clamp(40px, 8.58vw, 100px)"
               }}
             >
-              Elegant Spaces For Built&nbsp;
-              <br />
-              Views Photo Frame
+              {hero?.heading || 'Elegant Spaces For Built Views Photo Frame'}
             </h1>
           </div>
         </div>

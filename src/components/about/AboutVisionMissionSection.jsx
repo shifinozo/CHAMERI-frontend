@@ -371,7 +371,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import Image from 'next/image';
 
 // ─── Card data ─────────────────────────────────────────────────────────────
-const cards = [
+const STATIC_CARDS = [
   {
     label: 'Vision',
     image: '/dummyimages/d18115bcf5e039e1b2d60bfa8c4e93e2c4b1ea1f.png',
@@ -401,7 +401,22 @@ const cards = [
  * All clamp() values follow: clamp(mobile-min, fluid-vw, desktop-max)
  * Fluid midpoint is derived from (design-value / 1440) * 100vw.
  */
-export default function AboutVisionMissionSection() {
+export default function AboutVisionMissionSection({ vision, mission }) {
+  const cards = [
+    {
+      label:   vision?.title    || STATIC_CARDS[0].label,
+      image:   vision?.image    || STATIC_CARDS[0].image,
+      heading: vision?.heading  || STATIC_CARDS[0].heading,
+      body:    vision?.subheading || STATIC_CARDS[0].body,
+    },
+    {
+      label:   mission?.title    || STATIC_CARDS[1].label,
+      image:   mission?.image    || STATIC_CARDS[1].image,
+      heading: mission?.heading  || STATIC_CARDS[1].heading,
+      body:    mission?.subheading || STATIC_CARDS[1].body,
+    },
+  ];
+
   const wrapperRef = useRef(null);
   const card1Ref = useRef(null);
   const card2Ref = useRef(null);

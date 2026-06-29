@@ -224,34 +224,22 @@ import Image from 'next/image';
  * remains legible when cards are narrow (4-col @ 1024px → ~228px card).
  */
 
-const boardMembers = [
-  {
-    id: 1,
-    name: 'John Doe',
-    designation: 'Designation',
-    image: '/dummyimages/d18115bcf5e039e1b2d60bfa8c4e93e2c4b1ea1f.png',
-  },
-  {
-    id: 2,
-    name: 'John Doe',
-    designation: 'Designation',
-    image: '/dummyimages/d18115bcf5e039e1b2d60bfa8c4e93e2c4b1ea1f.png',
-  },
-  {
-    id: 3,
-    name: 'John Doe',
-    designation: 'Designation',
-    image: '/dummyimages/d18115bcf5e039e1b2d60bfa8c4e93e2c4b1ea1f.png',
-  },
-  {
-    id: 4,
-    name: 'John Doe',
-    designation: 'Designation',
-    image: '/dummyimages/d18115bcf5e039e1b2d60bfa8c4e93e2c4b1ea1f.png',
-  },
+const STATIC_BOARD = [
+  { id: 1, name: 'John Doe', designation: 'Designation', image: '/dummyimages/d18115bcf5e039e1b2d60bfa8c4e93e2c4b1ea1f.png' },
+  { id: 2, name: 'John Doe', designation: 'Designation', image: '/dummyimages/d18115bcf5e039e1b2d60bfa8c4e93e2c4b1ea1f.png' },
+  { id: 3, name: 'John Doe', designation: 'Designation', image: '/dummyimages/d18115bcf5e039e1b2d60bfa8c4e93e2c4b1ea1f.png' },
+  { id: 4, name: 'John Doe', designation: 'Designation', image: '/dummyimages/d18115bcf5e039e1b2d60bfa8c4e93e2c4b1ea1f.png' },
 ];
 
-export default function AboutBoardSection() {
+export default function AboutBoardSection({ boardSection }) {
+  const boardMembers = boardSection
+    ? ['first', 'second', 'third', 'fourth'].map((key, i) => ({
+        id: i + 1,
+        name: boardSection[key]?.name || STATIC_BOARD[i].name,
+        designation: boardSection[key]?.designation || STATIC_BOARD[i].designation,
+        image: boardSection[key]?.image || STATIC_BOARD[i].image,
+      }))
+    : STATIC_BOARD;
   return (
     <section
       className="w-full flex flex-col"

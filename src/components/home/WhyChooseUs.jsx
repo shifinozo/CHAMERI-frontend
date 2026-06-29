@@ -653,29 +653,44 @@ import Image from 'next/image';
  * ────────────────────────────────────────────────────────────────────────────
  */
 
-const WhyChooseUs = () => {
+const STATIC_CARDS = [
+  {
+    img: '/dummyimages/Container.png',
+    icon: <Image src="/icons/Vector.svg" alt="Design icon" width={25} height={25} />,
+    title: 'Design-Driven, Modern Approach',
+    desc: 'With a portfolio of completed projects and collaborations with experienced architects, we bring proven expertise to every build. Our work speaks through real results, client satisfaction, and trusted industry partnerships.',
+  },
+  {
+    img: '/dummyimages/Container.png',
+    icon: <Image src="/icons/692885226ea01d367379ce40_Frame.svg.svg" alt="Expertise icon" width={25} height={25} />,
+    title: 'Proven Expertise & Trusted Network',
+    desc: 'With a portfolio of completed projects and collaborations with experienced architects, we bring proven expertise to every build. Our work speaks through real results, client satisfaction, and trusted industry partnerships.',
+  },
+  {
+    img: '/dummyimages/Overlay.png',
+    icon: <Image src="/icons/healthicons_people-outline.svg" alt="People icon" width={25} height={25} />,
+    title: 'Client-Centric, Seamless Experience',
+    desc: 'With a portfolio of completed projects and collaborations with experienced architects, we bring proven expertise to every build. Our work speaks through real results, client satisfaction, and trusted industry partnerships.',
+  },
+];
+
+const ICONS = [
+  <Image key="0" src="/icons/Vector.svg" alt="Design icon" width={25} height={25} />,
+  <Image key="1" src="/icons/692885226ea01d367379ce40_Frame.svg.svg" alt="Expertise icon" width={25} height={25} />,
+  <Image key="2" src="/icons/healthicons_people-outline.svg" alt="People icon" width={25} height={25} />,
+];
+
+const WhyChooseUs = ({ chooseUs }) => {
   const [activeCard, setActiveCard] = useState(null);
 
-  const cards = [
-    {
-      img: '/dummyimages/Container.png',
-      icon: <Image src="/icons/Vector.svg" alt="Design icon" width={25} height={25} />,
-      title: 'Design-Driven, Modern Approach',
-      desc: 'With a portfolio of completed projects and collaborations with experienced architects, we bring proven expertise to every build. Our work speaks through real results, client satisfaction, and trusted industry partnerships.',
-    },
-    {
-      img: '/dummyimages/Container.png',
-      icon: <Image src="/icons/692885226ea01d367379ce40_Frame.svg.svg" alt="Expertise icon" width={25} height={25} />,
-      title: 'Proven Expertise & Trusted Network',
-      desc: 'With a portfolio of completed projects and collaborations with experienced architects, we bring proven expertise to every build. Our work speaks through real results, client satisfaction, and trusted industry partnerships.',
-    },
-    {
-      img: '/dummyimages/Overlay.png',
-      icon: <Image src="/icons/healthicons_people-outline.svg" alt="People icon" width={25} height={25} />,
-      title: 'Client-Centric, Seamless Experience',
-      desc: 'With a portfolio of completed projects and collaborations with experienced architects, we bring proven expertise to every build. Our work speaks through real results, client satisfaction, and trusted industry partnerships.',
-    },
-  ];
+  const cards = chooseUs
+    ? [chooseUs.card1, chooseUs.card2, chooseUs.card3].map((c, i) => ({
+        img: c?.image || STATIC_CARDS[i].img,
+        icon: ICONS[i],
+        title: c?.heading || STATIC_CARDS[i].title,
+        desc: c?.subheading || STATIC_CARDS[i].desc,
+      }))
+    : STATIC_CARDS;
 
   return (
     <section

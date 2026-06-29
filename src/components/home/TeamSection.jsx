@@ -389,7 +389,7 @@ import Image from 'next/image';
  */
 
 /* ─── Team data ──────────────────────────────────────────────────────── */
-const TEAM = [
+const STATIC_TEAM = [
   { id: 1, name: 'John Doe', designation: 'Designation', img: '/dummyimages/8276099377b328194b10337a1dc6e4999a4103d5.png' },
   { id: 2, name: 'John Doe', designation: 'Designation', img: '/dummyimages/8276099377b328194b10337a1dc6e4999a4103d5.png' },
   { id: 3, name: 'John Doe', designation: 'Designation', img: '/dummyimages/8276099377b328194b10337a1dc6e4999a4103d5.png' },
@@ -557,7 +557,19 @@ const ContactCard = () => (
 );
 
 /* ─── Main TeamSection ───────────────────────────────────────────────── */
-const TeamSection = () => (
+const TeamSection = ({ ourTeam }) => {
+  const TEAM = ourTeam
+    ? ['card1', 'card2', 'card3', 'card4', 'card5'].map((key, i) => {
+        const c = ourTeam[key];
+        return {
+          id: i + 1,
+          name: c?.name || STATIC_TEAM[i].name,
+          designation: c?.designation || STATIC_TEAM[i].designation,
+          img: c?.image || STATIC_TEAM[i].img,
+        };
+      })
+    : STATIC_TEAM;
+  return (
   <section className="w-full bg-[#EDE7DE] flex justify-center">
     <div
       className="w-full flex flex-col lg:flex-row lg:items-start lg:justify-between"
@@ -656,6 +668,7 @@ const TeamSection = () => (
 
     </div>
   </section>
-);
+  );
+};
 
 export default TeamSection;

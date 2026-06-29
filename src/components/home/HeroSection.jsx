@@ -443,7 +443,7 @@ const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 const easeInOutCubic = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 const easeOutQuart = (t) => 1 - Math.pow(1 - t, 4);
 
-export default function HeroSection() {
+export default function HeroSection({ hero }) {
   const sectionRef = useRef(null);
 
   const [progress, setProgress] = useState(0);
@@ -721,7 +721,7 @@ export default function HeroSection() {
               textShadow: "0 2px 16px rgba(0,0,0,0.30)",
             }}
           >
-            Premium residence for those
+            {hero?.heading || "Premium residence for those"}
           </h1>
 
           {/* ── Title 2: "who seek refined living."
@@ -750,7 +750,7 @@ export default function HeroSection() {
               textShadow: "0 2px 16px rgba(0,0,0,0.30)",
             }}
           >
-            who seek refined living.
+            {hero?.subheading1 || "who seek refined living."}
           </h1>
 
           {/* ── Horizontal Divider
@@ -838,9 +838,7 @@ export default function HeroSection() {
                 padding: 0,
               }}
             >
-              We design and install bespoke glass systems for ambitious architectural
-              projects. Every pane reflects our commitment to clarity, quality, and
-              collaboration.
+              {hero?.subheading2 || "We design and install bespoke glass systems for ambitious architectural projects. Every pane reflects our commitment to clarity, quality, and collaboration."}
             </p>
           </div>
 

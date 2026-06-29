@@ -6,6 +6,7 @@ import KiwanoGallery from '@/components/kiwano/KiwanoGallery';
 import KiwanoAmenities from '@/components/kiwano/KiwanoAmenities';
 import KiwanoOtherProjects from '@/components/kiwano/KiwanoOtherProjects';
 import Footer from '@/components/common/Footer';
+import { getKiwanoData } from '@/lib/api';
 
 export const metadata = {
   title: 'Kiwano — Chameri Premium Villa Residences',
@@ -13,31 +14,18 @@ export const metadata = {
     'Elegant spaces built for refined views. Experience Chameri Kiwano — a scroll-driven visual journey into premium living.',
 };
 
-export default function KiwanoPage() {
+export default async function KiwanoPage() {
+  const kiwano = await getKiwanoData();
+
   return (
     <main style={{ background: '#EDE7DE', minHeight: '100vh' }}>
-      {/* ── Hero: Scroll-driven video + text reveal ───────────────── */}
-      <KiwanoHero />
-
-      {/* ── Luxury Villas: Logo, floor plan, spec rows ────────────── */}
-      <KiwanoLuxuryVillas />
-
-      {/* ── Features: Horizontal swipable cards ───────────────────── */}
-      <KiwanoFeatures />
-
-      {/* ── 360° Tour: Full-width video player with drag badge ─────── */}
-      <Kiwano360Tour />
-
-      {/* ── Gallery: Tabbed masonry photo grid ────────────────────── */}
-      <KiwanoGallery />
-
-      {/* ── Amenities: Surrounding places with List/Map toggle ──────── */}
-      <KiwanoAmenities />
-
-      {/* ── Other Projects: Explore other projects card ────────────── */}
-      <KiwanoOtherProjects />
-
-      {/* ── Footer ─────────────────────────────────────────────────── */}
+      <KiwanoHero hero={kiwano?.heroSection} />
+      <KiwanoLuxuryVillas luxuryVillas={kiwano?.luxuryVillasSection} />
+      <KiwanoFeatures features={kiwano?.featureSection} />
+      <Kiwano360Tour tour360={kiwano?.tour360Section} />
+      <KiwanoGallery gallery={kiwano?.gallerySection} />
+      <KiwanoAmenities amenities={kiwano?.amenitiesSection} />
+      <KiwanoOtherProjects otherProjects={kiwano?.otherProjectSection} />
       <Footer />
     </main>
   );

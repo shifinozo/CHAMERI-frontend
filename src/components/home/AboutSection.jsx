@@ -9,14 +9,22 @@ const HEADING_WORDS = [
   "design", "craft", "every", "detail", "matters", "day", "move", "choice.",
 ];
 
-const STATS = [
+const DEFAULT_STATS = [
   { val: '30%', label: 'Lorem ipsum dolor' },
   { val: '20%', label: 'Lorem ipsum' },
   { val: '25%', label: 'Lorem ipsum dolor' },
   { val: '96%', label: 'Lorem ipsum dolor sit' },
 ];
 
-const AboutSection = () => {
+const AboutSection = ({ aboutUs }) => {
+  const STATS = aboutUs
+    ? [
+        { val: aboutUs.count1, label: aboutUs.count1Text },
+        { val: aboutUs.count2, label: aboutUs.count2Text },
+        { val: aboutUs.count3, label: aboutUs.count3Text },
+        { val: aboutUs.count4, label: aboutUs.count4Text },
+      ].filter((s) => s.val)
+    : DEFAULT_STATS;
   const sectionRef = useRef(null);
   const headingRef = useRef(null);
   const [progress, setProgress] = useState(0);

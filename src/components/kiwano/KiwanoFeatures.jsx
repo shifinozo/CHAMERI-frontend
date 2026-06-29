@@ -32,7 +32,7 @@ import Image from "next/image";
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-const FEATURES = [
+const STATIC_FEATURES = [
   {
     id: 1,
     title: "Clubhouse",
@@ -105,7 +105,15 @@ const FEATURES = [
   },
 ];
 
-export default function KiwanoFeatures() {
+export default function KiwanoFeatures({ features }) {
+  const FEATURES = (features?.features?.length > 0)
+    ? features.features.map((f, i) => ({
+        id: i + 1,
+        title: f.name || STATIC_FEATURES[i % STATIC_FEATURES.length]?.title,
+        description: f.description || STATIC_FEATURES[i % STATIC_FEATURES.length]?.description,
+        image: f.image || STATIC_FEATURES[i % STATIC_FEATURES.length]?.image,
+      }))
+    : STATIC_FEATURES;
   const trackRef = useRef(null);
 
   // ── Drag-to-scroll state ──────────────────────────────────────────────────
@@ -252,9 +260,7 @@ export default function KiwanoFeatures() {
               flexShrink:    0,
             }}
           >
-            Luxury Smart Living
-            <br />
-            Villa Feature Hubs
+            {features?.heading || 'Luxury Smart Living Villa Feature Hubs'}
           </h2>
 
           {/* Body: 558×66  Geist 400  20px/21.8px  ls:-0.44px */}
@@ -270,8 +276,7 @@ export default function KiwanoFeatures() {
               maxWidth:      "clamp(240px, 38.75vw, 558px)",
             }}
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.
+            {features?.subheading || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.'}
           </p>
         </div>
       </div>

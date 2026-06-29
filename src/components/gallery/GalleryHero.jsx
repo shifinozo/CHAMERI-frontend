@@ -4,25 +4,11 @@ import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 
-const galleryData = [
-  {
-    id: 1,
-    image: "/dummyimages/image 14 (3) 1.svg",
-    text: "Crafting Timeless Villas &\nLandmark Spaces",
-  },
-  {
-    id: 2,
-    image: "/dummyimages/image 14 (3) 3.svg",
-    text: "Building Elegant Homes,\nDesigning Lasting Impressions",
-  },
-  {
-    id: 3,
-    image: "/dummyimages/Overlay.png",
-    text: "Crafting Timeless Villas &\nLandmark Spaces",
-  },
+const STATIC_GALLERY_DATA = [
+  { id: 1, image: "/dummyimages/image 14 (3) 1.svg", text: "Crafting Timeless Villas &\nLandmark Spaces" },
+  { id: 2, image: "/dummyimages/image 14 (3) 3.svg", text: "Building Elegant Homes,\nDesigning Lasting Impressions" },
+  { id: 3, image: "/dummyimages/Overlay.png", text: "Crafting Timeless Villas &\nLandmark Spaces" },
 ];
-
-const N = galleryData.length;
 
 // dir: 1 = scroll down (enter from bottom, exit to top)
 //      -1 = scroll up   (enter from top,    exit to bottom)
@@ -40,7 +26,17 @@ const textVariants = {
   }),
 };
 
-export default function GalleryHero() {
+export default function GalleryHero({ heroSection }) {
+  const apiSlides = [heroSection?.first, heroSection?.second, heroSection?.third];
+  const hasData = apiSlides.some(s => s?.image);
+  const galleryData = hasData
+    ? apiSlides.map((s, i) => ({
+        id: i + 1,
+        image: s?.image || STATIC_GALLERY_DATA[i].image,
+        text: s?.text || STATIC_GALLERY_DATA[i].text,
+      }))
+    : STATIC_GALLERY_DATA;
+  const N = galleryData.length;
   const containerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(1);

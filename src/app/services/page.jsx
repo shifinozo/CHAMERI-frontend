@@ -46,7 +46,7 @@ export default function ServicesPage() {
       <Navbar />
 
       {/* Hero */}
-      <section className="w-full pt-[140px] pb-[80px] px-[40px] md:px-[80px] lg:px-[120px] flex flex-col items-center text-center gap-6">
+      {/* <section className="w-full pt-[140px] pb-[80px] px-[40px] md:px-[80px] lg:px-[120px] flex flex-col items-center text-center gap-6">
         <div className="flex items-center gap-[7.2px]">
           <div className="w-[14px] h-[14px] bg-[#334454] rounded-[3px]" />
           <span className="font-sans font-normal text-[14px] uppercase tracking-wider text-[#334454]">
@@ -60,10 +60,10 @@ export default function ServicesPage() {
           From concept to completion, Chameri offers a comprehensive suite of
           services designed around your vision.
         </p>
-      </section>
+      </section> */}
 
       {/* Services Grid */}
-      <section className="w-full px-[40px] md:px-[80px] lg:px-[120px] pb-[120px]">
+      {/* <section className="w-full px-[40px] md:px-[80px] lg:px-[120px] pb-[120px]">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-[1200px] mx-auto">
           {SERVICES.map((svc) => (
             <div
@@ -82,7 +82,7 @@ export default function ServicesPage() {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
 
       <Footer />
     </main>

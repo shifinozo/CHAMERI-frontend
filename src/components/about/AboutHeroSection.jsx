@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 /**
  * AboutHeroSection — Full-width hero for the About Us page with pin-and-reveal animation.
  */
-export default function AboutHeroSection() {
+export default function AboutHeroSection({ hero }) {
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -143,7 +143,7 @@ export default function AboutHeroSection() {
               padding: 0,
             }}
           >
-            Crafting Timeless Villas &amp; Landmark Spaces
+            {hero?.heading || 'Crafting Timeless Villas & Landmark Spaces'}
           </h1>
 
           {/* Subheading */}
@@ -161,7 +161,7 @@ export default function AboutHeroSection() {
               padding: 0,
             }}
           >
-            since 1985
+            {hero?.subheading || 'since 1985'}
           </p>
         </div>
       </div>

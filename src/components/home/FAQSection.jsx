@@ -235,7 +235,7 @@ import React, { useState } from 'react';
  * ────────────────────────────────────────────────────────────────────────────
  */
 
-const FAQS = [
+const STATIC_FAQS = [
   {
     q: 'Lorem ipsum dolor sit amet, consect ?',
     a: 'Lorem ipsum dolor sit amet. Rem adipisci voluptatem vel dolorem velit est distinctio nulla ut natus quod. Est quia nulla est delenitiRem adipisci voluptatem',
@@ -262,7 +262,11 @@ const FAQS = [
   },
 ];
 
-const FAQSection = () => {
+const FAQSection = ({ faqSection }) => {
+  const FAQS = faqSection?.faqs?.length
+    ? faqSection.faqs.map(f => ({ q: f.question, a: f.answer }))
+    : STATIC_FAQS;
+
   const [openIndex, setOpenIndex] = useState(0);
   const toggle = (i) => setOpenIndex(openIndex === i ? null : i);
 
@@ -318,7 +322,7 @@ const FAQSection = () => {
               maxWidth:      'clamp(280px, 51.04vw, 980px)',
             }}
           >
-            Frequent Asked Questions
+            {faqSection?.heading || 'Frequent Asked Questions'}
           </h2>
 
           {/* Sub-heading */}
@@ -331,7 +335,7 @@ const FAQSection = () => {
               maxWidth:      'clamp(260px, 42.22vw, 810px)',
             }}
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            {faqSection?.subheading || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor'}
           </p>
         </div>
 

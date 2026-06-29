@@ -386,7 +386,7 @@
 import React from 'react';
 import Image from 'next/image';
 
-const VILLAS = [
+const STATIC_VILLAS = [
   { id: 1, name: 'VILLA 01',  location: 'Calicut , Kerala',       year: '2024', img: '/dummyimages/Frame 2121454280.png', alt: '/dummyimages/Container.png',           side: 'left'  },
   { id: 2, name: 'Villa 1',   location: 'Calicut, Kerala',        year: '2025', img: '/dummyimages/Container.png',        alt: '/dummyimages/Frame 2121454280.png',    side: 'right' },
   { id: 3, name: 'Villa No3', location: 'Calicut, Kerala',        year: '2025', img: '/dummyimages/Overlay.png',          alt: '/dummyimages/Frame 2121454280.png',    side: 'left'  },
@@ -521,7 +521,25 @@ const ProjectCard = ({ villa, height }) => (
   </div>
 );
 
-const GalleryNew = () => {
+const GalleryNew = ({ gallery }) => {
+  const VILLAS = gallery
+    ? ['card1', 'card2', 'card3', 'card4', 'card5']
+        .map((key, i) => {
+          const c = gallery[key];
+          if (!c) return null;
+          return {
+            id: i + 1,
+            name: c.name || `Villa ${String(i + 1).padStart(2, '0')}`,
+            location: c.place || '',
+            year: c.date || '',
+            img: c.images?.[0] || STATIC_VILLAS[i]?.img || '/dummyimages/Frame 2121454280.png',
+            alt: c.images?.[1] || STATIC_VILLAS[i]?.alt || '/dummyimages/Container.png',
+            side: i % 2 === 0 ? 'left' : 'right',
+          };
+        })
+        .filter(Boolean)
+    : STATIC_VILLAS;
+
   return (
     <section className="w-full bg-[#EDE7DE] flex justify-center overflow-hidden">
       {/* ─── Outer wrapper: px scales from 16px (mobile) → 82px (1440px) ─── */}
@@ -659,8 +677,8 @@ const GalleryNew = () => {
               <div
                 className="group w-full md:w-[53%]"
               >
-                <ProjectCard villa={VILLAS[4]} height={clamp(260, 526.86)} />
-                <Caption villa={VILLAS[4]} gap={2.57} />
+                <ProjectCard villa={VILLAS[2]} height={clamp(260, 526.86)} />
+                <Caption villa={VILLAS[2]} gap={2.57} />
               </div>
             </div>
 
@@ -670,8 +688,8 @@ const GalleryNew = () => {
             >
               {/* Item 4 — left, sits at top */}
               <div className="group w-full md:w-[41%]">
-                <ProjectCard villa={VILLAS[5]} height={clamp(220, 436.05)} />
-                <Caption villa={VILLAS[5]} gap={3.63} />
+                <ProjectCard villa={VILLAS[3]} height={clamp(220, 436.05)} />
+                <Caption villa={VILLAS[3]} gap={3.63} />
               </div>
 
               {/* Item 5 — right, pushed down */}
@@ -679,8 +697,8 @@ const GalleryNew = () => {
                 className="group w-full md:w-[49%]"
                 style={{ paddingTop: clamp(0, 163.52) }}
               >
-                <ProjectCard villa={VILLAS[6]} height={clamp(260, 513.27)} />
-                <Caption villa={VILLAS[6]} gap={3.63} />
+                <ProjectCard villa={VILLAS[4]} height={clamp(260, 513.27)} />
+                <Caption villa={VILLAS[4]} gap={3.63} />
               </div>
             </div>
 

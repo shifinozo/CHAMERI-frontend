@@ -500,7 +500,7 @@ import Image from 'next/image';
  * ────────────────────────────────────────────────────────────────────────────
  */
 
-const TESTIMONIALS = [
+const STATIC_TESTIMONIALS = [
   {
     id: 1,
     quote: '"Lorem amet dolo elit nisi urna erat odio enim duis cras nunc orci ante quis arcu vero pede just urna."',
@@ -579,7 +579,18 @@ function useCardDimensions() {
   return dims;
 }
 
-const TestimonialsSection = () => {
+const TestimonialsSection = ({ testimonial }) => {
+  const TESTIMONIALS = testimonial?.cards?.length
+    ? testimonial.cards.map((c, i) => ({
+        id: i + 1,
+        quote: c.quote,
+        name: c.name,
+        role: c.designation,
+        img: c.cardImage || STATIC_TESTIMONIALS[i % STATIC_TESTIMONIALS.length]?.img,
+        avatar: c.image || STATIC_TESTIMONIALS[i % STATIC_TESTIMONIALS.length]?.avatar,
+      }))
+    : STATIC_TESTIMONIALS;
+
   const total = TESTIMONIALS.length;
   const [current, setCurrent]                     = useState(total);
   const [containerW, setContainerW]               = useState(1440);

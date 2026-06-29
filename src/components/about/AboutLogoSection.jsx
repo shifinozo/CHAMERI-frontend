@@ -11,16 +11,18 @@ import Image from 'next/image';
  *                   clamp_min = value_at_1440 * (375  / 1440)   ← ~0.26×
  *                   clamp_max = value_at_1440 * (1920 / 1440)   ← ~1.33×
  */
-export default function AboutLogoSection() {
-  const logos = [
-    '/dummyimages/Logo.png',
-    '/dummyimages/Logo (1).png',
-    '/dummyimages/Logo (2).png',
-    '/dummyimages/Logo (3).png',
-    '/dummyimages/Logo (4).png',
-    '/dummyimages/Logo (5).png',
-    '/dummyimages/Logo (6).png',
-  ];
+const STATIC_LOGOS = [
+  '/dummyimages/Logo.png',
+  '/dummyimages/Logo (1).png',
+  '/dummyimages/Logo (2).png',
+  '/dummyimages/Logo (3).png',
+  '/dummyimages/Logo (4).png',
+  '/dummyimages/Logo (5).png',
+  '/dummyimages/Logo (6).png',
+];
+
+export default function AboutLogoSection({ workLogos }) {
+  const logos = (workLogos && workLogos.length > 0) ? workLogos : STATIC_LOGOS;
 
   // Multiple sets for seamless scroll
   const scrollLogos = [...logos, ...logos, ...logos, ...logos];

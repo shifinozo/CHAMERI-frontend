@@ -227,7 +227,7 @@ import React from 'react';
  *
  * Every numeric spacing / sizing value below is derived from this formula.
  */
-export default function AboutFounderNote() {
+export default function AboutFounderNote({ founder }) {
   return (
     <section
       style={{
@@ -343,7 +343,7 @@ export default function AboutFounderNote() {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/dummyimages/8276099377b328194b10337a1dc6e4999a4103d5.png"
+              src={founder?.image || "/dummyimages/8276099377b328194b10337a1dc6e4999a4103d5.png"}
               alt="Founder"
               style={{
                 width: '100%',
@@ -413,7 +413,7 @@ export default function AboutFounderNote() {
                 maxWidth: 'clamp(240px, 64.8vw, 1158px)',
               }}
             >
-              Unrivaled customer service, cutting edge design and quality. Fluid Glass is firmly lodged in our list of prefer suppliers of glazing products. cutting edge design and quality. Fluid Glass is firmly lodged in our list of prefer suppliers of glazing products.
+              {founder?.quote || "Unrivaled customer service, cutting edge design and quality. Fluid Glass is firmly lodged in our list of prefer suppliers of glazing products."}
             </p>
 
             {/* Author block */}
@@ -438,7 +438,7 @@ export default function AboutFounderNote() {
                   margin: 0,
                 }}
               >
-                Vaidas Vileikis
+                {founder?.name || 'Vaidas Vileikis'}
               </h3>
 
               {/* Author title
@@ -455,7 +455,7 @@ export default function AboutFounderNote() {
                   opacity: 0.5,
                 }}
               >
-                Founder, Name Architects
+                {founder?.role || 'Founder'}{founder?.architectsName ? `, ${founder.architectsName}` : ', Name Architects'}
               </span>
             </div>
           </div>

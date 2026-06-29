@@ -10,7 +10,7 @@ import React from 'react';
  * Formula         : fluid_vw = (value_at_1440 / 1440) * 100
  *                   MAX      = value_at_1440 * (1920 / 1440)
  */
-export default function AboutOriginStory() {
+export default function AboutOriginStory({ story }) {
   return (
     <section style={{ width: '100%', backgroundColor: '#EDE7DE' }}>
       <div
@@ -64,7 +64,7 @@ export default function AboutOriginStory() {
               maxWidth:      'clamp(300px, 46.39vw, 891px)',
             }}
           >
-            Elegant Spaces For Built Views Photo Frame
+            {story?.heading || 'Elegant Spaces For Built Views Photo Frame'}
           </h2>
 
           {/* Origin Story pill */}
@@ -160,23 +160,28 @@ export default function AboutOriginStory() {
               color:         '#1A1A1A',
             }}
           >
-            <p style={{ margin: 0 }}>
-              <strong style={{ fontWeight: 600 }}>Since 1985</strong>, Chameri has been
-              dedicated to creating thoughtfully designed spaces that blend functionality,
-              craftsmanship, and timeless aesthetics. With decades of experience, the company
-              has built a reputation for delivering high-quality residential and commercial
-              projects tailored to the unique aspirations of every client. From concept
-              development to final execution, Chameri focuses on innovation, attention to
-              detail, and lasting value innovation, attention to detail, and lasting value
-            </p>
-            <p style={{ margin: 0 }}>
-              The <strong style={{ fontWeight: 600 }}>founder</strong> of Chameri established
-              the company with a clear vision of combining creativity, integrity, and
-              professional expertise to shape meaningful architectural experiences. Guided by
-              a passion for design and a commitment to quality, the founder has played a key
-              role in building strong client relationships dedication, and continuous
-              innovation, the founder
-            </p>
+            {story?.description
+              ? <p style={{ margin: 0 }}>{story.description}</p>
+              : <>
+                  <p style={{ margin: 0 }}>
+                    <strong style={{ fontWeight: 600 }}>Since 1985</strong>, Chameri has been
+                    dedicated to creating thoughtfully designed spaces that blend functionality,
+                    craftsmanship, and timeless aesthetics. With decades of experience, the company
+                    has built a reputation for delivering high-quality residential and commercial
+                    projects tailored to the unique aspirations of every client. From concept
+                    development to final execution, Chameri focuses on innovation, attention to
+                    detail, and lasting value innovation, attention to detail, and lasting value
+                  </p>
+                  <p style={{ margin: 0 }}>
+                    The <strong style={{ fontWeight: 600 }}>founder</strong> of Chameri established
+                    the company with a clear vision of combining creativity, integrity, and
+                    professional expertise to shape meaningful architectural experiences. Guided by
+                    a passion for design and a commitment to quality, the founder has played a key
+                    role in building strong client relationships dedication, and continuous
+                    innovation, the founder
+                  </p>
+                </>
+            }
           </div>
         </div>
 

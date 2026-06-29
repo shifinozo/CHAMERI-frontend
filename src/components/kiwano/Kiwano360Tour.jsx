@@ -71,7 +71,7 @@ function ArrowSquare({ direction, onClick, pressed }) {
   );
 }
 
-export default function Kiwano360Tour() {
+export default function Kiwano360Tour({ tour360 }) {
   /* ── Pan state (0 = centre, -40 = far left, +40 = far right) ─────────────── */
   const [panX, setPanX] = useState(0);           // percent offset
   const [pressedL, setPressedL] = useState(false);
@@ -204,7 +204,7 @@ export default function Kiwano360Tour() {
                     padding:       0,
                   }}
                 >
-                  Explore Every Angle Of Luxury Living
+                  {tour360?.heading || 'Explore Every Angle Of Luxury Living'}
                 </h2>
               </div>
 
@@ -222,7 +222,7 @@ export default function Kiwano360Tour() {
                   margin:        0,
                 }}
               >
-                Explore crafted villa spaces with modern comfort built beautifully
+                {tour360?.subheading || 'Explore crafted villa spaces with modern comfort built beautifully'}
               </p>
 
               
@@ -254,7 +254,7 @@ export default function Kiwano360Tour() {
             >
               {/* ── STATIC PHOTO (pans via objectPosition) ───────────────── */}
               <Image
-                src="/dummyimages/allphoto-bangkok-imSqK_PD5R0-unsplash.jpg"
+                src={tour360?.media || "/dummyimages/allphoto-bangkok-imSqK_PD5R0-unsplash.jpg"}
                 alt="Explore Every Angle Of Luxury Living — Kiwano Villa"
                 fill
                 priority
@@ -419,7 +419,7 @@ export default function Kiwano360Tour() {
           >
             <video
               ref={modalVideoRef}
-              src="/videos/kiwano-hero.mp4"
+              src={tour360?.media || "/videos/kiwano-hero.mp4"}
               controls
               playsInline
               style={{

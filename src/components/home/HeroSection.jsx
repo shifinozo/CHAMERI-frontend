@@ -448,6 +448,20 @@ export default function HeroSection({ hero }) {
 
   const [progress, setProgress] = useState(0);
   const [animState, setAnimState] = useState("intro"); // "intro" | "waiting" | "outro" | "done"
+  const [viewport, setViewport] = useState({ vw: 1440, vh: 1110 });
+
+  // Keep the logo's scale/position in sync with the viewport. Without this,
+  // resizing (e.g. DevTools responsive mode) after the animation has settled
+  // leaves the logo's transform frozen at the old viewport size, since
+  // nothing else triggers a re-render once `progress` stops changing.
+  useEffect(() => {
+    const updateViewport = () => {
+      setViewport({ vw: window.innerWidth, vh: window.innerHeight });
+    };
+    updateViewport();
+    window.addEventListener("resize", updateViewport);
+    return () => window.removeEventListener("resize", updateViewport);
+  }, []);
 
   // 1. Intro Animation (0 → 60%) on mount
   useEffect(() => {
@@ -509,8 +523,7 @@ export default function HeroSection({ hero }) {
   const phase3T = mapRange(progress, 0.60, 1.00, 0, 1);
 
   // ── Logo morph ─────────────────────────────────────────────────────────────
-  const vw = typeof window !== "undefined" ? window.innerWidth : 1440;
-  const vh = typeof window !== "undefined" ? window.innerHeight : 1110;
+  const { vw, vh } = viewport;
   const effectiveVw = clampVal(vw, 320, 1440);
 
   const scaleCenter = effectiveVw / 1440;

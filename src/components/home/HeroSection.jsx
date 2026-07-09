@@ -672,7 +672,7 @@ export default function HeroSection({ hero }) {
         id="hero"
         ref={sectionRef}
         className={`relative w-full z-20 pointer-events-auto ${animState === "waiting" ? "cursor-pointer" : ""}`}
-        style={{ marginTop: "-100vh", height: "100vh" }}
+        style={{ marginTop: "-60vh", height: "100vh" }}
         onClick={handleClick}
       >
 
@@ -700,7 +700,7 @@ export default function HeroSection({ hero }) {
         <div
           className="absolute pointer-events-none"
           style={{
-            top: "58.83%",         /* 602.47 / 1024 */
+            top: "50.83%",         /* 602.47 / 1024 */
             left: "22.88%",         /* 329.5  / 1440 */
             width: "72.47%",         /* 1043.5 / 1440 */
             height: "37.85%",        /* 387.55 / 1024 */
@@ -717,14 +717,14 @@ export default function HeroSection({ hero }) {
           <h1
             style={{
               position: "absolute",
-              top: 0,
+              top: "clamp(-30px, 1vh, -100px)",
               left: 0,
               width: "clamp(200px, 54.17vw, 780px)",   /* 780/1440 */
               height: "clamp(40px, 6.35vh, 65px)",      /* 65/1024  */
               fontFamily: "var(--font-roundo), 'Roundo', var(--font-outfit), system-ui, sans-serif",
               fontWeight: 500,
-              fontSize: "clamp(26px, 4.195vw, 60.41px)",
-              lineHeight: "clamp(30px, 6.26vh, 64.08px)",   /* 64.08/1024 */
+              fontSize: "clamp(26px, 4.595vw, 75.41px)",
+              lineHeight: "clamp(10px, 2.06vh, 29.08px)",   /* 64.08/1024 */
               letterSpacing: "clamp(-0.8px, -0.133vw, -1.92px)",
               color: "#ffffff",
               textAlign: "center",
@@ -746,14 +746,14 @@ export default function HeroSection({ hero }) {
           <h1
             style={{
               position: "absolute",
-              top: "clamp(34px, 6.30vh, 64.54px)",   /* 64.54/1024 */
+              top: "clamp(-80px, -1vh, 30.54px)",   /* 64.54/1024 */
               left: "clamp(14px, 5.88vw, 84.69px)",   /* 84.69/1440 */
               width: "clamp(160px, 42.43vw, 611px)",   /* 611/1440   */
               height: "clamp(40px, 6.35vh, 65px)",
-              fontFamily: "var(--font-roundo), 'Roundo', var(--font-outfit), system-ui, sans-serif",
+              fontFamily: "var(--font-roundo), 'Roundo'",
               fontWeight: 500,
-              fontSize: "clamp(26px, 4.157vw, 59.86px)",
-              lineHeight: "clamp(30px, 6.26vh, 64.08px)",
+              fontSize: "clamp(26px, 4.157vw, 75.41px)",
+              lineHeight: "clamp(30px, 12.26vh, 104.08px)",
               letterSpacing: "clamp(-0.8px, -0.133vw, -1.92px)",
               color: "#ffffff",
               textAlign: "center",
@@ -777,7 +777,7 @@ export default function HeroSection({ hero }) {
               position: "absolute",
               top: "clamp(160px, 25.74vh, 263.53px)",  /* 263.53/1024 */
               left: "clamp(120px, 23.78vw, 342.5px)",   /* 342.5/1440  */
-              width: "clamp(200px, 48.68vw, 701px)",     /* 701/1440    */
+              width: "clamp(200px, 48.68vw, 850px)",     /* 701/1440    */
               height: "1px",
               borderTop: "1px solid rgba(255,255,255,0.45)",
               opacity: lineT,
@@ -795,7 +795,7 @@ export default function HeroSection({ hero }) {
               position: "absolute",
               top: "clamp(170px, 27.53vh, 281.91px)",  /* 281.91/1024 */
               left: "clamp(120px, 23.98vw, 345.29px)",  /* 345.29/1440 */
-              width: "clamp(100px, 11.81vw, 170px)",     /* 170/1440    */
+              width: "clamp(100px, 13.81vw, 200px)",     /* 170/1440    */
               height: "clamp(14px, 1.66vh, 17px)",        /* 17/1024     */
               opacity: sub1T,
               transform: `translateY(${20 * (1 - sub1T)}px)`,
@@ -831,20 +831,20 @@ export default function HeroSection({ hero }) {
               position: "absolute",
               top: "clamp(170px, 27.59vh, 282.55px)",  /* 282.55/1024 */
               left: "clamp(240px, 53.66vw, 772.75px)",  /* 772.75/1440 */
-              width: "clamp(140px, 18.80vw, 270.75px)",  /* 270.75/1440 */
-              height: "clamp(60px, 10.25vh, 105px)",      /* 105/1024    */
+              width: "clamp(140px, 22.80vw, 660.75px)",  /* 270.75/1440 */
+              height: "clamp(80px, 12.55vh, 250px)",      /* 105/1024    */
               opacity: sub2T,
               transform: `translateY(${20 * (1 - sub2T)}px)`,
             }}
           >
             <p
               style={{
-                width: "clamp(120px, 17.78vw, 256px)",  /* 256/1440 */
-                height: "clamp(60px, 10.25vh, 105px)",
+                width: "clamp(50px, 22.78vw, 660px)",  /* 256/1440 */
+                height: "clamp(80px, 12.55vh, 250px)",
                 fontFamily: "var(--font-geist-sans), 'Geist', system-ui, sans-serif",
                 fontWeight: 400,
-                fontSize: "clamp(11px, 1.069vw, 15.4px)",
-                lineHeight: "clamp(15px, 2.051vh, 21px)",    /* 21/1024  */
+                fontSize: "clamp(11px, 1.169vw, 20.4px)",
+                lineHeight: "clamp(15px, 2.551vh, 25px)",    /* 21/1024  */
                 letterSpacing: "0",
                 color: "rgba(255,255,255,0.85)",
                 margin: 0,

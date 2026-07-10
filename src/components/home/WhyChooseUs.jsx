@@ -753,10 +753,10 @@ const WhyChooseUs = ({ chooseUs }) => {
           <h2
             className="font-roundo font-medium text-[#1A1A1A] capitalize m-0 flex items-center"
             style={{
-              fontSize:      'clamp(28px, 3.13vw, 52px)',
+              fontSize:      'clamp(28px, 3.13vw, 58px)',
               lineHeight:    'clamp(28px, 3.13vw, 45px)',
               letterSpacing: 'clamp(-0.5px, -0.06vw, -0.9px)',
-              width:         'clamp(280px, 35.56vw, 522.08px)',
+              width:         'clamp(280px, 35.56vw, 592.08px)',
               height:        'clamp(40px, 6.25vw, 90px)'
             }}
           >

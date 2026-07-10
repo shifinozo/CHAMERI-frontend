@@ -1,12 +1,6 @@
 'use client';
 
 import React from 'react';
-import dynamic from 'next/dynamic';
-
-const ContactMap = dynamic(() => import('./ContactMap'), {
-  ssr: false,
-  loading: () => <div className="w-full h-full bg-[#e5e7eb] animate-pulse"></div>
-});
 
 /**
  * ContactLocations component
@@ -105,7 +99,16 @@ export default function ContactLocations() {
               backgroundColor: '#e5e7eb', // fallback skeleton color
             }}
           >
-            <ContactMap center={[11.7361, 75.5211]} zoom={15.5} />
+            <iframe
+              title="Chameri Builders & Developers"
+              src="https://www.google.com/maps?q=Chameri+Builders+%26+Developers,+27%2F205+Madapeedika,+Paral+(PO),+Thalassery,+Kannur,+Kerala+670601&ll=11.7485921,75.5322851&z=17&output=embed"
+              width="100%"
+              height="100%"
+              style={{ border: 0, display: 'block' }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </div>
         </div>
       </div>

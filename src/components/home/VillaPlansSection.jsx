@@ -445,10 +445,10 @@ const VillaPlansSection = ({ villaPlan }) => {
           <h2
             className="font-roundo font-medium text-black text-center m-0"
             style={{
-              fontSize:      'clamp(36px, 4.17vw, 60px)',
+              fontSize:      'clamp(36px, 4.17vw, 70px)',
               lineHeight:    'clamp(40px, 4.59vw, 66.14px)',
               letterSpacing: 'clamp(-1.5px, -0.21vw, -3.05px)',
-              width:         'clamp(300px, 30.56vw, 440px)',
+              width:         'clamp(300px, 31.56vw, 520px)',
             }}
           >
             {sectionHeading}
@@ -474,7 +474,7 @@ const VillaPlansSection = ({ villaPlan }) => {
           className="relative w-full overflow-hidden"
           style={{
             borderRadius: 'clamp(10px, 1.05vw, 15.12px)',
-            height:       'clamp(400px, 49.99vw, 719.92px)',
+            height:       'clamp(400px, 49.99vw, 820px)',
           }}
         >
           <Image

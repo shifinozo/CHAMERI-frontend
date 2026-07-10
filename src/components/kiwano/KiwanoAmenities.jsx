@@ -2,19 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import dynamic from "next/dynamic";
-
-const AmenityMapLeaflet = dynamic(() => import("./AmenityMapLeaflet"), { ssr: false });
-
-const LEGEND_ITEMS = [
-  {  label: "Project Site",       svg: null },
-  {  label: "Hospital",            svg: `<path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-2"/><path d="M9 11v4"/><path d="M7 13h4"/>` },
-  {  label: "School / Education",  svg: `<path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>` },
-  {  label: "Airport",             svg: `<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.2-1.1.6L3 8l5.5 4L5 15.5 3 15l-1 1 3 3 3 3 1-1-.5-2 3.5-3.5 4 5.5c.2.4.7.7 1.2.6l1.2-.7c.4-.2.7-.6.6-1.1z"/>` },
-  {  label: "Transport",           svg: `<rect x="4" y="3" width="16" height="16" rx="2"/><path d="M4 11h16"/><path d="M12 3v8"/>` },
-  {  label: "Shopping",            svg: `<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>` },
-  {  label: "Highway",             svg: `<path d="M4 22L10 2"/><path d="M20 22L14 2"/><path d="M12 6v2"/><path d="M12 12v2"/>` },
-];
 
 /**
  * ─────────────────────────────────────────────────────────────────────────────
@@ -140,12 +127,8 @@ function getAmenityIcon(type) {
 
 export default function KiwanoAmenities({ amenities }) {
   const [viewMode, setViewMode] = useState("list"); // 'list' | 'map'
-  const [activeLocation, setActiveLocation] = useState(null);
 
-  const handleItemClick = (amenity) => {
-    setActiveLocation(amenity);
-    setViewMode("map");
-  };
+  const handleItemClick = () => setViewMode("map");
 
   return (
     <section
@@ -394,7 +377,7 @@ export default function KiwanoAmenities({ amenities }) {
                     {AMENITIES.slice(rowIndex * 4, rowIndex * 4 + 4).map((amenity) => (
                       <div
                         key={amenity.id}
-                        onClick={() => handleItemClick(amenity)}
+                        onClick={handleItemClick}
                         style={{
                           width: "clamp(260px, 36.111vw, 520px)",
                           display: "flex",
@@ -463,104 +446,17 @@ export default function KiwanoAmenities({ amenities }) {
                 boxShadow: "0 8px 40px rgba(34,47,48,.12)",
               }}
             >
-              {/* Real Leaflet map */}
-              <AmenityMapLeaflet amenities={AMENITIES} activeLocation={activeLocation} />
-
-              {/* Legend overlay */}
-              <div
-                style={{
-                  position:        "absolute",
-                  bottom:          20,
-                  left:            20,
-                  zIndex:          1000,
-                  background:      "rgba(237,231,222,.92)",
-                  backdropFilter:  "blur(12px)",
-                  WebkitBackdropFilter: "blur(12px)",
-                  borderRadius:    "12px",
-                  padding:         "14px 16px",
-                  border:          "1px solid rgba(107,133,158,.15)",
-                  boxShadow:       "0 4px 20px rgba(34,47,48,.10)",
-                  display:         "flex",
-                  flexDirection:   "column",
-                  gap:             "7px",
-                  pointerEvents:   "none",
-                  minWidth:        "160px",
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily:    "var(--font-geist-sans), system-ui, sans-serif",
-                    fontSize:      "10px",
-                    fontWeight:    600,
-                    color:         "#334454",
-                    letterSpacing: ".07em",
-                    textTransform: "uppercase",
-                    marginBottom:  "3px",
-                  }}
-                >
-                  Legend
-                </span>
-                {LEGEND_ITEMS.map(({ label, svg }) => (
-                  <div key={label} style={{ display: "flex", alignItems: "center", gap: "9px" }}>
-                    <div style={{ width: "18px", height: "18px", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      {svg ? (
-                        <svg
-                          width="16" height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="#334454"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          dangerouslySetInnerHTML={{ __html: svg }}
-                        />
-                      ) : (
-                        <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#C9A96E" }} />
-                      )}
-                    </div>
-                    <span
-                      style={{
-                        fontFamily: "var(--font-geist-sans), system-ui, sans-serif",
-                        fontSize:   "12px",
-                        color:      "#222F30",
-                        lineHeight: 1,
-                      }}
-                    >
-                      {label}
-                    </span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Active location badge */}
-              {activeLocation && (
-                <div
-                  style={{
-                    position:       "absolute",
-                    top:            20,
-                    left:           "50%",
-                    transform:      "translateX(-50%)",
-                    zIndex:         1000,
-                    background:     "#222F30",
-                    color:          "#EDE7DE",
-                    padding:        "8px 18px",
-                    borderRadius:   "24px",
-                    fontSize:       "13px",
-                    fontFamily:     "var(--font-geist-sans), system-ui, sans-serif",
-                    whiteSpace:     "nowrap",
-                    boxShadow:      "0 4px 16px rgba(34,47,48,.25)",
-                    display:        "flex",
-                    alignItems:     "center",
-                    gap:            "7px",
-                    pointerEvents:  "none",
-                  }}
-                >
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                  </svg>
-                  {activeLocation.name} · {activeLocation.time}
-                </div>
-              )}
+              {/* Google Maps — pinned to the Kiwano project site */}
+              <iframe
+                title="Kiwano Villas Location"
+                src="https://www.google.com/maps?q=Kiwano+Villas,+Mahe,+Kerala&ll=11.755,75.498&z=14&output=embed"
+                width="100%"
+                height="100%"
+                style={{ border: 0, display: "block" }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
             </div>
           )}
         </div>

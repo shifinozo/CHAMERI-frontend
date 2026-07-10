@@ -680,7 +680,7 @@ const TestimonialsSection = ({ testimonial }) => {
               className="font-sans font-normal uppercase text-[#334454] tracking-wider flex items-center justify-center"
               style={{
                 height:        'clamp(16px, 1.39vw, 20px)',
-                fontSize:      'clamp(10px, 0.83vw, 12px)',
+                fontSize:      'clamp(10px, 0.83vw, 16px)',
                 letterSpacing: 'clamp(-0.24px, -0.02vw, -0.32px)',
                 lineHeight: 1
               }}
@@ -693,10 +693,10 @@ const TestimonialsSection = ({ testimonial }) => {
           <h2
             className="font-roundo font-medium capitalize text-[#1A1A1A] text-center m-0 flex items-center justify-center"
             style={{
-              fontSize:      'clamp(36px, 4.17vw, 60px)',
+              fontSize:      'clamp(36px, 4.17vw, 66px)',
               lineHeight:    'clamp(36px, 4.17vw, 60px)',
               letterSpacing: 'clamp(-0.64px, -0.06vw, -0.9px)',
-              width:         'clamp(300px, 42.22vw, 608px)',
+              width:         'clamp(300px, 42.22vw, 648px)',
               height:        'clamp(40px, 4.17vw, 60px)'
             }}
           >

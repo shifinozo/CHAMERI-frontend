@@ -64,7 +64,7 @@ const LogoMarquee = ({ logos: apiLogos }) => {
       {/* ── Marquee track container ─────────────────────────────────────── */}
       <div className="flex items-center overflow-hidden w-[clamp(280px,83.33vw,1600px)] h-[clamp(50px,7.7vw,160px)]">
         {/* ── Scrolling strip ──────────────────────────────────────────── */}
-        <div className="flex animate-marquee whitespace-nowrap gap-[clamp(40px,6.94vw,150px)]">
+        <div className="flex animate-marquee whitespace-nowrap gap-[clamp(10px,1vw,20px)]">
           {scrollLogos.map((logo, index) => (
             <div
               key={index}

@@ -55,7 +55,7 @@ import { useEffect, useRef, useState } from 'react';
  *    positioned at left: 553px from inner edge → absolute center
  * ─────────────────────────────────────────────────────────────────────────────
  */
-export default function NewNavbar() {
+export default function NewNavbar({ opacity = 1, showLogo = true }) {
   const [visible, setVisible] = useState(true);
   const lastScrollY = useRef(0);
 
@@ -102,9 +102,10 @@ export default function NewNavbar() {
         paddingLeft:   'clamp(16px, 5.556vw, 80px)',
         paddingRight:  'clamp(16px, 5.556vw, 80px)',
         pointerEvents: 'none',
+        opacity,
         transform:     visible ? 'translateY(0)' : 'translateY(-120%)',
-        transition:    'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-        willChange:    'transform',
+        transition:    'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease',
+        willChange:    'transform, opacity',
       }}
     >
       {/*
@@ -121,9 +122,9 @@ export default function NewNavbar() {
           WebkitBackdropFilter: 'blur(8px)',
           borderRadius:  'clamp(8px, 1.042vw, 15px)',
           width:         '100%',
-          maxWidth:      '1280px',
+          maxWidth:      '1920px',
           height:        'clamp(56px, 6.25vw, 90px)',
-          pointerEvents: 'auto',
+          pointerEvents: opacity > 0.05 ? 'auto' : 'none',
           position:      'relative',
         }}
       >
@@ -261,67 +262,69 @@ export default function NewNavbar() {
            * in z-order but visually centred.
            * img: 117.99×65.91px → clamp fluid values
            */}
-          <div
-            style={{
-              position:       'absolute',
-              top:            0,
-              left:           0,
-              right:          0,
-              bottom:         0,
-              display:        'flex',
-              alignItems:     'center',
-              justifyContent: 'center',
-              pointerEvents:  'none',
-              zIndex:         1,
-            }}
-          >
-            <Link
-              href="/"
+          {showLogo && (
+            <div
               style={{
-                display:       'flex',
-                flexDirection: 'column',
-                alignItems:    'center',
-                gap:           'clamp(3px, 0.278vw, 4px)',
-                textDecoration:'none',
-                pointerEvents: 'auto',
+                position:       'absolute',
+                top:            0,
+                left:           0,
+                right:          0,
+                bottom:         0,
+                display:        'flex',
+                alignItems:     'center',
+                justifyContent: 'center',
+                pointerEvents:  'none',
+                zIndex:         1,
               }}
             >
-              {/* Logo mark (top icon) */}
-              <div
+              <Link
+                href="/"
                 style={{
-                  position: 'relative',
-                  width:    'clamp(24px, 2.361vw, 34px)',
-                  height:   'clamp(26px, 2.639vw, 38px)',
+                  display:       'flex',
+                  flexDirection: 'column',
+                  alignItems:    'center',
+                  gap:           'clamp(3px, 0.278vw, 4px)',
+                  textDecoration:'none',
+                  pointerEvents: 'auto',
                 }}
               >
-                <Image
-                  src="/icons/logo (6).svg"
-                  alt="Chameri mark"
-                  fill
-                  sizes="40px"
-                  style={{ objectFit: 'contain' }}
-                  priority
-                />
-              </div>
-              {/* Wordmark (CHAMERI text) */}
-              <div
-                style={{
-                  position: 'relative',
-                  width:    'clamp(70px, 6.944vw, 100px)',
-                  height:   'clamp(9px,  0.903vw,  13px)',
-                }}
-              >
-                <Image
-                  src="/icons/logo (7).svg"
-                  alt="CHAMERI"
-                  fill
-                  sizes="120px"
-                  style={{ objectFit: 'contain' }}
-                  priority
-                />
-              </div>
-            </Link>
-          </div>
+                {/* Logo mark (top icon) */}
+                <div
+                  style={{
+                    position: 'relative',
+                    width:    'clamp(24px, 2.361vw, 34px)',
+                    height:   'clamp(26px, 2.639vw, 38px)',
+                  }}
+                >
+                  <Image
+                    src="/icons/logo (6).svg"
+                    alt="Chameri mark"
+                    fill
+                    sizes="40px"
+                    style={{ objectFit: 'contain' }}
+                    priority
+                  />
+                </div>
+                {/* Wordmark (CHAMERI text) */}
+                <div
+                  style={{
+                    position: 'relative',
+                    width:    'clamp(70px, 6.944vw, 100px)',
+                    height:   'clamp(9px,  0.903vw,  13px)',
+                  }}
+                >
+                  <Image
+                    src="/icons/logo (7).svg"
+                    alt="CHAMERI"
+                    fill
+                    sizes="120px"
+                    style={{ objectFit: 'contain' }}
+                    priority
+                  />
+                </div>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </div>

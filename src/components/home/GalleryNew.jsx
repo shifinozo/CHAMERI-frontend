@@ -383,8 +383,9 @@
 
 'use client';
 
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const STATIC_VILLAS = [
   { id: 1, name: 'VILLA 01',  location: 'Calicut , Kerala',       year: '2024', img: '/dummyimages/Frame 2121454280.png', alt: '/dummyimages/Container.png',           side: 'left'  },
@@ -415,10 +416,14 @@ const STATIC_VILLAS = [
 const clamp = (min, design, max = design) =>
   `clamp(${min}px, ${((design / 1440) * 100).toFixed(4)}vw, ${max}px)`;
 
-const ViewProjectBtn = () => (
-  <div
-    className="group/btn absolute top-1/2 left-[0%] -translate-x-1/2 -translate-y-1/2 z-50 transition-all duration-500 shadow-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible"
+const ViewProjectBtn = ({ position }) => (
+  <Link
+    href="/gallery"
+    className="group/btn absolute z-50 transition-[opacity,visibility] duration-500 shadow-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible"
     style={{
+      left:            position.x,
+      top:             position.y,
+      transform:       'translate(-50%, -50%)',
       width:           clamp(120, 161),
       height:          clamp(24, 31),
       borderRadius:    '4px',
@@ -494,7 +499,7 @@ const ViewProjectBtn = () => (
         </svg>
       </div>
     </div>
-  </div>
+  </Link>
 );
 
 /** Reusable caption row under each project image */
@@ -510,16 +515,32 @@ const Caption = ({ villa, gap = 3.31 }) => (
 );
 
 /** Reusable project image card */
-const ProjectCard = ({ villa, height }) => (
-  <div className="relative" style={{ height }}>
-    <div className="absolute inset-0 overflow-hidden">
-      <Image src={villa.img} alt={villa.name} fill className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105" />
-      <Image src={villa.alt} alt={`${villa.name} alt`} fill className="object-cover transition-all duration-700 ease-in-out opacity-0 group-hover:scale-105 group-hover:opacity-100" />
-      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+const ProjectCard = ({ villa, height }) => {
+  const containerRef = useRef(null);
+  const [btnPos, setBtnPos] = useState({ x: 0, y: '50%' });
+
+  const trackCursor = (e) => {
+    const rect = containerRef.current.getBoundingClientRect();
+    setBtnPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative"
+      style={{ height }}
+      onMouseEnter={trackCursor}
+      onMouseMove={trackCursor}
+    >
+      <div className="absolute inset-0 overflow-hidden">
+        <Image src={villa.img} alt={villa.name} fill className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105" />
+        <Image src={villa.alt} alt={`${villa.name} alt`} fill className="object-cover transition-all duration-700 ease-in-out opacity-0 group-hover:scale-105 group-hover:opacity-100" />
+        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      </div>
+      <ViewProjectBtn position={btnPos} />
     </div>
-    <ViewProjectBtn />
-  </div>
-);
+  );
+};
 
 const GalleryNew = ({ gallery }) => {
   const VILLAS = gallery
@@ -615,7 +636,7 @@ const GalleryNew = ({ gallery }) => {
               <h2
                 className="font-roundo font-medium text-[#000000]"
                 style={{
-                  fontSize:      clamp(20, 60),
+                  fontSize: "clamp(20px, 4vw, 70px)",
                   lineHeight:    '1.1',
                   letterSpacing: clamp(-1, -3.05),
                 }}
@@ -661,13 +682,13 @@ const GalleryNew = ({ gallery }) => {
                 className="group w-full md:w-[44.5%]"
                 style={{ paddingTop: clamp(0, 148.74) }}
               >
-                <ProjectCard villa={VILLAS[0]} height={clamp(240, 466.86)} />
+                <ProjectCard villa={VILLAS[0]} height={clamp(240, 508.86)} />
                 <Caption villa={VILLAS[0]} gap={3.31} />
               </div>
 
               {/* Item 2 — right, sits at top */}
               <div className="group w-full md:w-[41%]">
-                <ProjectCard villa={VILLAS[1]} height={clamp(220, 436.05)} />
+                <ProjectCard villa={VILLAS[1]} height={clamp(220, 480.05)} />
                 <Caption villa={VILLAS[1]} gap={3.63} />
               </div>
             </div>
@@ -677,7 +698,7 @@ const GalleryNew = ({ gallery }) => {
               <div
                 className="group w-full md:w-[53%]"
               >
-                <ProjectCard villa={VILLAS[2]} height={clamp(260, 526.86)} />
+                <ProjectCard villa={VILLAS[2]} height={clamp(260, 586.86)} />
                 <Caption villa={VILLAS[2]} gap={2.57} />
               </div>
             </div>
@@ -688,7 +709,7 @@ const GalleryNew = ({ gallery }) => {
             >
               {/* Item 4 — left, sits at top */}
               <div className="group w-full md:w-[41%]">
-                <ProjectCard villa={VILLAS[3]} height={clamp(220, 436.05)} />
+                <ProjectCard villa={VILLAS[3]} height={clamp(220, 476.05)} />
                 <Caption villa={VILLAS[3]} gap={3.63} />
               </div>
 
@@ -697,7 +718,7 @@ const GalleryNew = ({ gallery }) => {
                 className="group w-full md:w-[49%]"
                 style={{ paddingTop: clamp(0, 163.52) }}
               >
-                <ProjectCard villa={VILLAS[4]} height={clamp(260, 513.27)} />
+                <ProjectCard villa={VILLAS[4]} height={clamp(260, 583.27)} />
                 <Caption villa={VILLAS[4]} gap={3.63} />
               </div>
             </div>

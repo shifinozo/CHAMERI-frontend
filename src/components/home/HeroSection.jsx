@@ -429,7 +429,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Navbar from "../common/Navbar";
+import NewNavbar from "../common/NewNavbar";
 
 // ─── Easing helpers ────────────────────────────────────────────────────────────
 const clampVal = (v, min, max) => Math.min(Math.max(v, min), max);
@@ -515,6 +515,16 @@ export default function HeroSection({ hero }) {
     requestAnimationFrame(step);
   };
 
+  // 3. Auto-reveal fallback — if the user hasn't clicked within 2s of
+  // reaching "waiting", trigger the outro automatically. Re-runs only when
+  // animState changes, so a manual click (which flips animState to "outro")
+  // cancels this timer via the cleanup below before it can double-fire.
+  useEffect(() => {
+    if (animState !== "waiting") return;
+    const timer = setTimeout(handleClick, 100);
+    return () => clearTimeout(timer);
+  }, [animState]);
+
   // ── Derived values ─────────────────────────────────────────────────────────
   const pct = Math.round(progress * 100);
 
@@ -575,8 +585,12 @@ export default function HeroSection({ hero }) {
   const sub1T = easeOutQuart(mapRange(progress, 0.87, 0.96, 0, 1));
   const sub2T = easeOutQuart(mapRange(progress, 0.90, 0.98, 0, 1));
 
-  const navOpacity = phase3T;
   const counterOpacity = progress < 0.95 ? 1 : mapRange(progress, 0.95, 1.0, 1, 0);
+
+  // Once the auto-reveal (outro) fully finishes, hand off from this animated
+  // logo to NewNavbar's own logo: the big logo fades out and only then does
+  // the navbar (with its own logo) fade in — they're never both visible.
+  const isDone = animState === "done";
 
   return (
     <>
@@ -629,7 +643,8 @@ export default function HeroSection({ hero }) {
       >
         <div className="absolute top-0 left-0 w-full h-screen pointer-events-none">
 
-          {/* Layer 2: Animated logo group */}
+          {/* Layer 2: Animated logo group — fades out once the reveal is
+              done, handing off to NewNavbar's own logo below */}
           <div
             className="absolute z-30 flex flex-col items-center"
             style={{
@@ -638,6 +653,8 @@ export default function HeroSection({ hero }) {
               gap: `${logoGap}px`,
               transform: `translate(-50%, -50%) translateY(${groupY}px) scale(${groupScale})`,
               transformOrigin: "center center",
+              opacity: isDone ? 0 : 1,
+              transition: "opacity 0.4s ease",
             }}
           >
             <div style={{ position: "relative", width: `${markWidth}px`, height: `${markHeight}px` }}>
@@ -663,8 +680,9 @@ export default function HeroSection({ hero }) {
           </div>
         </div>
 
-        {/* Layer 3: Navbar */}
-        <Navbar opacity={navOpacity} />
+        {/* Layer 3: Navbar — only fades in (with its own logo) once the
+            animated logo above has fully hidden itself */}
+        <NewNavbar opacity={isDone ? 1 : 0}  />
       </div>
 
       {/* ── Scrolling Content ─────────────────────────────────────────────── */}

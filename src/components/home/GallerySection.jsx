@@ -269,407 +269,407 @@
 // -----------------------------------------------------------
 
 
-'use client';
+// 'use client';
 
-import React from 'react';
-import Image from 'next/image';
+// import React from 'react';
+// import Image from 'next/image';
 
-/*
-  CLAMP FORMULA:
-  vw = (maxVal - minVal) / (maxViewport - minViewport) * 100
-  Viewport range: 375px (mobile) → 1920px (4xl)
+// /*
+//   CLAMP FORMULA:
+//   vw = (maxVal - minVal) / (maxViewport - minViewport) * 100
+//   Viewport range: 375px (mobile) → 1920px (4xl)
 
-  Key Figma values at 1440px (3xl):
-  Section padding H: 82px      → clamp(16px, 4.27vw, 82px)
-  Section padding V: 60px      → clamp(28px, 3.125vw, 60px)
-  Outer gap:        72.68px    → clamp(32px, 3.785vw, 72.68px)
+//   Key Figma values at 1440px (3xl):
+//   Section padding H: 82px      → clamp(16px, 4.27vw, 82px)
+//   Section padding V: 60px      → clamp(28px, 3.125vw, 60px)
+//   Outer gap:        72.68px    → clamp(32px, 3.785vw, 72.68px)
 
-  Header:
-  - Badge text:     14px       → clamp(11px, 0.729vw, 14px)
-  - Badge dot:      14px       → clamp(9px, 0.729vw, 14px)
-  - h2:             60px       → clamp(26px, 3.125vw, 60px)
-  - h2 lh:          66.14px    → clamp(30px, 3.445vw, 66.14px)
-  - h2 ls:          -3.05px    → clamp(-1.3px, -0.159vw, -3.05px)
-  - h2 max-w:       667.67px   → clamp(280px, 34.774vw, 667.67px)
-  - p:              20px       → clamp(13px, 1.042vw, 20px)
-  - p max-w:        264px      → clamp(180px, 13.75vw, 264px)
+//   Header:
+//   - Badge text:     14px       → clamp(11px, 0.729vw, 14px)
+//   - Badge dot:      14px       → clamp(9px, 0.729vw, 14px)
+//   - h2:             60px       → clamp(26px, 3.125vw, 60px)
+//   - h2 lh:          66.14px    → clamp(30px, 3.445vw, 66.14px)
+//   - h2 ls:          -3.05px    → clamp(-1.3px, -0.159vw, -3.05px)
+//   - h2 max-w:       667.67px   → clamp(280px, 34.774vw, 667.67px)
+//   - p:              20px       → clamp(13px, 1.042vw, 20px)
+//   - p max-w:        264px      → clamp(180px, 13.75vw, 264px)
 
-  Grid row gap:     50.87px    → clamp(24px, 2.649vw, 50.87px)
+//   Grid row gap:     50.87px    → clamp(24px, 2.649vw, 50.87px)
 
-  Card images (all scaled proportionally from 1440px base):
-  Row 1 left:  543.52 × 466.87 → clamp(260px, 28.31vw, 543.52px) × clamp(224px, 24.32vw, 466.87px)
-  Row 1 right: 499.99 × 436.06 → clamp(240px, 26.04vw, 499.99px) × clamp(208px, 22.71vw, 436.06px)
-  Row 2:       646.08 × 519.40 → clamp(300px, 33.65vw, 646.08px) × clamp(250px, 27.05vw, 519.40px)
-  Row 3 left:  499.99 × 436.06 → clamp(240px, 26.04vw, 499.99px) × clamp(208px, 22.71vw, 436.06px)
-  Row 3 right: 597.55 × 512.35 → clamp(280px, 31.12vw, 597.55px) × clamp(240px, 26.69vw, 512.35px)
+//   Card images (all scaled proportionally from 1440px base):
+//   Row 1 left:  543.52 × 466.87 → clamp(260px, 28.31vw, 543.52px) × clamp(224px, 24.32vw, 466.87px)
+//   Row 1 right: 499.99 × 436.06 → clamp(240px, 26.04vw, 499.99px) × clamp(208px, 22.71vw, 436.06px)
+//   Row 2:       646.08 × 519.40 → clamp(300px, 33.65vw, 646.08px) × clamp(250px, 27.05vw, 519.40px)
+//   Row 3 left:  499.99 × 436.06 → clamp(240px, 26.04vw, 499.99px) × clamp(208px, 22.71vw, 436.06px)
+//   Row 3 right: 597.55 × 512.35 → clamp(280px, 31.12vw, 597.55px) × clamp(240px, 26.69vw, 512.35px)
 
-  Container heights (image + caption ~28px):
-  Row 1 left:  493.31px  → clamp(248px, 25.69vw, 493.31px)
-  Row 1 right: 465.13px  → clamp(234px, 24.22vw, 465.13px)
-  Row 2:       547.40px  → clamp(264px, 28.51vw, 547.40px)
-  Row 3 left:  465.13px  → clamp(234px, 24.22vw, 465.13px)
-  Row 3 right: 542.35px  → clamp(260px, 28.25vw, 542.35px)
+//   Container heights (image + caption ~28px):
+//   Row 1 left:  493.31px  → clamp(248px, 25.69vw, 493.31px)
+//   Row 1 right: 465.13px  → clamp(234px, 24.22vw, 465.13px)
+//   Row 2:       547.40px  → clamp(264px, 28.51vw, 547.40px)
+//   Row 3 left:  465.13px  → clamp(234px, 24.22vw, 465.13px)
+//   Row 3 right: 542.35px  → clamp(260px, 28.25vw, 542.35px)
 
-  Button (LearnMoreButton):
-  - w: 167px   → clamp(130px, 8.698vw, 167px)
-  - h: 52px    → clamp(40px, 2.708vw, 52px)
-  - text: 15px → clamp(12px, 0.781vw, 15px)
-*/
+//   Button (LearnMoreButton):
+//   - w: 167px   → clamp(130px, 8.698vw, 167px)
+//   - h: 52px    → clamp(40px, 2.708vw, 52px)
+//   - text: 15px → clamp(12px, 0.781vw, 15px)
+// */
 
-const VILLAS = [
-  { id: 1, name: 'VILLA 01',  location: 'Calicut , Kerala',       year: '2024', img: '/dummyimages/Frame 2121454280.png', alt: '/dummyimages/Container.png',           side: 'left'  },
-  { id: 2, name: 'Villa 1',   location: 'Calicut, Kerala',        year: '2025', img: '/dummyimages/Container.png',        alt: '/dummyimages/Frame 2121454280.png',    side: 'right' },
-  { id: 3, name: 'Villa No3', location: 'Calicut, Kerala',        year: '2025', img: '/dummyimages/Overlay.png',          alt: '/dummyimages/Frame 2121454280.png',    side: 'left'  },
-  { id: 4, name: 'Villa No4', location: 'Calicut, Kerala',        year: '2024', img: '/dummyimages/Container.png',        alt: '/dummyimages/Frame 2121454280.png',    side: 'right' },
-  { id: 5, name: 'Villa No5', location: 'Lorum Ipsum sit',        year: '2025', img: '/dummyimages/Overlay.png',          alt: '/dummyimages/Frame 2121454280.png',    side: 'right' },
-  { id: 6, name: 'Villa No6', location: 'Lorum Ipsum sit consit', year: '2024', img: '/dummyimages/Frame 2121454280.png', alt: '/dummyimages/Overlay.png',             side: 'left'  },
-  { id: 7, name: 'Villa No7', location: 'Lorum Ipsum consit',     year: '2023', img: '/dummyimages/Container.png',        alt: '/dummyimages/Frame 2121454280.png',    side: 'right' },
-];
+// const VILLAS = [
+//   { id: 1, name: 'VILLA 01',  location: 'Calicut , Kerala',       year: '2024', img: '/dummyimages/Frame 2121454280.png', alt: '/dummyimages/Container.png',           side: 'left'  },
+//   { id: 2, name: 'Villa 1',   location: 'Calicut, Kerala',        year: '2025', img: '/dummyimages/Container.png',        alt: '/dummyimages/Frame 2121454280.png',    side: 'right' },
+//   { id: 3, name: 'Villa No3', location: 'Calicut, Kerala',        year: '2025', img: '/dummyimages/Overlay.png',          alt: '/dummyimages/Frame 2121454280.png',    side: 'left'  },
+//   { id: 4, name: 'Villa No4', location: 'Calicut, Kerala',        year: '2024', img: '/dummyimages/Container.png',        alt: '/dummyimages/Frame 2121454280.png',    side: 'right' },
+//   { id: 5, name: 'Villa No5', location: 'Lorum Ipsum sit',        year: '2025', img: '/dummyimages/Overlay.png',          alt: '/dummyimages/Frame 2121454280.png',    side: 'right' },
+//   { id: 6, name: 'Villa No6', location: 'Lorum Ipsum sit consit', year: '2024', img: '/dummyimages/Frame 2121454280.png', alt: '/dummyimages/Overlay.png',             side: 'left'  },
+//   { id: 7, name: 'Villa No7', location: 'Lorum Ipsum consit',     year: '2023', img: '/dummyimages/Container.png',        alt: '/dummyimages/Frame 2121454280.png',    side: 'right' },
+// ];
 
-/* ─── Gallery Card ───────────────────────────────────────────────────── */
-const GalleryCard = ({ villa, containerWidth, containerHeight, imageWidth, imageHeight }) => (
-  <div
-    className="relative group cursor-pointer flex flex-col justify-between"
-    style={{ width: containerWidth, height: containerHeight }}
-  >
-    {/* Image container */}
-    <div className="relative shrink-0" style={{ width: imageWidth, height: imageHeight }}>
+// /* ─── Gallery Card ───────────────────────────────────────────────────── */
+// const GalleryCard = ({ villa, containerWidth, containerHeight, imageWidth, imageHeight }) => (
+//   <div
+//     className="relative group cursor-pointer flex flex-col justify-between"
+//     style={{ width: containerWidth, height: containerHeight }}
+//   >
+//     {/* Image container */}
+//     <div className="relative shrink-0" style={{ width: imageWidth, height: imageHeight }}>
 
-      {/* Clipped image wrapper */}
-      <div className="absolute inset-0 rounded-[4px] overflow-hidden">
-        <Image
-          src={villa.img}
-          alt={villa.name}
-          fill
-          className="object-cover transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:opacity-0"
-        />
-        {villa.alt && (
-          <Image
-            src={villa.alt}
-            alt={`${villa.name} alternate`}
-            fill
-            className="object-cover transition-all duration-700 ease-in-out opacity-0 group-hover:scale-105 group-hover:opacity-100"
-          />
-        )}
-        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      </div>
+//       {/* Clipped image wrapper */}
+//       <div className="absolute inset-0 rounded-[4px] overflow-hidden">
+//         <Image
+//           src={villa.img}
+//           alt={villa.name}
+//           fill
+//           className="object-cover transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:opacity-0"
+//         />
+//         {villa.alt && (
+//           <Image
+//             src={villa.alt}
+//             alt={`${villa.name} alternate`}
+//             fill
+//             className="object-cover transition-all duration-700 ease-in-out opacity-0 group-hover:scale-105 group-hover:opacity-100"
+//           />
+//         )}
+//         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+//       </div>
 
-      {/* "View Project" split button */}
-      <div className="group/btn absolute top-1/2 -translate-y-1/2 z-50 transition-all duration-500 shadow-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible"
-        style={{
-          left:         'clamp(-60px, -5.9vw, -85px)',
-          width:        'clamp(120px, 8.39vw, 161px)',
-          height:       'clamp(24px, 1.615vw, 31px)',
-          borderRadius: '4px',
-          backgroundColor: '#EDE7DE',
-          display:      'flex',
-          alignItems:   'center',
-          justifyContent: 'center',
-          overflow:     'hidden',
-        }}
-      >
-        <span
-          className="absolute z-0 font-sans font-medium text-[#334454]"
-          style={{ fontSize: 'clamp(10px, 0.677vw, 13px)' }}
-        >
-          View Project
-        </span>
+//       {/* "View Project" split button */}
+//       <div className="group/btn absolute top-1/2 -translate-y-1/2 z-50 transition-all duration-500 shadow-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible"
+//         style={{
+//           left:         'clamp(-60px, -5.9vw, -85px)',
+//           width:        'clamp(120px, 8.39vw, 161px)',
+//           height:       'clamp(24px, 1.615vw, 31px)',
+//           borderRadius: '4px',
+//           backgroundColor: '#EDE7DE',
+//           display:      'flex',
+//           alignItems:   'center',
+//           justifyContent: 'center',
+//           overflow:     'hidden',
+//         }}
+//       >
+//         <span
+//           className="absolute z-0 font-sans font-medium text-[#334454]"
+//           style={{ fontSize: 'clamp(10px, 0.677vw, 13px)' }}
+//         >
+//           View Project
+//         </span>
 
-        {/* Left blue half */}
-        <div
-          className="absolute left-0 top-0 h-full bg-[#6B859E] overflow-hidden rounded-l-[4px] z-10 flex items-center"
-          style={{ width: '53%' }}
-        >
-          <span
-            className="absolute left-0 w-full text-center font-sans font-medium text-[#EDE7DE]"
-            style={{
-              fontSize: 'clamp(10px, 0.677vw, 13px)',
-              width:    'clamp(120px, 8.39vw, 161px)',
-            }}
-          >
-            View Project
-          </span>
-        </div>
+//         {/* Left blue half */}
+//         <div
+//           className="absolute left-0 top-0 h-full bg-[#6B859E] overflow-hidden rounded-l-[4px] z-10 flex items-center"
+//           style={{ width: '53%' }}
+//         >
+//           <span
+//             className="absolute left-0 w-full text-center font-sans font-medium text-[#EDE7DE]"
+//             style={{
+//               fontSize: 'clamp(10px, 0.677vw, 13px)',
+//               width:    'clamp(120px, 8.39vw, 161px)',
+//             }}
+//           >
+//             View Project
+//           </span>
+//         </div>
 
-        {/* Left arrow box */}
-        <div
-          className="absolute z-20 overflow-hidden bg-[#EDE7DE]"
-          style={{
-            top:          'clamp(4px, 0.29vw, 5.56px)',
-            left:         'clamp(5px, 0.355vw, 6.82px)',
-            width:        'clamp(15px, 1.039vw, 19.95px)',
-            height:       'clamp(15px, 1.039vw, 19.95px)',
-            borderRadius: 'clamp(3px, 0.231vw, 4.43px)',
-          }}
-        >
-          <div className="absolute inset-0 flex items-center justify-center transition-transform duration-300 ease-in-out group-hover/btn:-translate-x-full">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#6B859E" strokeWidth="2.5" className="rotate-180">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </div>
-          <div className="absolute inset-0 flex items-center justify-center transition-transform duration-300 ease-in-out translate-x-full group-hover/btn:translate-x-0">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#6B859E" strokeWidth="2.5" className="rotate-180">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </div>
-        </div>
+//         {/* Left arrow box */}
+//         <div
+//           className="absolute z-20 overflow-hidden bg-[#EDE7DE]"
+//           style={{
+//             top:          'clamp(4px, 0.29vw, 5.56px)',
+//             left:         'clamp(5px, 0.355vw, 6.82px)',
+//             width:        'clamp(15px, 1.039vw, 19.95px)',
+//             height:       'clamp(15px, 1.039vw, 19.95px)',
+//             borderRadius: 'clamp(3px, 0.231vw, 4.43px)',
+//           }}
+//         >
+//           <div className="absolute inset-0 flex items-center justify-center transition-transform duration-300 ease-in-out group-hover/btn:-translate-x-full">
+//             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#6B859E" strokeWidth="2.5" className="rotate-180">
+//               <path d="M5 12h14M12 5l7 7-7 7" />
+//             </svg>
+//           </div>
+//           <div className="absolute inset-0 flex items-center justify-center transition-transform duration-300 ease-in-out translate-x-full group-hover/btn:translate-x-0">
+//             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#6B859E" strokeWidth="2.5" className="rotate-180">
+//               <path d="M5 12h14M12 5l7 7-7 7" />
+//             </svg>
+//           </div>
+//         </div>
 
-        {/* Right arrow box */}
-        <div
-          className="absolute z-20 overflow-hidden bg-[#334454]"
-          style={{
-            top:          'clamp(4px, 0.309vw, 5.93px)',
-            right:        'clamp(5px, 0.355vw, 6.82px)',
-            width:        'clamp(15px, 1.039vw, 19.95px)',
-            height:       'clamp(15px, 1.039vw, 19.95px)',
-            borderRadius: 'clamp(3px, 0.231vw, 4.43px)',
-          }}
-        >
-          <div className="absolute inset-0 flex items-center justify-center transition-transform duration-300 ease-in-out group-hover/btn:translate-x-full">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#EDE7DE" strokeWidth="2.5">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </div>
-          <div className="absolute inset-0 flex items-center justify-center transition-transform duration-300 ease-in-out -translate-x-full group-hover/btn:translate-x-0">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#EDE7DE" strokeWidth="2.5">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
+//         {/* Right arrow box */}
+//         <div
+//           className="absolute z-20 overflow-hidden bg-[#334454]"
+//           style={{
+//             top:          'clamp(4px, 0.309vw, 5.93px)',
+//             right:        'clamp(5px, 0.355vw, 6.82px)',
+//             width:        'clamp(15px, 1.039vw, 19.95px)',
+//             height:       'clamp(15px, 1.039vw, 19.95px)',
+//             borderRadius: 'clamp(3px, 0.231vw, 4.43px)',
+//           }}
+//         >
+//           <div className="absolute inset-0 flex items-center justify-center transition-transform duration-300 ease-in-out group-hover/btn:translate-x-full">
+//             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#EDE7DE" strokeWidth="2.5">
+//               <path d="M5 12h14M12 5l7 7-7 7" />
+//             </svg>
+//           </div>
+//           <div className="absolute inset-0 flex items-center justify-center transition-transform duration-300 ease-in-out -translate-x-full group-hover/btn:translate-x-0">
+//             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#EDE7DE" strokeWidth="2.5">
+//               <path d="M5 12h14M12 5l7 7-7 7" />
+//             </svg>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
 
-    {/* Caption */}
-    <div className="flex items-center justify-between px-1 shrink-0" style={{ width: imageWidth }}>
-      <p
-        className="font-sans text-[#334454]/80"
-        style={{ fontSize: 'clamp(10px, 0.677vw, 13px)' }}
-      >
-        <span className="font-medium text-[#334454]">{villa.name}</span>
-        <span className="mx-1">—</span>
-        <span className="italic">{villa.location}</span>
-      </p>
-      <span
-        className="font-sans text-[#334454]/60"
-        style={{ fontSize: 'clamp(10px, 0.677vw, 13px)' }}
-      >
-        {villa.year}
-      </span>
-    </div>
-  </div>
-);
+//     {/* Caption */}
+//     <div className="flex items-center justify-between px-1 shrink-0" style={{ width: imageWidth }}>
+//       <p
+//         className="font-sans text-[#334454]/80"
+//         style={{ fontSize: 'clamp(10px, 0.677vw, 13px)' }}
+//       >
+//         <span className="font-medium text-[#334454]">{villa.name}</span>
+//         <span className="mx-1">—</span>
+//         <span className="italic">{villa.location}</span>
+//       </p>
+//       <span
+//         className="font-sans text-[#334454]/60"
+//         style={{ fontSize: 'clamp(10px, 0.677vw, 13px)' }}
+//       >
+//         {villa.year}
+//       </span>
+//     </div>
+//   </div>
+// );
 
-/* ─── Learn More Button ──────────────────────────────────────────────── */
-const LearnMoreButton = () => (
-  <button
-    className="group relative flex items-center bg-[#6B859E] hover:bg-[#334454] transition-colors duration-500 overflow-hidden cursor-pointer border-none"
-    style={{
-      width:        'clamp(130px, 8.698vw, 167px)',
-      height:       'clamp(40px, 2.708vw, 52px)',
-      borderRadius: 'clamp(8px, 0.625vw, 12px)',
-    }}
-  >
-    {/* Sliding text */}
-    <div
-      className="absolute overflow-hidden"
-      style={{
-        top:    'clamp(10px, 0.729vw, 14px)',
-        left:   'clamp(10px, 0.625vw, 12px)',
-        width:  'clamp(76px, 5.052vw, 97px)',
-        height: 'clamp(18px, 1.198vw, 23px)',
-      }}
-    >
-      <div className="flex flex-col transition-transform duration-500 ease-in-out group-hover:-translate-y-1/2">
-        {['Learn More', 'Learn More'].map((label, i) => (
-          <span
-            key={i}
-            className="font-sans font-medium text-white whitespace-nowrap flex items-center"
-            style={{
-              fontSize: 'clamp(12px, 0.781vw, 15px)',
-              height:   'clamp(18px, 1.198vw, 23px)',
-            }}
-          >
-            {label}
-          </span>
-        ))}
-      </div>
-    </div>
+// /* ─── Learn More Button ──────────────────────────────────────────────── */
+// const LearnMoreButton = () => (
+//   <button
+//     className="group relative flex items-center bg-[#6B859E] hover:bg-[#334454] transition-colors duration-500 overflow-hidden cursor-pointer border-none"
+//     style={{
+//       width:        'clamp(130px, 8.698vw, 167px)',
+//       height:       'clamp(40px, 2.708vw, 52px)',
+//       borderRadius: 'clamp(8px, 0.625vw, 12px)',
+//     }}
+//   >
+//     {/* Sliding text */}
+//     <div
+//       className="absolute overflow-hidden"
+//       style={{
+//         top:    'clamp(10px, 0.729vw, 14px)',
+//         left:   'clamp(10px, 0.625vw, 12px)',
+//         width:  'clamp(76px, 5.052vw, 97px)',
+//         height: 'clamp(18px, 1.198vw, 23px)',
+//       }}
+//     >
+//       <div className="flex flex-col transition-transform duration-500 ease-in-out group-hover:-translate-y-1/2">
+//         {['Learn More', 'Learn More'].map((label, i) => (
+//           <span
+//             key={i}
+//             className="font-sans font-medium text-white whitespace-nowrap flex items-center"
+//             style={{
+//               fontSize: 'clamp(12px, 0.781vw, 15px)',
+//               height:   'clamp(18px, 1.198vw, 23px)',
+//             }}
+//           >
+//             {label}
+//           </span>
+//         ))}
+//       </div>
+//     </div>
 
-    {/* Arrow box */}
-    <div
-      className="absolute bg-white group-hover:bg-[#EDE7DE] transition-colors duration-500 overflow-hidden"
-      style={{
-        right:        'clamp(8px, 0.625vw, 12px)',
-        width:        'clamp(22px, 1.563vw, 30px)',
-        height:       'clamp(22px, 1.563vw, 30px)',
-        borderRadius: 'clamp(5px, 0.365vw, 7px)',
-      }}
-    >
-      <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-in-out group-hover:translate-x-full">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
-          className="text-[#6B859E]"
-          style={{ width: 'clamp(10px, 0.729vw, 14px)', height: 'clamp(10px, 0.729vw, 14px)' }}
-        >
-          <path d="M5 12h14M12 5l7 7-7 7" />
-        </svg>
-      </div>
-      <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-in-out -translate-x-full group-hover:translate-x-0">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
-          className="text-[#6B859E]"
-          style={{ width: 'clamp(10px, 0.729vw, 14px)', height: 'clamp(10px, 0.729vw, 14px)' }}
-        >
-          <path d="M5 12h14M12 5l7 7-7 7" />
-        </svg>
-      </div>
-    </div>
-  </button>
-);
+//     {/* Arrow box */}
+//     <div
+//       className="absolute bg-white group-hover:bg-[#EDE7DE] transition-colors duration-500 overflow-hidden"
+//       style={{
+//         right:        'clamp(8px, 0.625vw, 12px)',
+//         width:        'clamp(22px, 1.563vw, 30px)',
+//         height:       'clamp(22px, 1.563vw, 30px)',
+//         borderRadius: 'clamp(5px, 0.365vw, 7px)',
+//       }}
+//     >
+//       <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-in-out group-hover:translate-x-full">
+//         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
+//           className="text-[#6B859E]"
+//           style={{ width: 'clamp(10px, 0.729vw, 14px)', height: 'clamp(10px, 0.729vw, 14px)' }}
+//         >
+//           <path d="M5 12h14M12 5l7 7-7 7" />
+//         </svg>
+//       </div>
+//       <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-in-out -translate-x-full group-hover:translate-x-0">
+//         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
+//           className="text-[#6B859E]"
+//           style={{ width: 'clamp(10px, 0.729vw, 14px)', height: 'clamp(10px, 0.729vw, 14px)' }}
+//         >
+//           <path d="M5 12h14M12 5l7 7-7 7" />
+//         </svg>
+//       </div>
+//     </div>
+//   </button>
+// );
 
-/* ─── Main GallerySection ────────────────────────────────────────────── */
-const GallerySection = () => (
-  <section 
-    className="w-full bg-[#EDE7DE] overflow-hidden flex flex-col items-center"
-    style={{
-      paddingTop:    'clamp(28px, 4.17vw, 60px)',
-      paddingBottom: 'clamp(28px, 4.17vw, 60px)',
-      paddingLeft:   'clamp(16px, 5.69vw, 82px)',
-      paddingRight:  'clamp(16px, 5.69vw, 82px)',
-    }}
-  >
-    <div
-      className="w-full flex flex-col items-center"
-      style={{
-        maxWidth:      'clamp(560px, 93.37vw, 1344.51px)',
-        paddingLeft:   'clamp(8px, 1.26vw, 18.17px)',
-        paddingRight:  'clamp(8px, 1.26vw, 18.17px)',
-        gap:           'clamp(32px, 5.05vw, 72.68px)'
-      }}
-    >
-      {/* ── Header ──────────────────────────────────────────────────── */}
-        <div className="w-full flex flex-col lg:flex-row lg:items-start lg:justify-between"
-          style={{ gap: 'clamp(16px, 1.25vw, 24px)' }}
-        >
-          {/* Badge */}
-          <div
-            className="flex items-center flex-shrink-0"
-            style={{ gap: 'clamp(5px, 0.375vw, 7.2px)', marginTop: 'clamp(3px, 0.313vw, 6px)' }}
-          >
-            <div
-              className="bg-[#334454] flex-shrink-0"
-              style={{
-                width:        'clamp(9px, 0.729vw, 14px)',
-                height:       'clamp(9px, 0.729vw, 14px)',
-                borderRadius: 'clamp(2px, 0.156vw, 3px)',
-              }}
-            />
-            <span
-              className="font-sans font-normal uppercase text-[#334454] tracking-wider"
-              style={{ fontSize: 'clamp(11px, 0.729vw, 14px)' }}
-            >
-              Gallery
-            </span>
-          </div>
+// /* ─── Main GallerySection ────────────────────────────────────────────── */
+// const GallerySection = () => (
+//   <section 
+//     className="w-full bg-[#EDE7DE] overflow-hidden flex flex-col items-center"
+//     style={{
+//       paddingTop:    'clamp(28px, 4.17vw, 60px)',
+//       paddingBottom: 'clamp(28px, 4.17vw, 60px)',
+//       paddingLeft:   'clamp(16px, 5.69vw, 82px)',
+//       paddingRight:  'clamp(16px, 5.69vw, 82px)',
+//     }}
+//   >
+//     <div
+//       className="w-full flex flex-col items-center"
+//       style={{
+//         maxWidth:      'clamp(560px, 93.37vw, 1344.51px)',
+//         paddingLeft:   'clamp(8px, 1.26vw, 18.17px)',
+//         paddingRight:  'clamp(8px, 1.26vw, 18.17px)',
+//         gap:           'clamp(32px, 5.05vw, 72.68px)'
+//       }}
+//     >
+//       {/* ── Header ──────────────────────────────────────────────────── */}
+//         <div className="w-full flex flex-col lg:flex-row lg:items-start lg:justify-between"
+//           style={{ gap: 'clamp(16px, 1.25vw, 24px)' }}
+//         >
+//           {/* Badge */}
+//           <div
+//             className="flex items-center flex-shrink-0"
+//             style={{ gap: 'clamp(5px, 0.375vw, 7.2px)', marginTop: 'clamp(3px, 0.313vw, 6px)' }}
+//           >
+//             <div
+//               className="bg-[#334454] flex-shrink-0"
+//               style={{
+//                 width:        'clamp(9px, 0.729vw, 14px)',
+//                 height:       'clamp(9px, 0.729vw, 14px)',
+//                 borderRadius: 'clamp(2px, 0.156vw, 3px)',
+//               }}
+//             />
+//             <span
+//               className="font-sans font-normal uppercase text-[#334454] tracking-wider"
+//               style={{ fontSize: 'clamp(11px, 0.729vw, 14px)' }}
+//             >
+//               Gallery
+//             </span>
+//           </div>
 
-          {/* Heading + subheading */}
-          <div
-            className="flex flex-col lg:flex-row lg:items-end lg:justify-between flex-1"
-            style={{ gap: 'clamp(16px, 2.604vw, 50px)' }}
-          >
-            <h2
-              className="font-roundo font-medium text-[#1A1A1A] m-0"
-              style={{
-                fontSize:      'clamp(26px, 3.125vw, 60px)',
-                lineHeight:    'clamp(30px, 3.445vw, 66.14px)',
-                letterSpacing: 'clamp(-1.3px, -0.159vw, -3.05px)',
-                maxWidth:      'clamp(280px, 34.774vw, 667.67px)',
-              }}
-            >
-              Elegant Spaces For Built Views Photo Frame
-            </h2>
-            <p
-              className="font-sans font-normal text-[#334454]/70 m-0"
-              style={{
-                fontSize:      'clamp(13px, 1.042vw, 20px)',
-                lineHeight:    'clamp(16px, 1.135vw, 21.8px)',
-                letterSpacing: 'clamp(-0.26px, -0.023vw, -0.44px)',
-                maxWidth:      'clamp(180px, 13.75vw, 264px)',
-              }}
-            >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore
-            </p>
-          </div>
-        </div>
+//           {/* Heading + subheading */}
+//           <div
+//             className="flex flex-col lg:flex-row lg:items-end lg:justify-between flex-1"
+//             style={{ gap: 'clamp(16px, 2.604vw, 50px)' }}
+//           >
+//             <h2
+//               className="font-roundo font-medium text-[#1A1A1A] m-0"
+//               style={{
+//                 fontSize:      'clamp(26px, 3.125vw, 60px)',
+//                 lineHeight:    'clamp(30px, 3.445vw, 66.14px)',
+//                 letterSpacing: 'clamp(-1.3px, -0.159vw, -3.05px)',
+//                 maxWidth:      'clamp(280px, 34.774vw, 667.67px)',
+//               }}
+//             >
+//               Elegant Spaces For Built Views Photo Frame
+//             </h2>
+//             <p
+//               className="font-sans font-normal text-[#334454]/70 m-0"
+//               style={{
+//                 fontSize:      'clamp(13px, 1.042vw, 20px)',
+//                 lineHeight:    'clamp(16px, 1.135vw, 21.8px)',
+//                 letterSpacing: 'clamp(-0.26px, -0.023vw, -0.44px)',
+//                 maxWidth:      'clamp(180px, 13.75vw, 264px)',
+//               }}
+//             >
+//               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+//               tempor incididunt ut labore et dolore
+//             </p>
+//           </div>
+//         </div>
 
-        {/* ── Grid ────────────────────────────────────────────────────── */}
-        <div
-          className="w-full flex flex-col"
-          style={{ gap: 'clamp(24px, 2.649vw, 50.87px)' }}
-        >
+//         {/* ── Grid ────────────────────────────────────────────────────── */}
+//         <div
+//           className="w-full flex flex-col"
+//           style={{ gap: 'clamp(24px, 2.649vw, 50.87px)' }}
+//         >
 
-          {/* Row 1 */}
-          <div className="w-full flex flex-col lg:flex-row justify-between">
-            <div className="self-end">
-              <GalleryCard
-                villa={VILLAS[0]}
-                containerWidth="clamp(260px, 28.31vw, 543.52px)"
-                containerHeight="clamp(248px, 25.69vw, 493.31px)"
-                imageWidth="clamp(260px, 28.31vw, 543.52px)"
-                imageHeight="clamp(224px, 24.32vw, 466.87px)"
-              />
-            </div>
-            <div className="self-start">
-              <GalleryCard
-                villa={VILLAS[1]}
-                containerWidth="clamp(240px, 26.04vw, 499.99px)"
-                containerHeight="clamp(234px, 24.22vw, 465.13px)"
-                imageWidth="clamp(240px, 26.04vw, 499.99px)"
-                imageHeight="clamp(208px, 22.71vw, 436.06px)"
-              />
-            </div>
-          </div>
+//           {/* Row 1 */}
+//           <div className="w-full flex flex-col lg:flex-row justify-between">
+//             <div className="self-end">
+//               <GalleryCard
+//                 villa={VILLAS[0]}
+//                 containerWidth="clamp(260px, 28.31vw, 543.52px)"
+//                 containerHeight="clamp(248px, 25.69vw, 493.31px)"
+//                 imageWidth="clamp(260px, 28.31vw, 543.52px)"
+//                 imageHeight="clamp(224px, 24.32vw, 466.87px)"
+//               />
+//             </div>
+//             <div className="self-start">
+//               <GalleryCard
+//                 villa={VILLAS[1]}
+//                 containerWidth="clamp(240px, 26.04vw, 499.99px)"
+//                 containerHeight="clamp(234px, 24.22vw, 465.13px)"
+//                 imageWidth="clamp(240px, 26.04vw, 499.99px)"
+//                 imageHeight="clamp(208px, 22.71vw, 436.06px)"
+//               />
+//             </div>
+//           </div>
 
-          {/* Row 2 */}
-          <div className="w-full flex justify-end">
-            <GalleryCard
-              villa={VILLAS[4]}
-              containerWidth="clamp(300px, 33.65vw, 646.08px)"
-              containerHeight="clamp(264px, 28.51vw, 547.40px)"
-              imageWidth="clamp(300px, 33.65vw, 646.08px)"
-              imageHeight="clamp(250px, 27.05vw, 519.40px)"
-            />
-          </div>
+//           {/* Row 2 */}
+//           <div className="w-full flex justify-end">
+//             <GalleryCard
+//               villa={VILLAS[4]}
+//               containerWidth="clamp(300px, 33.65vw, 646.08px)"
+//               containerHeight="clamp(264px, 28.51vw, 547.40px)"
+//               imageWidth="clamp(300px, 33.65vw, 646.08px)"
+//               imageHeight="clamp(250px, 27.05vw, 519.40px)"
+//             />
+//           </div>
 
-          {/* Row 3 */}
-          <div className="w-full flex flex-col lg:flex-row justify-between">
-            <div className="self-start">
-              <GalleryCard
-                villa={VILLAS[5]}
-                containerWidth="clamp(240px, 26.04vw, 499.99px)"
-                containerHeight="clamp(234px, 24.22vw, 465.13px)"
-                imageWidth="clamp(240px, 26.04vw, 499.99px)"
-                imageHeight="clamp(208px, 22.71vw, 436.06px)"
-              />
-            </div>
-            <div className="self-end">
-              <GalleryCard
-                villa={VILLAS[6]}
-                containerWidth="clamp(280px, 31.12vw, 597.55px)"
-                containerHeight="clamp(260px, 28.25vw, 542.35px)"
-                imageWidth="clamp(280px, 31.12vw, 597.55px)"
-                imageHeight="clamp(240px, 26.69vw, 512.35px)"
-              />
-            </div>
-          </div>
+//           {/* Row 3 */}
+//           <div className="w-full flex flex-col lg:flex-row justify-between">
+//             <div className="self-start">
+//               <GalleryCard
+//                 villa={VILLAS[5]}
+//                 containerWidth="clamp(240px, 26.04vw, 499.99px)"
+//                 containerHeight="clamp(234px, 24.22vw, 465.13px)"
+//                 imageWidth="clamp(240px, 26.04vw, 499.99px)"
+//                 imageHeight="clamp(208px, 22.71vw, 436.06px)"
+//               />
+//             </div>
+//             <div className="self-end">
+//               <GalleryCard
+//                 villa={VILLAS[6]}
+//                 containerWidth="clamp(280px, 31.12vw, 597.55px)"
+//                 containerHeight="clamp(260px, 28.25vw, 542.35px)"
+//                 imageWidth="clamp(280px, 31.12vw, 597.55px)"
+//                 imageHeight="clamp(240px, 26.69vw, 512.35px)"
+//               />
+//             </div>
+//           </div>
 
-          {/* Row 4 — Button */}
-          <div className="w-full flex justify-center items-center">
-            <LearnMoreButton />
-          </div>
+//           {/* Row 4 — Button */}
+//           <div className="w-full flex justify-center items-center">
+//             <LearnMoreButton />
+//           </div>
 
-        </div>
-      </div>
-  </section>
-);
+//         </div>
+//       </div>
+//   </section>
+// );
 
-export default GallerySection;
+// export default GallerySection;

@@ -124,7 +124,7 @@ const AboutSection = ({ aboutUs }) => {
           <div
             className="w-full flex flex-col justify-start"
             style={{
-              maxWidth:  'clamp(450px, 68.424vw, 900.91px)', // 970.91px @ 1440px
+              maxWidth:  'clamp(450px, 69.424vw, 1400px)', // 970.91px @ 1440px
               minHeight: 'clamp(80px, 20.833vw, 300px)',     // 300px    @ 1440px
             }}
           >
@@ -132,7 +132,7 @@ const AboutSection = ({ aboutUs }) => {
               ref={headingRef}
               className="font-roundo font-medium"
               style={{
-                fontSize:      'clamp(32px, 3.433vw, 52px)',   // 48px    @ 1440px
+                fontSize:      'clamp(32px, 3.433vw, 56px)',   // 48px    @ 1440px
                 lineHeight:    'clamp(34px, 4vw, 57.6px)',     // 57.6px  @ 1440px
                 letterSpacing: 'clamp(-2px, -0.167vw, -4px)',
                 textIndent:    'clamp(40px, 8.333vw, 120px)',  // 120px   @ 1440px

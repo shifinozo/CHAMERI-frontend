@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import MenuSection from './MenuSection';
 
 /**
  * ─────────────────────────────────────────────────────────────────────────────
@@ -57,6 +58,7 @@ import { useEffect, useRef, useState } from 'react';
  */
 export default function NewNavbar({ opacity = 1, showLogo = true }) {
   const [visible, setVisible] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
 
   useEffect(() => {
@@ -84,11 +86,12 @@ export default function NewNavbar({ opacity = 1, showLogo = true }) {
   }, []);
 
   return (
-    /*
+    <>
+    {/*
      * ── OUTER POSITIONING WRAPPER ──────────────────────────────────────────
      * Fixed so the navbar stays at the top during scroll.
      * Transform + transition drives the hide/show animation.
-     */
+     */}
     <div
       style={{
         position:      'fixed',
@@ -164,14 +167,15 @@ export default function NewNavbar({ opacity = 1, showLogo = true }) {
           >
             {/*
              * ── LEFT: MENU ICON ──────────────────────────────────────
-             * Container: 30×30px → clamp(22px, 2.083vw, 30px)
-             * SVG burger: 25×17.5px, colour #FFFFFF
-             * Top/left offsets handled by flex centering
+             * Container: 30×30px, fixed (per spec)
+             * On click → morphs into an X (Variant2), smart-animate,
+             * linear easing, 600ms duration
              */}
             <div
+              onClick={() => setMenuOpen((open) => !open)}
               style={{
-                width:          'clamp(22px, 2.083vw, 30px)',
-                height:         'clamp(22px, 2.083vw, 30px)',
+                width:          'clamp(30px, 3.983vw, 50px)',
+                height:         'clamp(30px, 3.983vw, 50px)',
                 display:        'flex',
                 alignItems:     'center',
                 justifyContent: 'center',
@@ -180,18 +184,44 @@ export default function NewNavbar({ opacity = 1, showLogo = true }) {
               }}
             >
               <svg
-                width="clamp(16px, 1.736vw, 25px)"
-                height="clamp(11px, 1.215vw, 17.5px)"
-                viewBox="0 0 25 17.5"
+                width="clamp(24px, 3.867vw, 38px)"
+                height="clamp(24px, 3.867vw, 38px)"
+                viewBox="0 0 32 32"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                className="text-white"
               >
-                {/* Top line */}
-                <line x1="0" y1="1.25"  x2="25" y2="1.25"  stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round"/>
-                {/* Middle line */}
-                <line x1="0" y1="8.75"  x2="25" y2="8.75"  stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round"/>
-                {/* Bottom line */}
-                <line x1="0" y1="16.25" x2="25" y2="16.25" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round"/>
+                {/* Top bar → rotates to form the "\" of the X */}
+                <rect
+                  x="7" y="8" width="12" height="2.8" rx="1.4" fill="currentColor"
+                  style={{
+                    transformBox:    'fill-box',
+                    transformOrigin: 'center',
+                    transition:      'transform 600ms linear',
+                    transform:       menuOpen ? 'translate(4px, 6.5px) rotate(45deg)' : 'translate(0, 0) rotate(0deg)',
+                  }}
+                />
+                {/* Middle bar → fades and collapses away */}
+                <rect
+                  x="7" y="14.5" width="20" height="2.8" rx="1.4" fill="currentColor"
+                  style={{
+                    transformBox:    'fill-box',
+                    transformOrigin: 'center',
+                    transition:      'transform 600ms linear, opacity 600ms linear',
+                    opacity:         menuOpen ? 0 : 1,
+                    transform:       menuOpen ? 'scaleX(0)' : 'scaleX(1)',
+                  }}
+                />
+                {/* Bottom bar → rotates to form the "/" of the X */}
+                <rect
+                  x="7" y="21" width="16" height="2.8" rx="1.4" fill="currentColor"
+                  style={{
+                    transformBox:    'fill-box',
+                    transformOrigin: 'center',
+                    transition:      'transform 600ms linear',
+                    transform:       menuOpen ? 'translate(6px, -6.5px) rotate(-45deg)' : 'translate(0, 0) rotate(0deg)',
+                  }}
+                />
               </svg>
             </div>
 
@@ -208,7 +238,7 @@ export default function NewNavbar({ opacity = 1, showLogo = true }) {
             <div
               style={{
                 width:  'clamp(100px, 10.417vw, 150px)',
-                height: 'clamp(30px, 3.194vw, 46px)',
+                height: 'clamp(30px, 3.994vw, 44px)',
                 display:'flex',
                 gap:    'clamp(6px, 0.694vw, 10px)',
               }}
@@ -328,6 +358,9 @@ export default function NewNavbar({ opacity = 1, showLogo = true }) {
         </div>
       </div>
     </div>
+
+    <MenuSection open={menuOpen} onClose={() => setMenuOpen(false)} />
+    </>
   );
 }
 

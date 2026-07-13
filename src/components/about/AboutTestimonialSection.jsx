@@ -182,7 +182,7 @@ export default function AboutTestimonialSection({ testimonialSection }) {
             alignItems: 'center',
             gap:        `${gap}px`,
             transform:  `translateX(${trackX}px)`,
-            transition: transitionEnabled ? 'transform 500ms cubic-bezier(0.4, 0, 0.2, 1)' : 'none',
+            transition: transitionEnabled ? 'transform 900ms cubic-bezier(0.4, 0, 0.2, 1)' : 'none',
           }}
           onTransitionEnd={handleTransitionEnd}
         >
@@ -203,11 +203,22 @@ export default function AboutTestimonialSection({ testimonialSection }) {
                   clipPath:   `inset(${clipPct.toFixed(2)}% 0 ${clipPct.toFixed(2)}% 0 round ${r}px)`,
                   opacity,
                   transition: transitionEnabled
-                    ? 'clip-path 500ms cubic-bezier(0.4,0,0.2,1), opacity 500ms ease'
+                    ? 'clip-path 900ms cubic-bezier(0.4,0,0.2,1), opacity 900ms ease'
                     : 'none',
                 }}
               >
-                <Image src={item.img} alt={item.name} fill style={{ objectFit: 'cover' }} />
+                <Image
+                  src={item.img}
+                  alt={item.name}
+                  fill
+                  style={{
+                    objectFit: 'cover',
+                    transform:  isCenter ? 'scale(1)' : 'scale(1.1)',
+                    transition: transitionEnabled
+                      ? 'transform 900ms cubic-bezier(0.4,0,0.2,1)'
+                      : 'none',
+                  }}
+                />
 
                 {/* Bottom gradient */}
                 <div

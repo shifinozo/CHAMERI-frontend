@@ -22,4 +22,5 @@ export const getHomeData = () => fetchAPI('/home/main');
 export const getAboutData = () => fetchAPI('/about/main');
 export const getGalleryData = () => fetchAPI('/gallery/main');
 export const getKiwanoData = () => fetchAPI('/kiwano/main');
+export const getKiwanoVillamentData = () => fetchAPI('/kiwano-villament/main');
 export const getProjects = () => fetchAPI('/projects');

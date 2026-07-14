@@ -1,4 +1,4 @@
-import { Geist, Outfit } from "next/font/google";
+import { Geist, Outfit, Instrument_Sans } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -11,6 +11,11 @@ const outfit = Outfit({
   subsets: ["latin"],
 });
 
+const instrumentSans = Instrument_Sans({
+  variable: "--font-instrument-sans",
+  subsets: ["latin"],
+});
+
 export const metadata = {
   title: "Chameri — Premium Villa Residences",
   description:
@@ -19,7 +24,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${outfit.variable} h-full antialiased`}>
+    <html lang="en" className={`${geistSans.variable} ${outfit.variable} ${instrumentSans.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

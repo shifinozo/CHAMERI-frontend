@@ -419,7 +419,7 @@ const clamp = (min, design, max = design) =>
 const ViewProjectBtn = ({ position }) => (
   <Link
     href="/gallery"
-    className="group/btn absolute z-50 transition-[opacity,visibility] duration-500 shadow-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible"
+    className="group/btn absolute z-50 flex items-center justify-center overflow-hidden shadow-sm opacity-0 invisible transition-[opacity,visibility,background-color] duration-500 bg-[#6B859E] group-hover:bg-white group-hover:opacity-100 group-hover:visible"
     style={{
       left:            position.x,
       top:             position.y,
@@ -427,32 +427,14 @@ const ViewProjectBtn = ({ position }) => (
       width:           clamp(120, 161),
       height:          clamp(24, 31),
       borderRadius:    '4px',
-      backgroundColor: '#EDE7DE',
-      display:         'flex',
-      alignItems:      'center',
-      justifyContent:  'center',
-      overflow:        'hidden',
     }}
   >
     <span
-      className="absolute z-0 font-sans font-medium text-[#334454]"
+      className="absolute z-0 font-sans font-medium text-white transition-colors duration-500 group-hover:text-[#334454]"
       style={{ fontSize: clamp(10, 13) }}
     >
       View Project
     </span>
-
-    {/* Left blue half */}
-    <div
-      className="absolute left-0 top-0 h-full bg-[#6B859E] overflow-hidden rounded-l-[4px] z-10 flex items-center"
-      style={{ width: '50%' }}
-    >
-      <span
-        className="absolute left-0 w-full text-center font-sans font-medium text-[#EDE7DE]"
-        style={{ fontSize: clamp(10, 13), width: clamp(120, 161) }}
-      >
-        View Project
-      </span>
-    </div>
 
     {/* Left arrow box */}
     <div
@@ -524,13 +506,16 @@ const ProjectCard = ({ villa, height }) => {
     setBtnPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
   };
 
+  const resetCursor = () => setBtnPos({ x: 0, y: '50%' });
+
   return (
     <div
       ref={containerRef}
-      className="relative"
+      className="relative group"
       style={{ height }}
       onMouseEnter={trackCursor}
       onMouseMove={trackCursor}
+      onMouseLeave={resetCursor}
     >
       <div className="absolute inset-0 overflow-hidden">
         <Image src={villa.img} alt={villa.name} fill className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105" />
@@ -679,7 +664,7 @@ const GalleryNew = ({ gallery }) => {
             >
               {/* Item 1 — left, pushed down */}
               <div
-                className="group w-full md:w-[44.5%]"
+                className="w-full md:w-[44.5%]"
                 style={{ paddingTop: clamp(0, 148.74) }}
               >
                 <ProjectCard villa={VILLAS[0]} height={clamp(240, 508.86)} />
@@ -687,7 +672,7 @@ const GalleryNew = ({ gallery }) => {
               </div>
 
               {/* Item 2 — right, sits at top */}
-              <div className="group w-full md:w-[41%]">
+              <div className="w-full md:w-[41%]">
                 <ProjectCard villa={VILLAS[1]} height={clamp(220, 480.05)} />
                 <Caption villa={VILLAS[1]} gap={3.63} />
               </div>
@@ -696,7 +681,7 @@ const GalleryNew = ({ gallery }) => {
             {/* ─── ROW 2: single wide item, right-aligned ─── */}
             <div className="flex justify-end w-full">
               <div
-                className="group w-full md:w-[53%]"
+                className="w-full md:w-[53%]"
               >
                 <ProjectCard villa={VILLAS[2]} height={clamp(260, 586.86)} />
                 <Caption villa={VILLAS[2]} gap={2.57} />
@@ -708,14 +693,14 @@ const GalleryNew = ({ gallery }) => {
               className="flex flex-col md:flex-row md:justify-between w-full gap-6 md:gap-0"
             >
               {/* Item 4 — left, sits at top */}
-              <div className="group w-full md:w-[41%]">
+              <div className="w-full md:w-[41%]">
                 <ProjectCard villa={VILLAS[3]} height={clamp(220, 476.05)} />
                 <Caption villa={VILLAS[3]} gap={3.63} />
               </div>
 
               {/* Item 5 — right, pushed down */}
               <div
-                className="group w-full md:w-[49%]"
+                className="w-full md:w-[49%]"
                 style={{ paddingTop: clamp(0, 163.52) }}
               >
                 <ProjectCard villa={VILLAS[4]} height={clamp(260, 583.27)} />

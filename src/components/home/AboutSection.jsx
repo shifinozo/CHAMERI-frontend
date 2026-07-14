@@ -141,7 +141,7 @@ const AboutSection = ({ aboutUs }) => {
               {HEADING_WORDS.map((word, i) => (
                 <span
                   key={i}
-                  className={`transition-colors duration-300 inline ${i < darkCount ? 'text-[#334454]' : 'text-[#6B7E8F]'}`}
+                  className={`transition-colors duration-300 inline ${i < darkCount ? 'text-[#292929]' : 'text-[#6B859E]'}`}
                 >
                   {word}
                   {i < HEADING_WORDS.length - 1 ? ' ' : ''}

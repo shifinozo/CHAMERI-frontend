@@ -542,8 +542,8 @@ const VillaPlansSection = ({ villaPlan }) => {
                 height:       'clamp(36px, 3.38vw, 48.72px)',
                 paddingTop:   'clamp(8px, 0.87vw, 12.53px)',
                 paddingBottom:'clamp(8px, 0.87vw, 12.53px)',
-                paddingLeft:  'clamp(12px, 0.97vw, 13.92px)',
-                paddingRight: 'clamp(12px, 0.97vw, 13.92px)',
+                paddingLeft:  'clamp(12px, 1.97vw, 20.92px)',
+                paddingRight: 'clamp(12px, 1.97vw, 20.92px)',
                 borderRadius: 'clamp(6px, 0.58vw, 8.35px)',
                 gap: activeTab === 'villaments' ? 'clamp(6px, 0.97vw, 13.92px)' : '0',
               }}

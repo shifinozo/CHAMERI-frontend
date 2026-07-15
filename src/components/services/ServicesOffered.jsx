@@ -68,7 +68,22 @@ const STATIC_SERVICES = [
   },
 ];
 
-export default function ServicesOffered() {
+export default function ServicesOffered({ cardsSection }) {
+  const heading = cardsSection?.heading || "Exceptional glazing for who build with vision.";
+  const subheading =
+    cardsSection?.subheading ||
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.";
+
+  const filledCards = cardsSection?.cards?.filter((c) => c.heading || c.subheading) || [];
+  const services = filledCards.length
+    ? filledCards.map((c, i) => ({
+        number: String(i + 1).padStart(2, "0") + ".",
+        title: c.heading,
+        description: c.subheading,
+        image: c.image || STATIC_SERVICES[i % STATIC_SERVICES.length]?.image,
+      }))
+    : STATIC_SERVICES;
+
   const trackRef = useRef(null);
   const isDragging = useRef(false);
   const startX = useRef(0);
@@ -121,7 +136,6 @@ export default function ServicesOffered() {
       <div
         style={{
           width: "100%",
-          marginTop: "clamp(8px, 1.073vw, 15.45px)",
           paddingTop: "clamp(12px, 1.25vw, 18px)",
           paddingRight: "clamp(24px, 2.778vw, 40px)",
           paddingBottom: "clamp(14px, 1.389vw, 20px)",
@@ -194,7 +208,7 @@ export default function ServicesOffered() {
                 margin: 0,
               }}
             >
-              Exceptional glazing for who build with vision.
+              {heading}
             </h2>
           </div>
 
@@ -211,7 +225,7 @@ export default function ServicesOffered() {
               maxWidth: "clamp(240px, 32.056vw, 461.61px)",
             }}
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.
+            {subheading}
           </p>
         </div>
       </div>
@@ -256,7 +270,7 @@ export default function ServicesOffered() {
             userSelect: "none",
           }}
         >
-          {STATIC_SERVICES.map((service, i) => (
+          {services.map((service, i) => (
             <ServiceCard key={service.number} service={service} isFirst={i === 0} />
           ))}
         </div>
@@ -270,7 +284,7 @@ function ServiceCard({ service, isFirst }) {
     <div
       style={{
         width: "clamp(260px, 29.861vw, 430px)",
-        height: "clamp(360px, 37.569vw, 541px)",
+        height: "clamp(360px, 37.569vw, 521px)",
         flexShrink: 0,
         display: "flex",
         flexDirection: "column",
@@ -284,7 +298,8 @@ function ServiceCard({ service, isFirst }) {
         boxSizing: "border-box",
       }}
     >
-      {/* Number + Title */}
+      {/* Number + Title — fixed height (number line + 2-line title) so short
+         headings never let the card content below shift upward */}
       <div
         style={{
           display: "flex",
@@ -292,6 +307,8 @@ function ServiceCard({ service, isFirst }) {
           gap: "clamp(8px, 0.972vw, 14px)",
           paddingLeft: "clamp(6px, 0.694vw, 10px)",
           paddingRight: "clamp(6px, 0.694vw, 10px)",
+          height: "clamp(72px, 7.806vw, 112.4px)",
+          flexShrink: 0,
         }}
       >
         <span
@@ -314,13 +331,18 @@ function ServiceCard({ service, isFirst }) {
             letterSpacing: "clamp(-0.66px, -0.0458vw, -0.3px)",
             color: "#1A1A1A",
             margin: 0,
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
           }}
         >
           {service.title}
         </h3>
       </div>
 
-      {/* Description + Learn More */}
+      {/* Description + Learn More — fixed height (4-line description) so
+         short or long descriptions never move the image below */}
       <div
         style={{
           display: "flex",
@@ -328,6 +350,8 @@ function ServiceCard({ service, isFirst }) {
           gap: "1px",
           paddingLeft: "clamp(6px, 0.694vw, 10px)",
           paddingRight: "clamp(6px, 0.694vw, 10px)",
+          height: "clamp(89px, 8.438vw, 121.5px)",
+          flexShrink: 0,
         }}
       >
         <p
@@ -338,6 +362,10 @@ function ServiceCard({ service, isFirst }) {
             lineHeight: "clamp(16px, 1.5625vw, 22.5px)",
             color: "#000000CC",
             margin: 0,
+            display: "-webkit-box",
+            WebkitLineClamp: 4,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
           }}
         >
           {service.description}

@@ -125,10 +125,20 @@ function getAmenityIcon(type) {
   }
 }
 
+const DEFAULT_MAP_SRC = "https://www.google.com/maps?q=Kiwano+Villas,+Mahe,+Kerala&ll=11.755,75.498&z=14&output=embed";
+
 export default function KiwanoAmenities({ amenities }) {
   const [viewMode, setViewMode] = useState("list"); // 'list' | 'map'
+  const [selectedAmenity, setSelectedAmenity] = useState(null);
 
-  const handleItemClick = () => setViewMode("map");
+  const handleItemClick = (amenity) => {
+    setSelectedAmenity(amenity);
+    setViewMode("map");
+  };
+
+  const mapSrc = selectedAmenity
+    ? `https://www.google.com/maps?q=${selectedAmenity.lat},${selectedAmenity.lng}(${encodeURIComponent(selectedAmenity.name)})&z=15&output=embed`
+    : DEFAULT_MAP_SRC;
 
   return (
     <section
@@ -296,7 +306,10 @@ export default function KiwanoAmenities({ amenities }) {
                 </button>
 
                 <button
-                  onClick={() => setViewMode("map")}
+                  onClick={() => {
+                    setSelectedAmenity(null);
+                    setViewMode("map");
+                  }}
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -377,7 +390,7 @@ export default function KiwanoAmenities({ amenities }) {
                     {AMENITIES.slice(rowIndex * 4, rowIndex * 4 + 4).map((amenity) => (
                       <div
                         key={amenity.id}
-                        onClick={handleItemClick}
+                        onClick={() => handleItemClick(amenity)}
                         style={{
                           width: "clamp(260px, 36.111vw, 520px)",
                           display: "flex",
@@ -386,7 +399,9 @@ export default function KiwanoAmenities({ amenities }) {
                           gap: "15px",
                           padding: "10px",
                           cursor: "pointer",
-                          transition: "transform 0.2s ease",
+                          borderRadius: "8px",
+                          background: selectedAmenity?.id === amenity.id ? "rgba(107, 133, 158, 0.12)" : "transparent",
+                          transition: "transform 0.2s ease, background 0.2s ease",
                         }}
                         onMouseEnter={(e) => (e.currentTarget.style.transform = "translateY(-2px)")}
                         onMouseLeave={(e) => (e.currentTarget.style.transform = "translateY(0)")}
@@ -446,10 +461,11 @@ export default function KiwanoAmenities({ amenities }) {
                 boxShadow: "0 8px 40px rgba(34,47,48,.12)",
               }}
             >
-              {/* Google Maps — pinned to the Kiwano project site */}
+              {/* Google Maps — pinned to the Kiwano project site, or the amenity the user clicked */}
               <iframe
-                title="Kiwano Villas Location"
-                src="https://www.google.com/maps?q=Kiwano+Villas,+Mahe,+Kerala&ll=11.755,75.498&z=14&output=embed"
+                key={selectedAmenity?.id ?? "default"}
+                title={selectedAmenity ? selectedAmenity.name : "Kiwano Villas Location"}
+                src={mapSrc}
                 width="100%"
                 height="100%"
                 style={{ border: 0, display: "block" }}

@@ -15,7 +15,14 @@
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-export default function ServicesHero() {
+export default function ServicesHero({ hero }) {
+  const heading = hero?.heading || "Let's Build Your Dream\nSomething More Exceptional.";
+  const subheading =
+    hero?.subheading || "Creating destinations that inspire, engage and endure";
+  const videoSrc =
+    hero?.video ||
+    "/videos/Save these budget-friendly ways to style your dog birthday that look high-end but stay practical designed to feel inspiring useful and easy to - Pin-655766395787350160_1.mp4";
+
   return (
     <section
       className="relative w-full overflow-hidden isolate"
@@ -26,16 +33,14 @@ export default function ServicesHero() {
       {/* ── BACKGROUND VIDEO ───────────────────────────────────────────── */}
       <div className="absolute inset-0 w-full h-full -z-10">
         <video
+          key={videoSrc}
           autoPlay
           muted
           loop
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
         >
-          <source
-            src="/videos/Save these budget-friendly ways to style your dog birthday that look high-end but stay practical designed to feel inspiring useful and easy to - Pin-655766395787350160_1.mp4"
-            type="video/mp4"
-          />
+          <source src={videoSrc} type="video/mp4" />
         </video>
 
         {/* Dark overlay for text legibility */}
@@ -77,7 +82,7 @@ export default function ServicesHero() {
             textShadow: "0 2px 16px rgba(0,0,0,0.25)",
           }}
         >
-          {"Let's Build Your Dream\nSomething More Exceptional."}
+          {heading}
         </h1>
       </div>
 
@@ -126,7 +131,7 @@ export default function ServicesHero() {
             boxShadow: "0px 0px 1px 0px #00000003",
           }}
         >
-          Creating destinations that inspire, engage and endure
+          {subheading}
         </span>
       </div>
     </section>

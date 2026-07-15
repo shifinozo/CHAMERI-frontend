@@ -193,7 +193,7 @@ export default function NewNavbar({ opacity = 1, showLogo = true }) {
               >
                 {/* Top bar → rotates to form the "\" of the X */}
                 <rect
-                  x="7" y="8" width="12" height="2.8" rx="1.4" fill="currentColor"
+                  x="7" y="8" width="12" height="2.4" rx="1.4" fill="currentColor"
                   style={{
                     transformBox:    'fill-box',
                     transformOrigin: 'center',
@@ -203,7 +203,7 @@ export default function NewNavbar({ opacity = 1, showLogo = true }) {
                 />
                 {/* Middle bar → fades and collapses away */}
                 <rect
-                  x="7" y="14.5" width="20" height="2.8" rx="1.4" fill="currentColor"
+                  x="7" y="14.5" width="20" height="2.4" rx="1.4" fill="currentColor"
                   style={{
                     transformBox:    'fill-box',
                     transformOrigin: 'center',
@@ -214,7 +214,7 @@ export default function NewNavbar({ opacity = 1, showLogo = true }) {
                 />
                 {/* Bottom bar → rotates to form the "/" of the X */}
                 <rect
-                  x="7" y="21" width="16" height="2.8" rx="1.4" fill="currentColor"
+                  x="7" y="21" width="16" height="2.4" rx="1.4" fill="currentColor"
                   style={{
                     transformBox:    'fill-box',
                     transformOrigin: 'center',
@@ -235,53 +235,100 @@ export default function NewNavbar({ opacity = 1, showLogo = true }) {
              *   - Sliding text: two stacked spans shift -50% on hover
              *   - Arrow box (dark, right side): arrow out-right / in-left
              */}
+            {/*
+             * Outer wrapper — Figma: w:150 h:46 gap:10px
+             */}
             <div
               style={{
                 width:  'clamp(100px, 10.417vw, 150px)',
-                height: 'clamp(30px, 3.994vw, 44px)',
+                height: 'clamp(30px, 3.194vw, 46px)',
                 display:'flex',
+                alignItems: 'center',
                 gap:    'clamp(6px, 0.694vw, 10px)',
               }}
             >
-              <button 
-          className="group flex items-center justify-between bg-white hover:bg-[#334454] transition-colors duration-300 overflow-hidden cursor-pointer border-none z-50"
-          style={{ width: "150px", height: "52px", paddingLeft: "16px", paddingRight: "16px", borderRadius: "12px" }}
-        >
-          {/* Sliding text container */}
-          <div 
-            className="relative overflow-hidden"
-            style={{ height: "23px", flex: 1 }}
-          >
-            <div className="flex flex-col transition-transform duration-[600ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-translate-y-1/2">
-              <span className="font-Geist text-[16px] font-medium text-black whitespace-nowrap flex items-center" style={{ height: "23px" }}>
-                Contact Us
-              </span>
-              <span className="font-Geist text-[16px] font-medium text-white whitespace-nowrap flex items-center" style={{ height: "23px" }}>
-                Contact Us
-              </span>
-            </div>
-          </div>
+              {/* Button — Figma: w:147 h:46 radius:12px */}
+              <button
+                className="group flex items-center bg-white hover:bg-[#334454] transition-colors duration-300 overflow-hidden cursor-pointer border-none z-50"
+                style={{
+                  width:        'clamp(98px, 10.208vw, 147px)',
+                  height:       'clamp(30px, 3.194vw, 46px)',
+                  justifyContent: 'space-between',
+                  paddingLeft:  'clamp(8px, 0.863vw, 12.43px)',
+                  paddingRight: 'clamp(6px, 0.595vw, 8.57px)',
+                  borderRadius: 'clamp(7px, 0.833vw, 12px)',
+                  // marginTop:"clamp(20px,1vw,10px)"
+                }}
+              >
+                {/* Sliding text container — Figma: w:90 h:23 */}
+                <div
+                  className="relative overflow-hidden"
+                  style={{ width: 'clamp(60px, 6.25vw, 90px)', height: 'clamp(15px, 1.597vw, 23px)' }}
+                >
+                  {/* Flex column of two stacked labels — Figma: w:84 */}
+                  <div
+                    className="flex flex-col transition-transform duration-[600ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-translate-y-1/2"
+                    style={{ width: 'clamp(56px, 5.833vw, 84px)' }}
+                  >
+                    <span
+                      className="font-Geist text-black whitespace-nowrap flex items-center"
+                      style={{
+                        height:        'clamp(11px, 1.111vw, 16px)',
+                        fontSize:      'clamp(12px, 1.111vw, 16px)',
+                        fontWeight:    500,
+                        lineHeight:    '100%',
+                        letterSpacing: '0%',
+                        marginTop: "clamp(0px, 1vw, 4px)"
+                      }}
+                    >
+                      Contact Us
+                    </span>
+                    <span
+                      className="font-Geist text-white whitespace-nowrap flex items-center"
+                      style={{
+                        height:        'clamp(11px, 1.111vw, 16px)',
+                        fontSize:      'clamp(12px, 1.111vw, 16px)',
+                        fontWeight:    500,
+                        lineHeight:    '100%',
+                        letterSpacing: '0%',
+                        marginTop: "clamp(0px, 1vw, 4px)"
+                      }}
+                    >
+                      Contact Us
+                    </span>
+                  </div>
+                </div>
 
-          {/* Arrow icon box */}
-          <div 
-            className="relative overflow-hidden flex items-center justify-center shrink-0"
-            style={{ width: "21px", height: "20px", marginLeft: "8px" }}
-          >
-            {/* Original Arrow - Flies out to the right */}
-            <div className="absolute inset-0 flex items-center justify-center transition-transform duration-[600ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:translate-x-full">
-              <svg width="21" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-black">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </div>
+                {/* Arrow box — Figma: w:36 h:36 radius:8px */}
+                <div
+                  className="relative flex items-center justify-center shrink-0"
+                  style={{
+                    width:        'clamp(24px, 2.5vw, 36px)',
+                    height:       'clamp(24px, 2.5vw, 36px)',
+                    borderRadius: 'clamp(6px, 0.556vw, 8px)',
+                  }}
+                >
+                  {/* Icon frame — Figma: w:21 h:20 */}
+                  <div
+                    className="relative overflow-hidden"
+                    style={{ width: 'clamp(15px, 1.458vw, 21px)', height: 'clamp(14px, 1.389vw, 20px)' }}
+                  >
+                    {/* Original Arrow - Flies out to the right */}
+                    <div className="absolute inset-0 flex items-center justify-center transition-transform duration-[600ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:translate-x-full">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-black" style={{ width: '100%', height: '100%' }}>
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                      </svg>
+                    </div>
 
-            {/* New Arrow - Comes in from the left */}
-            <div className="absolute inset-0 flex items-center justify-center transition-transform duration-[600ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] -translate-x-full group-hover:translate-x-0">
-              <svg width="21" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </div>
-          </div>
-        </button>
+                    {/* New Arrow - Comes in from the left */}
+                    <div className="absolute inset-0 flex items-center justify-center transition-transform duration-[600ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] -translate-x-full group-hover:translate-x-0">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white" style={{ width: '100%', height: '100%' }}>
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </button>
             </div>
           </div>
 

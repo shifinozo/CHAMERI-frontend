@@ -128,8 +128,14 @@ function useCardDimensions() {
 }
 
 const ServicesTestimonials = ({ testimonial }) => {
-  const TESTIMONIALS = testimonial?.cards?.length
-    ? testimonial.cards.map((c, i) => ({
+  const heading = testimonial?.heading || "What Our Clients Says";
+  const subheading =
+    testimonial?.subheading ||
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor";
+
+  const filledCards = testimonial?.cards?.filter((c) => c.quote || c.name) || [];
+  const TESTIMONIALS = filledCards.length
+    ? filledCards.map((c, i) => ({
         id: i + 1,
         quote: c.quote,
         name: c.name,
@@ -248,7 +254,7 @@ const ServicesTestimonials = ({ testimonial }) => {
               height:        'clamp(40px, 4.17vw, 60px)'
             }}
           >
-            What Our Clients Says
+            {heading}
           </h2>
 
           {/* Sub-heading */}
@@ -262,7 +268,7 @@ const ServicesTestimonials = ({ testimonial }) => {
               height:        'clamp(40px, 3.68vw, 53px)'
             }}
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            {subheading}
           </p>
         </div>
       </div>

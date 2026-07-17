@@ -93,13 +93,13 @@ export default function NewNavbar({ opacity = 1, showLogo = true }) {
      * Transform + transition drives the hide/show animation.
      */}
     <div
+      className="hidden sm:flex"
       style={{
         position:      'fixed',
         top:           0,
         left:          0,
         width:         '100%',
         zIndex:        50,
-        display:       'flex',
         justifyContent:'center',
         paddingTop:    'clamp(8px, 0.764vw, 11px)',
         paddingLeft:   'clamp(16px, 5.556vw, 80px)',
@@ -404,6 +404,111 @@ export default function NewNavbar({ opacity = 1, showLogo = true }) {
           )}
         </div>
       </div>
+    </div>
+
+    {/*
+     * ── MOBILE NAV (< sm) ───────────────────────────────────────────────────
+     * Figma (iPhone 13/14 frame, 390×933):
+     *   Hamburger : 40×40  top:17    left:317.26 (→ right:32.74)
+     *   Logo group: 85.93×48  top:13.7  left:143
+     *   (logo group = mark + wordmark stacked, scaled 0.8593× from the
+     *    desktop pill's row-2 logo proportions)
+     */}
+    <div
+      className="flex sm:hidden"
+      style={{
+        position:      'fixed',
+        top:           0,
+        left:          0,
+        width:         '100%',
+        zIndex:        50,
+        pointerEvents: 'none',
+        opacity,
+        transform:     visible ? 'translateY(0)' : 'translateY(-120%)',
+        transition:    'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease',
+        willChange:    'transform, opacity',
+      }}
+    >
+      {showLogo && (
+        <Link
+          href="/"
+          style={{
+            position:      'absolute',
+            top:           'clamp(13px, 3.513vw, 15px)',
+            left:          'clamp(132px, 36.667vw, 157px)',
+            width:         'clamp(79px, 22.033vw, 95px)',
+            height:        'clamp(40px, 12.308vw, 52px)',
+            display:       'flex',
+            flexDirection: 'column',
+            alignItems:    'center',
+            gap:           'clamp(3px, 0.882vw, 4px)',
+            pointerEvents: 'auto',
+          }}
+        >
+          <div style={{ position: 'relative', width: 'clamp(27px, 7.497vw, 32px)', height: 'clamp(30px, 8.374vw, 36px)' }}>
+            <Image src="/icons/logo (6).svg" alt="Chameri mark" fill sizes="40px" style={{ objectFit: 'contain' }} priority />
+          </div>
+          <div style={{ position: 'relative', width: 'clamp(79px, 22.033vw, 95px)', height: 'clamp(10px, 2.864vw, 12px)' }}>
+            <Image src="/icons/logo (7).svg" alt="CHAMERI" fill sizes="100px" style={{ objectFit: 'contain' }} priority />
+          </div>
+        </Link>
+      )}
+
+      <button
+        onClick={() => setMenuOpen((open) => !open)}
+        style={{
+          position:       'absolute',
+          top:            'clamp(16px, 4.359vw, 19px)',
+          right:          'clamp(30px, 8.397vw, 36px)',
+          width:          'clamp(37px, 10.256vw, 44px)',
+          height:         'clamp(37px, 10.256vw, 44px)',
+          display:        'flex',
+          alignItems:     'center',
+          justifyContent: 'center',
+          cursor:         'pointer',
+          background:     'none',
+          border:         'none',
+          pointerEvents:  'auto',
+        }}
+      >
+        <svg
+          width="clamp(26px, 7.359vw, 32px)"
+          height="clamp(26px, 7.359vw, 32px)"
+          viewBox="0 0 32 32"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="text-white"
+        >
+          <rect
+            x="7" y="8" width="12" height="2.4" rx="1.4" fill="currentColor"
+            style={{
+              transformBox:    'fill-box',
+              transformOrigin: 'center',
+              transition:      'transform 600ms linear',
+              transform:       menuOpen ? 'translate(4px, 6.5px) rotate(45deg)' : 'translate(0, 0) rotate(0deg)',
+            }}
+          />
+          <rect
+            x="7" y="14.5" width="20" height="2.4" rx="1.4" fill="currentColor"
+            style={{
+              transformBox:    'fill-box',
+              transformOrigin: 'center',
+              transition:      'transform 600ms linear, opacity 600ms linear',
+              opacity:         menuOpen ? 0 : 1,
+              transform:       menuOpen ? 'scaleX(0)' : 'scaleX(1)',
+            }}
+          />
+          <rect
+            x="7" y="21" width="16" height="2.4" rx="1.4" fill="currentColor"
+            style={{
+              transformBox:    'fill-box',
+              transformOrigin: 'center',
+              transition:      'transform 600ms linear',
+              transform:       menuOpen ? 'translate(6px, -6.5px) rotate(-45deg)' : 'translate(0, 0) rotate(0deg)',
+            }}
+          />
+        </svg>
+      </button>
     </div>
 
     <MenuSection open={menuOpen} onClose={() => setMenuOpen(false)} />

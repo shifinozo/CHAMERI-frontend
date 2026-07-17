@@ -716,7 +716,7 @@ export default function HeroSection({ hero }) {
             are not clipped.
         ════════════════════════════════════════════════════════════════════════ */}
         <div
-          className="absolute pointer-events-none"
+          className="hidden sm:block absolute pointer-events-none"
           style={{
             top: "50.83%",         /* 602.47 / 1024 */
             left: "22.88%",         /* 329.5  / 1440 */
@@ -874,6 +874,114 @@ export default function HeroSection({ hero }) {
           </div>
 
         </div>{/* ── end single parent container ── */}
+
+        {/* ══════════════════════════════════════════════════════════════════════
+            MOBILE CONTENT (< sm) — Figma frame: 390×933, padding 40 top/bottom
+            Content anchored to the bottom: title(147) + gap(149) + info(132) = 428
+            → top of content = 933 - 40 - 428 = 465px (49.8% of frame height)
+            Reproduced with a bottom-anchored flex column instead of raw offsets.
+        ════════════════════════════════════════════════════════════════════════ */}
+        <div
+          className="sm:hidden absolute inset-x-0 bottom-0 flex flex-col items-center pointer-events-none"
+          style={{
+            paddingBottom: "clamp(32px, 10.256vw, 40px)",  /* 40/390 */
+            gap: "clamp(110px, 38.205vw, 149px)",            /* 149/390 */
+          }}
+        >
+          {/* ── Title: "Every Home Begins as Dream, brick by brick into reality"
+              Figma: w:300 h:147  font: Roundo 500 36.6px/36.6px  ls:-0.73px  center
+          ─────────────────────────────────────────────────────── */}
+          <h1
+            style={{
+              width: "clamp(260px, 76.923vw, 300px)",  /* 300/390 */
+              opacity: head1T,
+              transform: `translateY(${40 * (1 - head1T)}px)`,
+              fontFamily: "var(--font-roundo), 'Roundo', var(--font-outfit), system-ui, sans-serif",
+              fontWeight: 500,
+              fontSize: "clamp(30px, 9.385vw, 36.6px)",   /* 36.6/390 */
+              lineHeight: "clamp(30px, 9.385vw, 36.6px)",
+              letterSpacing: "-0.73px",
+              color: "#ffffff",
+              textAlign: "center",
+              margin: 0,
+              padding: 0,
+              textShadow: "0 2px 16px rgba(0,0,0,0.30)",
+            }}
+          >
+            Every Home Begins as Dream, brick by brick into reality
+          </h1>
+
+          {/* ── Info block: divider + "your villa partner" + description
+              Figma: w:348 h:132  gap:18
+          ─────────────────────────────────────────────────────── */}
+          <div
+            className="flex flex-col items-start"
+            style={{
+              width: "clamp(300px, 89.231vw, 348px)",   /* 348/390 */
+              gap: "clamp(14px, 4.615vw, 18px)",
+            }}
+          >
+            {/* Divider — Figma: w:348 h:1 */}
+            <div
+              style={{
+                width: "100%",
+                height: "1px",
+                borderTop: "1px solid rgba(255,255,255,0.45)",
+                opacity: lineT,
+              }}
+            />
+
+            {/* Figma: w:348 h:113 gap:12 */}
+            <div className="flex flex-col items-start" style={{ width: "100%", gap: "clamp(10px, 3.077vw, 12px)" }}>
+              {/* Label — Figma: w:150 h:17  Instrument Sans 600 12px/16.38px ls:1.26px uppercase */}
+              <div
+                style={{
+                  opacity: sub1T,
+                  transform: `translateY(${20 * (1 - sub1T)}px)`,
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "var(--font-instrument-sans), 'Instrument Sans', system-ui, sans-serif",
+                    fontWeight: 600,
+                    fontSize: "12px",
+                    lineHeight: "16.38px",
+                    letterSpacing: "1.26px",
+                    textTransform: "uppercase",
+                    color: "rgba(255,255,255,0.9)",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Your Villa Partner
+                </span>
+              </div>
+
+              {/* Description — Figma: w:348 h:84  Geist 400 14px/21px */}
+              <div
+                style={{
+                  width: "100%",
+                  opacity: sub2T,
+                  transform: `translateY(${20 * (1 - sub2T)}px)`,
+                }}
+              >
+                <p
+                  style={{
+                    fontFamily: "var(--font-geist-sans), 'Geist', system-ui, sans-serif",
+                    fontWeight: 400,
+                    fontSize: "14px",
+                    lineHeight: "21px",
+                    letterSpacing: "0",
+                    color: "rgba(255,255,255,0.85)",
+                    margin: 0,
+                    padding: 0,
+                  }}
+                >
+                  {hero?.subheading2 || "We design and install bespoke glass systems for ambitious architectural projects. Every pane reflects our commitment to clarity, quality, and collaboration."}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* ══ Percentage counter ══ */}
         <div

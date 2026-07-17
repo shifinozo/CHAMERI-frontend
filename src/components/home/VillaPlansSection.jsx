@@ -414,7 +414,7 @@ const VillaPlansSection = ({ villaPlan }) => {
 
   return (
     <section
-      className="w-full bg-[#EDE7DE] flex justify-center overflow-hidden"
+      className="villa-plans-section w-full bg-[#EDE7DE] flex justify-center overflow-hidden"
       style={{
         paddingTop:    'clamp(40px, 4.17vw, 60px)',
         paddingBottom: 'clamp(40px, 4.17vw, 60px)',
@@ -423,6 +423,19 @@ const VillaPlansSection = ({ villaPlan }) => {
         minHeight:     'clamp(600px, 68.12vw, 981px)',
       }}
     >
+      {/* Mobile (< 640px) needs a fixed 11px side padding to match the Figma
+          390-wide frame exactly (390 - 11*2 = 368px image width). The global
+          reset in globals.css (`*{padding:0}`, unlayered) beats Tailwind's
+          `@layer utilities` classes, so a plain px-[11px] class silently does
+          nothing here — only `!important` inline-style overrides win. */}
+      <style>{`
+        @media (max-width: 639px) {
+          .villa-plans-section {
+            padding-left: 11px !important;
+            padding-right: 11px !important;
+          }
+        }
+      `}</style>
       {/* ── Fluid content container ─────────────────────────────────────── */}
       <div
         className="flex flex-col items-center w-full"
@@ -471,11 +484,7 @@ const VillaPlansSection = ({ villaPlan }) => {
             IMAGE CARD
            ══════════════════════════════════════════════════════════════ */}
         <div
-          className="relative w-full overflow-hidden"
-          style={{
-            borderRadius: 'clamp(10px, 1.05vw, 15.12px)',
-            height:       'clamp(400px, 49.99vw, 820px)',
-          }}
+          className="relative w-full overflow-hidden rounded-[8px] sm:rounded-[clamp(10px,1.05vw,15.12px)] h-[539px] sm:h-[clamp(400px,49.99vw,820px)]"
         >
           <Image
             src={activeTab === 'villas' ? tab1Image : tab2Image}

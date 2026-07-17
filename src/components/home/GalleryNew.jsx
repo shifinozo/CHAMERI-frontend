@@ -416,6 +416,25 @@ const STATIC_VILLAS = [
 const clamp = (min, design, max = design) =>
   `clamp(${min}px, ${((design / 1440) * 100).toFixed(4)}vw, ${max}px)`;
 
+/**
+ * Mobile gallery layout — Figma frame 390×1509.
+ * top/left/width converted to percentages of that frame so the whole
+ * staggered arrangement scales proportionally at any mobile viewport
+ * (the frame itself is reproduced via aspect-ratio: 390/1509).
+ *
+ * villaIndex maps into VILLAS. VILLAS only ever has 5 entries (indices
+ * 0-4) once a `gallery` prop is supplied (it's built from card1..card5),
+ * so this must stay within 0-4 — it cannot assume the 7-item
+ * STATIC_VILLAS fallback, or the last cards silently fail to render.
+ */
+const MOBILE_CARDS = [
+  { key: 'v1', villaIndex: 1, top: 1.638,  left: 29.433, width: 64.778, ratio: 252.636 / 235.019 },
+  { key: 'v2', villaIndex: 0, top: 19.285, left: 4.774,  width: 67.835, ratio: 264.556 / 240.114 },
+  { key: 'v3', villaIndex: 2, top: 37.906, left: 12.108, width: 80.553, ratio: 314.156 / 266.170 },
+  { key: 'v4', villaIndex: 3, top: 58.449, left: 6.595,  width: 53.554, ratio: 208.862 / 194.297 },
+  { key: 'v5', villaIndex: 4, top: 73.758, left: 21.431, width: 72.983, ratio: 284.635 / 258.338 },
+];
+
 const ViewProjectBtn = ({ position }) => (
   <Link
     href="/gallery"
@@ -547,10 +566,10 @@ const GalleryNew = ({ gallery }) => {
     : STATIC_VILLAS;
 
   return (
-    <section className="w-full bg-[#EDE7DE] flex justify-center overflow-hidden">
+    <section className="w-full bg-[#EDE7DE] flex flex-col items-center overflow-hidden">
       {/* ─── Outer wrapper: px scales from 16px (mobile) → 82px (1440px) ─── */}
       <div
-        className="mx-auto w-full"
+        className="hidden sm:block mx-auto w-full"
         style={{
           maxWidth:      'clamp(300px,100vw,1920px)',
           paddingTop:    clamp(32, 60),
@@ -771,6 +790,89 @@ const GalleryNew = ({ gallery }) => {
           </div>{/* /PROJECT GRID */}
         </div>{/* /Inner wrapper */}
       </div>{/* /Outer wrapper */}
+
+      {/* ══════════════════════════════════════════════════════════════════
+          MOBILE LAYOUT (< sm) — Figma frame 390×~1509
+          Header: 390×221  padding 28/17/0/18  border-top 1px
+            → inner: 390×193  padding 0/21/16/21  gap 10
+              → badge 81.6×20 · title 348×74 (Roundo 500 32/36.6 ls-0.73)
+              → desc 322×63 (Geist 400 14/21)
+          Gallery: 390×1509 (relative, scaled via aspect-ratio so every
+            image/button keeps its Figma top/left/width proportion)
+      ═══════════════════════════════════════════════════════════════════ */}
+      <div className="sm:hidden w-full">
+        {/* Header */}
+        <div
+          className="w-full border-t border-[#334454]/10"
+          style={{ paddingTop: '28px', paddingRight: '4px', paddingLeft: '4px' }}
+        >
+          <div
+            className="flex flex-col"
+            style={{ paddingRight: '21px', paddingBottom: '16px', paddingLeft: '21px', gap: '10px' }}
+          >
+            {/* Badge */}
+            <div className="flex items-center" style={{ width: '81.6px', height: '20px', gap: '6px' }}>
+              <div className="bg-[#334454] flex-shrink-0" style={{ width: '10px', height: '10px', borderRadius: '2px' }} />
+              <span className="font-geist uppercase text-[#334454]" style={{ fontSize: '12px', letterSpacing: '-0.24px' }}>
+                GALLERY
+              </span>
+            </div>
+
+            {/* Title */}
+            <h2
+              className="font-roundo font-medium text-black m-0"
+              style={{ width: '348px', maxWidth: '100%', fontSize: '32px', lineHeight: '36.6px', letterSpacing: '-0.73px' }}
+            >
+              Elegant Spaces For Built Views Photo Frame
+            </h2>
+
+            {/* Description */}
+            <p
+              className="font-geist text-[#334454] m-0"
+              style={{ width: '322px', maxWidth: '100%', fontSize: '14px', lineHeight: '21px' }}
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+            </p>
+          </div>
+        </div>
+
+        {/* Staggered image gallery — proportionally scaled Figma frame */}
+        <div className="relative w-full" style={{ aspectRatio: '390 / 1509' }}>
+          {MOBILE_CARDS.map((card) => {
+            const villa = VILLAS[card.villaIndex];
+            if (!villa) return null;
+            return (
+              <div
+                key={card.key}
+                className="absolute"
+                style={{ top: `${card.top}%`, left: `${card.left}%`, width: `${card.width}%` }}
+              >
+                <div className="relative w-full overflow-hidden" style={{ aspectRatio: card.ratio }}>
+                  <Image src={villa.img} alt={villa.name} fill className="object-cover" />
+                </div>
+                <Caption villa={villa} gap={3} />
+              </div>
+            );
+          })}
+
+          {/* Learn More button */}
+          <Link
+            href="/gallery"
+            className="group absolute flex items-center justify-center bg-[#6B859E] hover:bg-[#4a6074] transition-colors duration-500 overflow-hidden"
+            style={{ top: '93.6%', left: '31.8%', width: '142px', height: '46px', borderRadius: '12px' }}
+          >
+            <span className="font-sans font-medium text-white" style={{ fontSize: '14px', marginLeft: '-20px' }}>Learn More</span>
+            <div
+              className="absolute bg-white flex items-center justify-center overflow-hidden"
+              style={{ right: '10px', width: '26px', height: '26px', borderRadius: '6px' }}
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-[#6B859E] w-[13px] h-[13px]">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </div>
+          </Link>
+        </div>
+      </div>
     </section>
   );
 };

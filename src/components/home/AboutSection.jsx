@@ -76,10 +76,10 @@ const AboutSection = ({ aboutUs }) => {
       >
 
         {/* ══════════════════════════════════════════════════════════════════
-            ABOUT US HEADER (Top Row)
+            ABOUT US HEADER (Top Row) — desktop/tablet (>= sm)
         ══════════════════════════════════════════════════════════════════ */}
         <div
-          className="w-full flex flex-col md:flex-row items-start justify-between gap-6 md:gap-0"
+          className="hidden sm:flex w-full md:flex-row items-start justify-between gap-6 md:gap-0"
           style={{
             maxWidth:      'clamp(375px, 100vw, 1920px)',
             minHeight:     'clamp(160px, 22.847vw, 329px)', // 329px @ 1440px
@@ -152,10 +152,66 @@ const AboutSection = ({ aboutUs }) => {
         </div>
 
         {/* ══════════════════════════════════════════════════════════════════
-            STATS ROW
+            ABOUT US HEADER — mobile (< sm)
+            Figma frame: 390×503
+              Badge : 88.6×20  top:45.5  left:22.15
+              Text  : 344×581  top:-29   left:24
+                      Roundo 500 33.6px/36.6px  ls:-0.73px
         ══════════════════════════════════════════════════════════════════ */}
         <div
-          className="w-full flex flex-wrap md:flex-nowrap items-center justify-between"
+          className="sm:hidden w-full flex flex-col"
+          style={{
+            /* No extra paddingTop here — the outer <section> already applies
+               its own paddingTop (shared with desktop), so adding one more
+               here was stacking into a large blank gap above the badge. */
+            paddingLeft: 'clamp(21px, 5.897vw, 25px)',     /* ~23/390  */
+            paddingRight:'clamp(21px, 5.897vw, 25px)',
+          }}
+        >
+          {/* Badge */}
+          <div
+            className="flex items-center flex-shrink-0 rounded-[90px]"
+            style={{
+              width:  'clamp(82px, 22.718vw, 97px)',  /* 88.6/390 */
+              height: 'clamp(18px, 5.128vw, 22px)',    /* 20/390   */
+              gap:    'clamp(4px, 1.026vw, 8px)',
+            }}
+          >
+            <div
+              className="bg-[#1A1A1A] rounded-[3px] flex-shrink-0"
+              style={{ width: '10px', height: '10px' }}
+            />
+            <span
+              className="font-sans font-normal uppercase text-[#1A1A1A] tracking-[-0.32px] flex items-center justify-center"
+              style={{ fontSize: '11px', lineHeight: '1.2' }}
+            >
+              About Us
+            </span>
+          </div>
+
+          {/* Paragraph — width fills the padded container (never a fixed
+              floor wider than the viewport, which was overflowing on
+              320px-wide screens) and caps out at the Figma value */}
+          <p
+            className="font-roundo font-medium text-[#6B859E]"
+            style={{
+              marginTop: 'clamp(10px, 3.077vw, 14px)',
+              width: '100%',
+              maxWidth: 'clamp(360px, 100vw, 360px)',
+              fontSize: 'clamp(26px, 8.615vw, 37px)',    /* 33.6/390 */
+              lineHeight: 'clamp(29px, 9.385vw, 40px)',   /* 36.6/390 */
+              letterSpacing: '-0.73px',
+            }}
+          >
+            Since 1985, we have built residential and commercial work with founder leadership and in house execution. Over 40 years one principle guides us: A home where life can take root, and become entirely and truly yours. That is our promise
+          </p>
+        </div>
+
+        {/* ══════════════════════════════════════════════════════════════════
+            STATS ROW — desktop/tablet (>= sm)
+        ══════════════════════════════════════════════════════════════════ */}
+        <div
+          className="hidden sm:flex w-full flex-wrap md:flex-nowrap items-center justify-between"
           style={{
             paddingTop:    'clamp(14px, 1.875vw, 27px)',   // 27px   @ 1440px
             paddingBottom: 'clamp(14px, 1.875vw, 27px)',
@@ -192,6 +248,54 @@ const AboutSection = ({ aboutUs }) => {
               </span>
             </div>
           ))}
+        </div>
+
+        {/* ══════════════════════════════════════════════════════════════════
+            STATS GRID — mobile (< sm)
+            Figma frame: 390×220  padding:27/19/27/19
+              Inner: 338×166 gap:20, containing 2 rows (338×73, justify-between)
+        ══════════════════════════════════════════════════════════════════ */}
+        <div
+          className="sm:hidden w-full"
+          style={{
+            paddingTop:    'clamp(25px, 6.923vw, 30px)',  /* 27/390 */
+            paddingBottom: 'clamp(25px, 6.923vw, 30px)',
+            paddingLeft:   'clamp(17px, 4.872vw, 21px)',   /* 19/390 */
+            paddingRight:  'clamp(17px, 4.872vw, 21px)',
+          }}
+        >
+          <div
+            className="flex flex-col w-full"
+            style={{
+              maxWidth: '372px',
+              gap:      'clamp(18px, 5.128vw, 22px)',   /* 20/390 */
+            }}
+          >
+            {Array.from({ length: Math.ceil(STATS.length / 2) }, (_, row) => (
+              <div key={row} className="w-full flex items-center justify-between">
+                {STATS.slice(row * 2, row * 2 + 2).map((stat, i) => (
+                  <div key={i} className="flex flex-col items-start">
+                    <span
+                      className="font-roundo font-medium text-[#1A1A1A]"
+                      style={{
+                        fontSize: 'clamp(28px, 3.125vw, 45px)',
+                        lineHeight: '1',
+                        letterSpacing: 'clamp(-0.5px, -0.063vw, -0.9px)',
+                      }}
+                    >
+                      {stat.val}
+                    </span>
+                    <span
+                      className="font-sans font-normal text-black/60 tracking-[-0.32px]"
+                      style={{ fontSize: '13px', lineHeight: '1.35', marginTop: '6px' }}
+                    >
+                      {stat.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
 
       </div>

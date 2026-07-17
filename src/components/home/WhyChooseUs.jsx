@@ -704,9 +704,9 @@ const WhyChooseUs = ({ chooseUs }) => {
       }}
     >
 
-      {/* ══ Top Header ════════════════════════════════════════════════════ */}
+      {/* ══ Top Header — desktop/tablet (>= sm) ══════════════════════════ */}
       <div
-        className="w-full flex flex-col items-center"
+        className="hidden sm:flex w-full flex-col items-center"
         style={{
           maxWidth: 'clamp(375px, 90vw, 1920px)',
           gap:      'clamp(14px, 1.04vw, 15px)',
@@ -778,9 +778,60 @@ const WhyChooseUs = ({ chooseUs }) => {
         </div>
       </div>
 
-      {/* ══ Feature Cards (Accordion) ═════════════════════════════════════ */}
+      {/* ══ Top Header — mobile (< sm)
+          Figma frame: 390×1115.8  padding:40/22/40/22
+            Header block: 346.5×173 gap:10 → badge(20) + subblock(346.5×143 gap:6)
+            Title: 346.5×74  Roundo 500 32px/36.6px ls:-0.73px
+            Desc:  346.5×63  Geist 400 14px/21px
+      ═══════════════════════════════════════════════════════════════════ */}
       <div
-        className="w-full flex flex-col md:flex-row justify-center"
+        className="sm:hidden w-full flex flex-col"
+        style={{ gap: 'clamp(9px, 2.564vw, 11px)' }}
+      >
+        {/* Badge */}
+        <div
+          className="flex items-center rounded-[90px]"
+          style={{
+            height: 'clamp(18px, 5.128vw, 22px)',
+            gap:    'clamp(4px, 1.026vw, 8px)',
+          }}
+        >
+          <div
+            className="bg-[#334454] rounded-[2px] flex-shrink-0"
+            style={{ width: '10px', height: '10px' }}
+          />
+          <span
+            className="font-sans font-normal uppercase text-black flex items-center"
+            style={{ fontSize: '11px', letterSpacing: '-0.24px' }}
+          >
+            WHY CHOOSE US
+          </span>
+        </div>
+
+        {/* Title + description */}
+        <div className="flex flex-col" style={{ gap: 'clamp(5px, 1.538vw, 7px)' }}>
+          <h2
+            className="font-roundo font-medium text-[#1A1A1A] capitalize m-0"
+            style={{
+              fontSize:      'clamp(29px, 8.205vw, 35px)',
+              lineHeight:    'clamp(33px, 9.385vw, 40px)',
+              letterSpacing: '-0.73px',
+            }}
+          >
+            Proven Trust Value Modern Homes Leader
+          </h2>
+          <p
+            className="font-sans font-normal text-black/60 m-0"
+            style={{ fontSize: '14px', lineHeight: '21px' }}
+          >
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.
+          </p>
+        </div>
+      </div>
+
+      {/* ══ Feature Cards (Accordion) — desktop/tablet (>= sm) ═══════════ */}
+      <div
+        className="hidden sm:flex w-full flex-col md:flex-row justify-center"
         style={{
           maxWidth: 'clamp(375px, 96vw, 1920px)',
           gap:      'clamp(6px, 0.69vw, 10px)',
@@ -866,6 +917,96 @@ const WhyChooseUs = ({ chooseUs }) => {
                     {card.desc}
                   </p>
                 </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* ══ Feature Cards — mobile (< sm)
+          Figma: cards container 360×842.8 gap:10.22 (bleeds slightly wider
+          than the header block, hence the negative side margin below)
+            Each card ("image" frame): 360×274.12225341796875
+              padding: 28/29/28/29.48  gap:7.86  radius:6.29
+              → inner content div: 305.307861328125×218.1222686767578 gap:11
+                → icon: 36.157203674316406² radius:3.93 padding:4.72
+                → title: 305.307861328125×60.524017333984375
+                  Roundo 500 24px/29.83px ls:-0.52px
+      ═══════════════════════════════════════════════════════════════════ */}
+      <div
+        className="sm:hidden w-full flex flex-col"
+        style={{
+          gap:         'clamp(9px, 2.621vw, 11px)',
+          marginLeft:  'clamp(-8px, -1.714vw, -6px)',
+          marginRight: 'clamp(-8px, -1.714vw, -6px)',
+        }}
+      >
+        {cards.map((card, i) => {
+          const isActive = activeCard === i;
+          return (
+            <div
+              key={i}
+              onMouseEnter={() => setActiveCard(i)}
+              className="relative overflow-hidden transition-all duration-700 ease-in-out cursor-pointer flex-shrink-0 w-full flex flex-col"
+              style={{
+                height:        '274.12px',
+                paddingTop:    '28px',
+                paddingRight:  '29px',
+                paddingBottom: '28px',
+                paddingLeft:   '29.48px',
+                borderRadius:  '6.29px',
+                gap:           '7.86px',
+              }}
+            >
+              {/* Background image */}
+              <Image
+                src={card.img}
+                alt={card.title}
+                fill
+                className={`object-cover transition-transform duration-700 ${isActive ? 'scale-105' : 'scale-100'}`}
+              />
+
+              {/* Dark overlay */}
+              <div
+                className={`absolute inset-0 transition-colors duration-700 ${isActive ? 'bg-black/50' : 'bg-black/40'}`}
+              />
+
+              {/* Icon box */}
+              <div
+                className="relative bg-[#33445333] flex items-center justify-center shadow-lg flex-shrink-0"
+                style={{ width: '36.16px', height: '36.16px', borderRadius: '3.93px', padding: '4.72px',top:'clamp(30px, 32vw, 150px)' }}
+              >
+                <div className="text-[#EDE7DE] flex items-center justify-center w-full h-full" >
+                  {card.icon}
+                </div>
+              </div>
+
+              {/* Inner content div */}
+              <div
+                className="relative flex flex-col"
+                style={{ width: '305.31px', maxWidth: '100%', minHeight: '218.12px', gap: '11px',marginTop: 'clamp(120px, 15vw, 150px)' }}
+              >
+                {/* Title */}
+                <h3
+                  className="font-roundo font-medium text-white m-0"
+                  style={{
+                    width:         '305.31px',
+                    maxWidth:      '100%',
+                    fontSize:      '24px',
+                    lineHeight:    '29.83px',
+                    letterSpacing: '-0.52px',
+                  }}
+                >
+                  {card.title}
+                </h3>
+
+                {/* Description — fades in on hover, same as desktop */}
+                <p
+                  className={`font-sans font-normal text-white/80 transition-opacity duration-500 delay-100 m-0 ${isActive ? 'opacity-100' : 'opacity-0'}`}
+                  style={{ fontSize: '15px', lineHeight: '22px' }}
+                >
+                  {card.desc}
+                </p>
               </div>
             </div>
           );

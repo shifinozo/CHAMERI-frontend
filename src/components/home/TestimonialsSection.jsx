@@ -557,18 +557,28 @@ const ArrowRight = ({ size }) => (
  *  them from CSS custom properties via a tiny helper.
  * ────────────────────────────────────────────────────────────────────── */
 function useCardDimensions() {
-  const [dims, setDims] = useState({ cardW: 800, cardH: 550, sideH: 467.5, gap: 20 });
+  const [dims, setDims] = useState({ cardW: 800, cardH: 550, sideH: 467.5, gap: 20, arrowScale: 1 });
 
   useEffect(() => {
     const compute = () => {
       const vw = window.innerWidth;
+      // Mobile (< sm/640px) — exact Figma frame: active card 324×495, side cards 310×473.61
+      if (vw < 640) {
+        // Arrow buttons don't shrink with the card's cardW/800 ratio on mobile —
+        // Figma keeps them ~34px (vs the ~16px the desktop ratio would give), so
+        // they get their own scale here instead of reusing the card-content scale.
+        setDims({ cardW: 324, cardH: 495, sideH: 473.61, gap: 12, arrowScale: 34.12 / 40 });
+        return;
+      }
       // Continuous linear interpolation matching the clamp formula
       const lerp = (min, max) => Math.round(Math.min(max, Math.max(min, min + (max - min) * ((vw - 375) / (1920 - 375)))));
+      const cardW = lerp(320, 1067);
       setDims({
-        cardW: lerp(320, 1067),
+        cardW,
         cardH: lerp(260, 733),
         sideH: lerp(220, 623),
         gap:   lerp(12,  27),
+        arrowScale: cardW / 800,
       });
     };
     compute();
@@ -596,7 +606,7 @@ const TestimonialsSection = ({ testimonial }) => {
   const [containerW, setContainerW]               = useState(1440);
   const [transitionEnabled, setTransitionEnabled] = useState(true);
   const wrapperRef = useRef(null);
-  const { cardW, cardH, sideH, gap } = useCardDimensions();
+  const { cardW, cardH, sideH, gap, arrowScale } = useCardDimensions();
 
   const extendedTestimonials = [...TESTIMONIALS, ...TESTIMONIALS, ...TESTIMONIALS];
 
@@ -636,7 +646,7 @@ const TestimonialsSection = ({ testimonial }) => {
   const centerOffset = (containerW - cardW) / 2;
   const trackX       = centerOffset - current * (cardW + gap);
   const scale        = cardW / 800;
-  const arrowTop     = cardH / 2 - 20 * scale;
+  const arrowTop     = cardH / 2 - 20 * arrowScale;
 
   return (
     <section 
@@ -651,13 +661,13 @@ const TestimonialsSection = ({ testimonial }) => {
       <div
         className="w-full mx-auto flex flex-col items-center text-center"
         style={{
-          width: 'clamp(600px, 90.28vw, 1300px)',
+          width: 'clamp(390px, 90.28vw, 1300px)',
           gap:   'clamp(10px, 1.11vw, 16px)',
         }}
       >
-        <div 
+        <div
           className="flex flex-col items-center justify-center"
-          style={{ width: 'clamp(300px, 42.22vw, 608px)', gap: 'clamp(6px, 0.69vw, 10px)' }}
+          style={{ width: 'clamp(358px, 42.22vw, 608px)', gap: 'clamp(6px, 0.69vw, 10px)' }}
         >
           {/* Badge */}
           <div
@@ -693,11 +703,11 @@ const TestimonialsSection = ({ testimonial }) => {
           <h2
             className="font-roundo font-medium capitalize text-[#1A1A1A] text-center m-0 flex items-center justify-center"
             style={{
-              fontSize:      'clamp(36px, 4.17vw, 66px)',
-              lineHeight:    'clamp(36px, 4.17vw, 60px)',
-              letterSpacing: 'clamp(-0.64px, -0.06vw, -0.9px)',
-              width:         'clamp(300px, 42.22vw, 648px)',
-              height:        'clamp(40px, 4.17vw, 60px)'
+              fontSize:      'clamp(32px, 4.17vw, 66px)',
+              lineHeight:    'clamp(36.6px, 4.17vw, 60px)',
+              letterSpacing: 'clamp(-0.73px, -0.06vw, -0.9px)',
+              width:         'clamp(358px, 42.22vw, 648px)',
+              height:        'clamp(37px, 4.17vw, 60px)'
             }}
           >
             What Our Clients Says
@@ -708,13 +718,13 @@ const TestimonialsSection = ({ testimonial }) => {
             className="font-sans font-normal text-[#334454]/70 text-center m-0 flex items-center justify-center"
             style={{
               fontSize:      'clamp(14px, 1.39vw, 20px)',
-              lineHeight:    'clamp(18px, 1.83vw, 26.4px)',
-              letterSpacing: 'clamp(-0.28px, -0.03vw, -0.44px)',
-              width:         'clamp(300px, 42.22vw, 608px)',
-              height:        'clamp(40px, 3.68vw, 53px)'
+              lineHeight:    'clamp(21px, 1.83vw, 26.4px)',
+              letterSpacing: 'clamp(0px, -0.03vw, -0.44px)',
+              width:         'clamp(286px, 42.22vw, 608px)',
+              height:        'clamp(42px, 3.68vw, 53px)'
             }}
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            Explore crafted villa spaces with modern comfort built beautifully
           </p>
         </div>
       </div>
@@ -861,16 +871,16 @@ const TestimonialsSection = ({ testimonial }) => {
           aria-label="Previous"
           className="absolute z-20 flex items-center justify-center bg-[#334454] hover:bg-[#6B859E] transition-colors duration-300 border-none cursor-pointer"
           style={{
-            width:        `${40 * scale}px`,
-            height:       `${40 * scale}px`,
-            borderRadius: `${7.11 * scale}px`,
+            width:        `${40 * arrowScale}px`,
+            height:       `${40 * arrowScale}px`,
+            borderRadius: `${7.11 * arrowScale}px`,
             top:          `${arrowTop}px`,
-            left:         `${centerOffset - 20 * scale}px`,
+            left:         `${centerOffset - 20 * arrowScale}px`,
           }}
         >
           <svg
             viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"
-            style={{ width: `${18 * scale}px`, height: `${18 * scale}px` }}
+            style={{ width: `${18 * arrowScale}px`, height: `${18 * arrowScale}px` }}
           >
             <path d="M19 12H5M12 5l-7 7 7 7" />
           </svg>
@@ -882,16 +892,16 @@ const TestimonialsSection = ({ testimonial }) => {
           aria-label="Next"
           className="absolute z-20 flex items-center justify-center bg-[#334454] hover:bg-[#6B859E] transition-colors duration-300 border-none cursor-pointer"
           style={{
-            width:        `${40 * scale}px`,
-            height:       `${40 * scale}px`,
-            borderRadius: `${7.11 * scale}px`,
+            width:        `${40 * arrowScale}px`,
+            height:       `${40 * arrowScale}px`,
+            borderRadius: `${7.11 * arrowScale}px`,
             top:          `${arrowTop}px`,
-            left:         `${centerOffset + cardW - 20 * scale}px`,
+            left:         `${centerOffset + cardW - 20 * arrowScale}px`,
           }}
         >
           <svg
             viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"
-            style={{ width: `${18 * scale}px`, height: `${18 * scale}px` }}
+            style={{ width: `${18 * arrowScale}px`, height: `${18 * arrowScale}px` }}
           >
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
@@ -901,7 +911,7 @@ const TestimonialsSection = ({ testimonial }) => {
       {/* ══ 3 — Learn More CTA ════════════════════════════════════════════ */}
       <div
         className="w-full flex justify-center items-center"
-        style={{ width: 'clamp(600px, 90.28vw, 1300px)' }}
+        style={{ width: 'clamp(390px, 90.28vw, 1300px)' }}
       >
         <button
           className="group relative flex items-center justify-center bg-[#6B859E] hover:bg-[#4a6074] transition-colors duration-500 overflow-hidden cursor-pointer border-none"

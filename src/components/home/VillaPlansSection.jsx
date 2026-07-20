@@ -622,7 +622,7 @@ const VillaPlansSection = ({ villaPlan }) => {
                   className="absolute overflow-hidden"
                   style={{
                     top:    'clamp(10px, 1.01vw, 14.5px)',
-                    left:   'clamp(10px, 0.83vw, 12px)',
+                    left:   'clamp(10px, 1.83vw, 22px)',
                     width:  'clamp(70px, 6.74vw, 97px)',
                     height: 'clamp(18px, 1.6vw, 23px)',
                   }}
@@ -656,21 +656,21 @@ const VillaPlansSection = ({ villaPlan }) => {
                   {/* Arrow slide out */}
                   <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-in-out group-hover:translate-x-full">
                     <svg
-                      viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
-                      className="text-[#6B859E]"
-                      style={{ width: 'clamp(10px, 0.97vw, 14px)', height: 'clamp(10px, 0.97vw, 14px)' }}
+                      viewBox="0 0 32 24" fill="none" stroke="currentColor" strokeWidth="2.5"
+                      className="text-black"
+                      style={{ width: 'clamp(10px, 1.97vw, 24px)', height: 'clamp(10px, 1.97vw, 24px)' }}
                     >
-                      <path d="M5 12h14M12 5l7 7-7 7" />
+                      <path d="M5 12h20M20 5l7 7-7 7" />
                     </svg>
                   </div>
                   {/* Arrow slide in */}
                   <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-in-out -translate-x-full group-hover:translate-x-0">
                     <svg
-                      viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
-                      className="text-[#6B859E]"
-                      style={{ width: 'clamp(10px, 0.97vw, 14px)', height: 'clamp(10px, 0.97vw, 14px)' }}
+                      viewBox="0 0 32 24" fill="none" stroke="currentColor" strokeWidth="2.5"
+                      className="text-black"
+                      style={{ width: 'clamp(10px, 1.97vw, 24px)', height: 'clamp(10px, 1.97vw, 24px)' }}
                     >
-                      <path d="M5 12h14M12 5l7 7-7 7" />
+                      <path d="M5 12h20M20 5l7 7-7 7" />
                     </svg>
                   </div>
                 </div>

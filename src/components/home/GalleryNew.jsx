@@ -742,7 +742,7 @@ const GalleryNew = ({ gallery }) => {
                   className="absolute overflow-hidden"
                   style={{
                     top:    clamp(10, 14.5),
-                    left:   clamp(10, 12),
+                    left:   clamp(10, 22),
                     width:  clamp(76, 97),
                     height: clamp(18, 23),
                   }}
@@ -774,13 +774,13 @@ const GalleryNew = ({ gallery }) => {
                   }}
                 >
                   <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-in-out group-hover:translate-x-full">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-[#6B859E] w-[14px] h-[14px]">
-                      <path d="M5 12h14M12 5l7 7-7 7" />
+                    <svg viewBox="0 0 32 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-black w-[28px] h-[18px]">
+                      <path d="M5 12h20M20 5l7 7-7 7" />
                     </svg>
                   </div>
                   <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-in-out -translate-x-full group-hover:translate-x-0">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-[#6B859E] w-[14px] h-[14px]">
-                      <path d="M5 12h14M12 5l7 7-7 7" />
+                    <svg viewBox="0 0 32 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-black w-[28px] h-[18px]">
+                      <path d="M5 12h20M20 5l7 7-7 7" />
                     </svg>
                   </div>
                 </div>

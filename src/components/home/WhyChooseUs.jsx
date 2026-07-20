@@ -592,7 +592,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 
 /*
@@ -682,6 +682,26 @@ const ICONS = [
 
 const WhyChooseUs = ({ chooseUs }) => {
   const [activeCard, setActiveCard] = useState(null);
+  const mobileCardRefs = useRef([]);
+
+  // Mobile: reveal a card's content automatically once the user scrolls to
+  // it (crosses the middle of the viewport), instead of requiring a tap.
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const idx = mobileCardRefs.current.indexOf(entry.target);
+            if (idx !== -1) setActiveCard(idx);
+          }
+        });
+      },
+      { rootMargin: '-45% 0px -45% 0px', threshold: 0 }
+    );
+
+    mobileCardRefs.current.forEach((el) => el && observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
 
   const cards = chooseUs
     ? [chooseUs.card1, chooseUs.card2, chooseUs.card3].map((c, i) => ({
@@ -946,10 +966,10 @@ const WhyChooseUs = ({ chooseUs }) => {
           return (
             <div
               key={i}
-              onMouseEnter={() => setActiveCard(i)}
-              className="relative overflow-hidden transition-all duration-700 ease-in-out cursor-pointer flex-shrink-0 w-full flex flex-col"
+              ref={(el) => { mobileCardRefs.current[i] = el; }}
+              className="relative overflow-hidden transition-all duration-700 ease-in-out flex-shrink-0 w-full flex flex-col"
               style={{
-                height:        '274.12px',
+                height:        '304.12px',
                 paddingTop:    '28px',
                 paddingRight:  '29px',
                 paddingBottom: '28px',
@@ -981,10 +1001,18 @@ const WhyChooseUs = ({ chooseUs }) => {
                 </div>
               </div>
 
-              {/* Inner content div */}
+              {/* Inner content div — slides up on click to make room for the
+                  description (it's clipped by the card's overflow-hidden
+                  otherwise, since it starts anchored near the bottom). */}
               <div
-                className="relative flex flex-col"
-                style={{ width: '305.31px', maxWidth: '100%', minHeight: '218.12px', gap: '11px',marginTop: 'clamp(120px, 15vw, 150px)' }}
+                className="relative flex flex-col transition-[margin-top] duration-700 ease-in-out"
+                style={{
+                  width: '305.31px',
+                  maxWidth: '100%',
+                  minHeight: '218.12px',
+                  gap: '11px',
+                  marginTop: isActive ? '20px' : 'clamp(160px, 15vw, 180px)',
+                }}
               >
                 {/* Title */}
                 <h3
@@ -1000,9 +1028,9 @@ const WhyChooseUs = ({ chooseUs }) => {
                   {card.title}
                 </h3>
 
-                {/* Description — fades in on hover, same as desktop */}
+                {/* Description — slides up into view with the block above, fading in on tap */}
                 <p
-                  className={`font-sans font-normal text-white/80 transition-opacity duration-500 delay-100 m-0 ${isActive ? 'opacity-100' : 'opacity-0'}`}
+                  className={`font-sans font-normal text-white/80 transition-opacity duration-500 delay-150 m-0 ${isActive ? 'opacity-100' : 'opacity-0'}`}
                   style={{ fontSize: '15px', lineHeight: '22px' }}
                 >
                   {card.desc}

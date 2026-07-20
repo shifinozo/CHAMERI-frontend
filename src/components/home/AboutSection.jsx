@@ -9,6 +9,10 @@ const HEADING_WORDS = [
   "design", "craft", "every", "detail", "matters", "day", "move", "choice.",
 ];
 
+const MOBILE_HEADING_TEXT =
+  "Since 1985, we have built residential and commercial work with founder leadership and in house execution. Over 40 years one principle guides us: A home where life can take root, and become entirely and truly yours. That is our promise";
+const MOBILE_HEADING_WORDS = MOBILE_HEADING_TEXT.split(' ');
+
 const DEFAULT_STATS = [
   { val: '30%', label: 'Lorem ipsum dolor' },
   { val: '20%', label: 'Lorem ipsum' },
@@ -27,11 +31,15 @@ const AboutSection = ({ aboutUs }) => {
     : DEFAULT_STATS;
   const sectionRef = useRef(null);
   const headingRef = useRef(null);
+  const mobileHeadingRef = useRef(null);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      const el = headingRef.current;
+      // Only one of the two headings is actually rendered at a given
+      // breakpoint (the other is `display:none`, so offsetParent is null) —
+      // pick whichever is live so the same scroll-progress math drives both.
+      const el = headingRef.current?.offsetParent ? headingRef.current : mobileHeadingRef.current;
       if (!el) return;
       const rect   = el.getBoundingClientRect();
       const windowH = window.innerHeight || document.documentElement.clientHeight;
@@ -50,6 +58,7 @@ const AboutSection = ({ aboutUs }) => {
   }, []);
 
   const darkCount = Math.round(progress * HEADING_WORDS.length);
+  const mobileDarkCount = Math.round(progress * MOBILE_HEADING_WORDS.length);
 
   return (
     <section
@@ -191,9 +200,11 @@ const AboutSection = ({ aboutUs }) => {
 
           {/* Paragraph — width fills the padded container (never a fixed
               floor wider than the viewport, which was overflowing on
-              320px-wide screens) and caps out at the Figma value */}
+              320px-wide screens) and caps out at the Figma value.
+              Same scroll-triggered word-by-word reveal as the desktop heading. */}
           <p
-            className="font-roundo font-medium text-[#6B859E]"
+            ref={mobileHeadingRef}
+            className="font-roundo font-medium"
             style={{
               marginTop: 'clamp(10px, 3.077vw, 14px)',
               width: '100%',
@@ -203,7 +214,15 @@ const AboutSection = ({ aboutUs }) => {
               letterSpacing: '-0.73px',
             }}
           >
-            Since 1985, we have built residential and commercial work with founder leadership and in house execution. Over 40 years one principle guides us: A home where life can take root, and become entirely and truly yours. That is our promise
+            {MOBILE_HEADING_WORDS.map((word, i) => (
+              <span
+                key={i}
+                className={`transition-colors duration-300 inline ${i < mobileDarkCount ? 'text-[#292929]' : 'text-[#6B859E]'}`}
+              >
+                {word}
+                {i < MOBILE_HEADING_WORDS.length - 1 ? ' ' : ''}
+              </span>
+            ))}
           </p>
         </div>
 

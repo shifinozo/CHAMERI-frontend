@@ -557,17 +557,25 @@ const ArrowRight = ({ size }) => (
  *  them from CSS custom properties via a tiny helper.
  * ────────────────────────────────────────────────────────────────────── */
 function useCardDimensions() {
-  const [dims, setDims] = useState({ cardW: 800, cardH: 550, sideH: 467.5, gap: 20, arrowScale: 1 });
+  const [dims, setDims] = useState({ cardW: 500, cardH: 550, sideH: 467.5, gap: 20, arrowScale: 1, cardRadius: 12 * (500 / 800) });
 
   useEffect(() => {
     const compute = () => {
       const vw = window.innerWidth;
-      // Mobile (< sm/640px) — exact Figma frame: active card 324×495, side cards 310×473.61
+      // Mobile (< sm/640px) — exact Figma frame: card 310×473.6111145019531, radius 10.33px
       if (vw < 640) {
         // Arrow buttons don't shrink with the card's cardW/800 ratio on mobile —
         // Figma keeps them ~34px (vs the ~16px the desktop ratio would give), so
         // they get their own scale here instead of reusing the card-content scale.
-        setDims({ cardW: 324, cardH: 495, sideH: 473.61, gap: 12, arrowScale: 34.12 / 40 });
+        const cardH = 473.6111145019531;
+        setDims({
+          cardW: 310,
+          cardH,
+          sideH: cardH * (473.61 / 495), // preserve the same center-vs-side clip ratio as before
+          gap: 12,
+          arrowScale: 34.12 / 40,
+          cardRadius: 10.33,
+        });
         return;
       }
       // Continuous linear interpolation matching the clamp formula
@@ -579,6 +587,7 @@ function useCardDimensions() {
         sideH: lerp(220, 623),
         gap:   lerp(12,  27),
         arrowScale: cardW / 800,
+        cardRadius: 12 * (cardW / 800),
       });
     };
     compute();
@@ -606,7 +615,7 @@ const TestimonialsSection = ({ testimonial }) => {
   const [containerW, setContainerW]               = useState(1440);
   const [transitionEnabled, setTransitionEnabled] = useState(true);
   const wrapperRef = useRef(null);
-  const { cardW, cardH, sideH, gap, arrowScale } = useCardDimensions();
+  const { cardW, cardH, sideH, gap, arrowScale, cardRadius } = useCardDimensions();
 
   const extendedTestimonials = [...TESTIMONIALS, ...TESTIMONIALS, ...TESTIMONIALS];
 
@@ -752,7 +761,7 @@ const TestimonialsSection = ({ testimonial }) => {
             const opacity  = isCenter ? 1 : dist === 1 ? 0.6 : 0;
             // clip top & bottom equally so the card appears shorter without moving in the layout
             const clipPct  = isCenter ? 0 : ((1 - sideH / cardH) / 2) * 100;
-            const r        = (12 * scale).toFixed(1);
+            const r        = cardRadius.toFixed(2);
 
             return (
               <div
@@ -792,7 +801,7 @@ const TestimonialsSection = ({ testimonial }) => {
                 <div
                   className="absolute left-0"
                   style={{
-                    top:    `${335.99 * scale}px`,
+                    top:    `${955.99 * scale}px`,
                     height: `${214.02 * scale}px`,
                     width:  `${cardW}px`,
                   }}
@@ -926,7 +935,7 @@ const TestimonialsSection = ({ testimonial }) => {
             className="absolute overflow-hidden"
             style={{
               top:    'clamp(10px, 1.01vw, 14.5px)',
-              left:   'clamp(10px, 0.83vw, 12px)',
+              left:   'clamp(10px, 1.23vw, 22px)',
               width:  'clamp(70px, 6.74vw, 97px)',
               height: 'clamp(18px, 1.6vw, 23px)',
             }}
@@ -948,7 +957,7 @@ const TestimonialsSection = ({ testimonial }) => {
           </div>
 
           {/* Arrow box */}
-          <div
+          {/* <div
             className="absolute bg-white group-hover:bg-[#EDE7DE] transition-colors duration-500 overflow-hidden"
             style={{
               right:        'clamp(8.5px, 0.83vw, 12px)',
@@ -963,7 +972,35 @@ const TestimonialsSection = ({ testimonial }) => {
             <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-in-out -translate-x-full group-hover:translate-x-0">
               <ArrowRight size="clamp(10px, 0.97vw, 14px)" />
             </div>
-          </div>
+          </div> */}
+          <div
+                  className="absolute bg-white group-hover:bg-[#EDE7DE] transition-colors duration-500 overflow-hidden"
+                  style={{
+                    right:        'clamp(8.5px, 0.83vw, 12px)',
+                    width:        'clamp(21.3px, 2.08vw, 30px)',
+                    height:       'clamp(21.3px, 2.08vw, 30px)',
+                    borderRadius: 'clamp(5px, 0.49vw, 7px)',
+                  }}
+                >
+                  <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-in-out group-hover:translate-x-full">
+                    <svg
+                      viewBox="0 0 32 24" fill="none" stroke="currentColor" strokeWidth="2.5"
+                      className="text-black"
+                      style={{ width: 'clamp(10px, 0.97vw, 18px)', height: 'clamp(10px, 0.97vw, 14px)' }}
+                    >
+                      <path d="M5 12h24M24 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-in-out -translate-x-full group-hover:translate-x-0">
+                    <svg
+                      viewBox="0 0 32 24" fill="none" stroke="currentColor" strokeWidth="2.5"
+                      className="text-black"
+                      style={{ width: 'clamp(10px, 0.97vw, 18px)', height: 'clamp(10px, 0.97vw, 14px)' }}
+                    >
+                      <path d="M5 12h24M24 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
         </button>
       </div>
 

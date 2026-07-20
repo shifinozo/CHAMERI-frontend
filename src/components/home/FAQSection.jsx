@@ -344,7 +344,7 @@ const FAQSection = ({ faqSection }) => {
           className="flex flex-col"
           style={{
             width:    '100%',
-            maxWidth: 'clamp(300px, 80.19vw, 1650px)',
+            maxWidth: 'clamp(380px, 80.29vw, 1650px)',
             gap:      'clamp(4px, 0.56vw, 8px)',
           }}
         >

@@ -400,11 +400,11 @@ const STATIC_TEAM = [
 /* ─── Shared Arrow SVG ───────────────────────────────────────────────── */
 const ArrowSVG = () => (
   <svg
-    viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
-    className="text-[#6B859E]"
-    style={{ width: 'clamp(10px, 0.56vw, 18.6px)', height: 'clamp(10px, 0.56vw, 18.6px)' }}
+    viewBox="0 0 32 24" fill="none" stroke="currentColor" strokeWidth="2.5"
+    className="text-black"
+    style={{ width: 'clamp(10px, 1.56vw, 28px)', height: 'clamp(10px, 1.56vw, 28px)' }}
   >
-    <path d="M5 12h14M12 5l7 7-7 7" />
+    <path d="M5 12h18M18 5l7 7-7 7" />
   </svg>
 );
 
@@ -513,7 +513,7 @@ const ContactCard = () => (
           className="absolute overflow-hidden"
           style={{
             top:    'clamp(9.9px, 0.97vw, 18.6px)',
-            left:   'clamp(8.5px, 0.83vw, 16px)',
+            left:   'clamp(12px, 1.83vw, 28px)',
             width:  'clamp(69px, 6.74vw, 129px)',
             height: 'clamp(16.3px, 1.6vw, 30.6px)',
           }}
@@ -570,7 +570,7 @@ const TeamSection = ({ ourTeam }) => {
       })
     : STATIC_TEAM;
   return (
-  <section className="w-full bg-[#EDE7DE] flex justify-center">
+  <section className="hidden md:flex w-full bg-[#EDE7DE] justify-center">
     <div
       className="w-full flex flex-col lg:flex-row lg:items-start lg:justify-between"
       style={{
@@ -584,9 +584,8 @@ const TeamSection = ({ ourTeam }) => {
 
       {/* ══ LEFT: Sticky Sidebar ════════════════════════════════════════ */}
       <aside
-        className="flex-shrink-0 flex flex-col lg:sticky"
+        className="flex-shrink-0 flex flex-col w-full lg:w-[clamp(260px,29.31vw,562.6px)] lg:sticky"
         style={{
-          width:      'clamp(260px, 29.31vw, 562.6px)',
           gap:        'clamp(18.4px, 1.81vw, 34.6px)',
           paddingTop: 'clamp(0px, 3.33vw, 64px)',
           top:        0,
@@ -652,9 +651,8 @@ const TeamSection = ({ ourTeam }) => {
       {/* ══ RIGHT: 2-col photo grid ══════════════════════════════════════ */}
       <aside className="flex-shrink-0 w-full lg:w-auto">
         <div
-          className="grid grid-cols-2"
+          className="grid grid-cols-2 w-full lg:w-[clamp(300px,57.08vw,1097.3px)]"
           style={{
-            width:     'clamp(300px, 57.08vw, 1097.3px)', // 822px @ 1440 → 1097.3px @ 1920
             columnGap: 'clamp(16px, 4.4vw, 84.5px)',      // 63.36px @ 1440 → 84.5px @ 1920
             rowGap:    'clamp(16px, 3.06vw, 58.6px)',      // 44px @ 1440 → 58.6px @ 1920
           }}

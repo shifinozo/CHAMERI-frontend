@@ -597,9 +597,11 @@ const Footer = () => {
         {/* ── Main 2-column row ─────────────────────────────────────────── */}
         <div className="flex flex-col md:flex-row w-full border-t border-white/10">
 
-          {/* ══ FIRST DIV — Logo panel ══════════════════════════════════ */}
+          {/* ══ FIRST DIV — Logo panel ══════════════════════════════════
+              On mobile it renders AFTER the links panel (order-2), with a
+              top divider instead of the desktop's right-side border. */}
           <div
-            className="relative flex-shrink-0 border-b border-white/10 md:border-b-0 md:border-r border-white/10 w-full md:w-[30.6%]"
+            className="relative flex-shrink-0 order-2 md:order-none border-t border-white/10 md:border-t-0 md:border-r w-full md:w-[30.6%]"
             style={{ height: 'clamp(200px, 26.1vw, 501px)' }}
           >
             {/* Logo wrapper — centered on mobile, absolutely placed on md+ */}
@@ -623,9 +625,11 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* ══ SECOND DIV — Links + Social ═════════════════════════════ */}
+          {/* ══ SECOND DIV — Links + Social ═════════════════════════════
+              Renders FIRST on mobile (order-1); the full box border is a
+              desktop-only treatment. */}
           <div
-            className="relative flex-1 border border-white/10"
+            className="relative flex-1 order-1 md:order-none md:border md:border-white/10"
             style={{ minHeight: 'clamp(200px, 26.1vw, 503px)' }}
           >
 
@@ -688,7 +692,7 @@ const Footer = () => {
               </div>
 
               {/* Address */}
-              <div className="flex flex-col" style={{ marginLeft: 'clamp(20px, 4.63vw, 150px)', gap: 'clamp(14.2px, 1.4vw, 26.6px)' }}>
+              <div className="flex flex-col ml-0 sm:ml-[clamp(20px,4.63vw,150px)]" style={{ gap: 'clamp(14.2px, 1.4vw, 26.6px)' }}>
                 <h3
                   className="font-roundo font-medium text-white"
                   style={{ fontSize: 'clamp(14.2px, 1.4vw, 26.6px)' }}
@@ -709,7 +713,7 @@ const Footer = () => {
               </div>
 
               {/* Contact Us */}
-              <div className="flex flex-col" style={{ marginLeft: 'clamp(20px, 3.63vw, 140px)', gap: 'clamp(14.2px, 1.4vw, 26.6px)' }}>
+              <div className="flex flex-col ml-0 sm:ml-[clamp(20px,3.63vw,140px)]" style={{ gap: 'clamp(14.2px, 1.4vw, 26.6px)' }}>
                 <h3
                   className="font-roundo font-medium text-white"
                   style={{ fontSize: 'clamp(14.2px, 1.4vw, 26.6px)' }}
@@ -762,15 +766,13 @@ const Footer = () => {
 
         {/* ── Copyright bar ─────────────────────────────────────────────── */}
         <div
-          className="flex justify-end items-center border-t border-white/10"
+          className="flex justify-center md:justify-end items-center border-t border-white/10"
           style={{ padding: 'clamp(14px, 1.37vw, 25px) 0' }}
         >
           <a
             href="#"
-            className="font-sans font-normal text-[#FFFFFF] hover:text-[#EDE7DE]/80 transition-colors"
-            style={{ fontSize: 'clamp(8.5px, 0.83vw, 16px)',
-              marginRight: 'clamp(30px, 5vw, 75px)',
-             }}
+            className="font-sans font-normal text-[#FFFFFF] hover:text-[#EDE7DE]/80 transition-colors mr-0 md:mr-[clamp(30px,5vw,75px)]"
+            style={{ fontSize: 'clamp(8.5px, 0.83vw, 16px)' }}
           >
             © Chameri Builders pvt limited
           </a>

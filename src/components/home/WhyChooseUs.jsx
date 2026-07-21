@@ -681,7 +681,7 @@ const ICONS = [
 ];
 
 const WhyChooseUs = ({ chooseUs }) => {
-  const [activeCard, setActiveCard] = useState(null);
+  const [activeCard, setActiveCard] = useState(1);
   const mobileCardRefs = useRef([]);
 
   // Mobile: reveal a card's content automatically once the user scrolls to
@@ -752,9 +752,8 @@ const WhyChooseUs = ({ chooseUs }) => {
             }}
           />
           <span
-            className="font-sans font-normal uppercase text-black flex items-center justify-center"
+            className="font-sans font-normal uppercase text-black flex items-center justify-center whitespace-nowrap"
             style={{
-              width:         'clamp(90px, 8.89vw, 128px)',
               height:        'clamp(16px, 1.39vw, 20px)',
               fontSize:      'clamp(12px, 0.83vw, 16px)',
               letterSpacing: 'clamp(-0.24px, -0.02vw, -0.32px)',
@@ -863,6 +862,7 @@ const WhyChooseUs = ({ chooseUs }) => {
             <div
               key={i}
               onMouseEnter={() => setActiveCard(i)}
+              onMouseLeave={() => setActiveCard(1)}
               className="relative rounded-[8px] overflow-hidden transition-all duration-700 ease-in-out cursor-pointer flex-shrink-0"
               style={{
                 width:        isActive ? 'clamp(280px, 31.81vw, 4658px)' : 'clamp(240px, 27.78vw, 600px)',
@@ -969,7 +969,7 @@ const WhyChooseUs = ({ chooseUs }) => {
               ref={(el) => { mobileCardRefs.current[i] = el; }}
               className="relative overflow-hidden transition-all duration-700 ease-in-out flex-shrink-0 w-full flex flex-col"
               style={{
-                height:        '304.12px',
+                height:        '316.12px',
                 paddingTop:    '28px',
                 paddingRight:  '29px',
                 paddingBottom: '28px',

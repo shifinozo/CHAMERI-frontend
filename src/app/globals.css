@@ -3,16 +3,29 @@
 /* ── Roundo font (swap file path if you have the .woff2 locally) ──────────── */
 @font-face {
   font-family: "Roundo";
+  src: url("/fonts/Roundo-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Roundo";
   src: url("/fonts/Roundo-Medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
-  font-display: swap;
+}
+
+@font-face {
+  font-family: "Roundo";
+  src: url("/fonts/Roundo-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
 }
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --font-roundo: "Roundo", var(--font-outfit), system-ui, sans-serif;
+  --font-roundo: "Roundo", var(--font-outfit);
 }
 
 @theme inline {

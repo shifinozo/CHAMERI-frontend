@@ -557,24 +557,30 @@ const ArrowRight = ({ size }) => (
  *  them from CSS custom properties via a tiny helper.
  * ────────────────────────────────────────────────────────────────────── */
 function useCardDimensions() {
-  const [dims, setDims] = useState({ cardW: 500, cardH: 550, sideH: 467.5, gap: 20, arrowScale: 1, cardRadius: 12 * (500 / 800) });
+  const [dims, setDims] = useState({ cardW: 500, cardH: 550, sideH: 467.5, gap: 20, arrowScale: 1, cardRadius: 12 * (500 / 800), mobileScale: 1, isMobile: false });
 
   useEffect(() => {
     const compute = () => {
       const vw = window.innerWidth;
-      // Mobile (< sm/640px) — exact Figma frame: card 310×473.6111145019531, radius 10.33px
+      // Mobile (< sm/640px) — Figma reference frame is 390px wide with a 310px-wide
+      // card (40px side margins, so adjacent cards peek in by ~10.26% of viewport width
+      // on each side). Scale continuously off that ratio instead of a fixed 310px, so
+      // narrower phones (320px etc.) keep the same peek proportion instead of the card
+      // filling the whole viewport edge-to-edge.
       if (vw < 640) {
-        // Arrow buttons don't shrink with the card's cardW/800 ratio on mobile —
-        // Figma keeps them ~34px (vs the ~16px the desktop ratio would give), so
-        // they get their own scale here instead of reusing the card-content scale.
-        const cardH = 473.6111145019531;
+        const peekRatio   = 40 / 390;
+        const cardW       = vw * (1 - 2 * peekRatio);
+        const cardH       = cardW * (473.6111145019531 / 310);
+        const mobileScale = cardW / 310;
         setDims({
-          cardW: 310,
+          cardW,
           cardH,
           sideH: cardH * (473.61 / 495), // preserve the same center-vs-side clip ratio as before
-          gap: 12,
-          arrowScale: 34.12 / 40,
-          cardRadius: 10.33,
+          gap: 12 * mobileScale,
+          arrowScale: (34.12 / 40) * mobileScale,
+          cardRadius: 10.33 * mobileScale,
+          mobileScale,
+          isMobile: true,
         });
         return;
       }
@@ -588,6 +594,8 @@ function useCardDimensions() {
         gap:   lerp(12,  27),
         arrowScale: cardW / 800,
         cardRadius: 12 * (cardW / 800),
+        mobileScale: 1,
+        isMobile: false,
       });
     };
     compute();
@@ -615,7 +623,7 @@ const TestimonialsSection = ({ testimonial }) => {
   const [containerW, setContainerW]               = useState(1440);
   const [transitionEnabled, setTransitionEnabled] = useState(true);
   const wrapperRef = useRef(null);
-  const { cardW, cardH, sideH, gap, arrowScale, cardRadius } = useCardDimensions();
+  const { cardW, cardH, sideH, gap, arrowScale, cardRadius, mobileScale, isMobile } = useCardDimensions();
 
   const extendedTestimonials = [...TESTIMONIALS, ...TESTIMONIALS, ...TESTIMONIALS];
 
@@ -656,6 +664,12 @@ const TestimonialsSection = ({ testimonial }) => {
   const trackX       = centerOffset - current * (cardW + gap);
   const scale        = cardW / 800;
   const arrowTop     = cardH / 2 - 20 * arrowScale;
+
+  // Arrows normally straddle the card edge (half outside), but on narrow viewports
+  // there isn't room for that overhang — clamp so they stay fully on-screen instead of clipping.
+  const arrowSize      = 40 * arrowScale;
+  const leftArrowLeft  = Math.max(4, centerOffset - 20 * arrowScale);
+  const rightArrowLeft = Math.min(containerW - arrowSize - 4, centerOffset + cardW - 20 * arrowScale);
 
   return (
     <section 
@@ -788,87 +802,132 @@ const TestimonialsSection = ({ testimonial }) => {
                   }}
                 />
 
-                {/* Bottom gradient */}
-                <div
-                  className="absolute left-0 right-0 bottom-0"
-                  style={{
-                    height: `${214.02 * scale}px`,
-                    background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 60%, transparent 100%)',
-                  }}
-                />
-
-                {/* Content overlay */}
-                <div
-                  className="absolute left-0"
-                  style={{
-                    top:    `${955.99 * scale}px`,
-                    height: `${214.02 * scale}px`,
-                    width:  `${cardW}px`,
-                  }}
-                >
-                  {/* Quote */}
-                  <p
-                    className="absolute text-white"
-                    style={{
-                      top:              `${51 * scale}px`,
-                      left:             `${24 * scale}px`,
-                      width:            `${725.76 * scale}px`,
-                      height:           `${70.4 * scale}px`,
-                      fontFamily:       'var(--font-geist-sans), sans-serif',
-                      fontWeight:       500,
-                      fontSize:         `${26.1 * scale}px`,
-                      lineHeight:       `${36.4 * scale}px`,
-                      overflow:         'hidden',
-                      display:          '-webkit-box',
-                      WebkitLineClamp:  2,
-                      WebkitBoxOrient:  'vertical',
-                    }}
-                  >
-                    {item.quote}
-                  </p>
-
-                  {/* Profile */}
+                {isMobile ? (
+                  /* Bottom gradient + text block — sized to fit the full quote, however many lines it wraps to */
                   <div
-                    className="absolute flex items-center"
+                    className="absolute left-0 right-0 bottom-0 flex flex-col"
                     style={{
-                      top:    `${142.81 * scale}px`,
-                      left:   `${24 * scale}px`,
-                      width:  `${752 * scale}px`,
-                      height: `${47.2 * scale}px`,
-                      gap:    `${12 * scale}px`,
+                      padding:    `${20.68 * mobileScale}px ${12.05 * mobileScale}px ${16 * mobileScale}px`,
+                      gap:        `${10 * mobileScale}px`,
+                      background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.75) 55%, transparent 100%)',
                     }}
                   >
-                    <div
-                      className="flex-shrink-0 overflow-hidden"
+                    <p
+                      className="text-white m-0"
                       style={{
-                        width:        `${45 * scale}px`,
-                        height:       `${45 * scale}px`,
-                        borderRadius: `${5 * scale}px`,
+                        fontFamily:    'var(--font-geist-sans), sans-serif',
+                        fontWeight:    500,
+                        fontSize:      `${18.94 * mobileScale}px`,
+                        lineHeight:    `${22.73 * mobileScale}px`,
+                        letterSpacing: '0%',
                       }}
                     >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={item.avatar}
-                        alt={item.name}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      />
-                    </div>
-                    <div>
-                      <p
-                        className="font-sans font-semibold text-white"
-                        style={{ fontSize: `${16 * scale}px`, lineHeight: '1.3' }}
-                      >
-                        {item.name}
-                      </p>
-                      <p
-                        className="font-sans text-white/70"
-                        style={{ fontSize: `${13 * scale}px` }}
-                      >
-                        {item.role}
-                      </p>
+                      {item.quote}
+                    </p>
+                    <div className="flex items-center" style={{ gap: `${10 * mobileScale}px` }}>
+                      <div className="flex-shrink-0 overflow-hidden" style={{ width: `${34 * mobileScale}px`, height: `${34 * mobileScale}px`, borderRadius: `${4 * mobileScale}px` }}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={item.avatar}
+                          alt={item.name}
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                      </div>
+                      <div>
+                        <p className="font-sans text-white m-0" style={{ fontWeight: 400, fontSize: `${15.84 * mobileScale}px`, lineHeight: `${24.11 * mobileScale}px`, letterSpacing: '0%' }}>
+                          {item.name}
+                        </p>
+                        <p className="font-sans text-white/70 m-0" style={{ fontWeight: 500, fontSize: `${11.19 * mobileScale}px`, lineHeight: `${16.53 * mobileScale}px`, letterSpacing: '0%' }}>
+                          {item.role}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
+                ) : (
+                  <>
+                    {/* Bottom gradient */}
+                    <div
+                      className="absolute left-0 right-0 bottom-0"
+                      style={{
+                        height: `${214.02 * scale}px`,
+                        background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 60%, transparent 100%)',
+                      }}
+                    />
+
+                    {/* Content overlay */}
+                    <div
+                      className="absolute left-0"
+                      style={{
+                        top:    `${335.99 * scale}px`,
+                        height: `${214.02 * scale}px`,
+                        width:  `${cardW}px`,
+                      }}
+                    >
+                      {/* Quote */}
+                      <p
+                        className="absolute text-white"
+                        style={{
+                          top:              `${51 * scale}px`,
+                          left:             `${24 * scale}px`,
+                          width:            `${725.76 * scale}px`,
+                          height:           `${70.4 * scale}px`,
+                          fontFamily:       'var(--font-geist-sans), sans-serif',
+                          fontWeight:       500,
+                          fontSize:         `${26.1 * scale}px`,
+                          lineHeight:       `${36.4 * scale}px`,
+                          overflow:         'hidden',
+                          display:          '-webkit-box',
+                          WebkitLineClamp:  2,
+                          WebkitBoxOrient:  'vertical',
+                        }}
+                      >
+                        {item.quote}
+                      </p>
+
+                      {/* Profile */}
+                      <div
+                        className="absolute flex items-center"
+                        style={{
+                          top:    `${142.81 * scale}px`,
+                          left:   `${24 * scale}px`,
+                          width:  `${752 * scale}px`,
+                          height: `${47.2 * scale}px`,
+                          gap:    `${12 * scale}px`,
+                        }}
+                      >
+                        <div
+                          className="flex-shrink-0 overflow-hidden"
+                          style={{
+                            width:        `${45 * scale}px`,
+                            height:       `${45 * scale}px`,
+                            borderRadius: `${5 * scale}px`,
+                          }}
+                        >
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={item.avatar}
+                            alt={item.name}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                          />
+                        </div>
+                        <div>
+                          <p
+                            className="font-sans text-white m-0"
+                            style={{ fontWeight: 600, fontSize: `${16 * scale}px`, lineHeight: '1.3' }}
+                          >
+                            {item.name}
+                          </p>
+                          <p
+                            className="font-sans text-white/70 m-0"
+                            style={{ fontSize: `${13 * scale}px` }}
+                          >
+                            {item.role}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             );
           })}
@@ -884,7 +943,7 @@ const TestimonialsSection = ({ testimonial }) => {
             height:       `${40 * arrowScale}px`,
             borderRadius: `${7.11 * arrowScale}px`,
             top:          `${arrowTop}px`,
-            left:         `${centerOffset - 20 * arrowScale}px`,
+            left:         `${leftArrowLeft}px`,
           }}
         >
           <svg
@@ -905,7 +964,7 @@ const TestimonialsSection = ({ testimonial }) => {
             height:       `${40 * arrowScale}px`,
             borderRadius: `${7.11 * arrowScale}px`,
             top:          `${arrowTop}px`,
-            left:         `${centerOffset + cardW - 20 * arrowScale}px`,
+            left:         `${rightArrowLeft}px`,
           }}
         >
           <svg

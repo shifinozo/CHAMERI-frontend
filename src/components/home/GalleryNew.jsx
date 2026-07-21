@@ -859,14 +859,14 @@ const GalleryNew = ({ gallery }) => {
           <Link
             href="/gallery"
             className="group absolute flex items-center justify-center bg-[#6B859E] hover:bg-[#4a6074] transition-colors duration-500 overflow-hidden"
-            style={{ top: '93.6%', left: '31.8%', width: '142px', height: '46px', borderRadius: '12px' }}
+            style={{ top: '93.6%', left: '31.8%', width: '136px', height: '40px', borderRadius: '12px' }}
           >
             <span className="font-sans font-medium text-white" style={{ fontSize: '14px', marginLeft: '-20px' }}>Learn More</span>
             <div
               className="absolute bg-white flex items-center justify-center overflow-hidden"
-              style={{ right: '10px', width: '26px', height: '26px', borderRadius: '6px' }}
+              style={{ right: '8px', width: '24px', height: '24px', borderRadius: '6px' }}
             >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-[#6B859E] w-[13px] h-[13px]">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-black w-[13px] h-[13px]">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </div>

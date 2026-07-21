@@ -536,8 +536,16 @@ export default function HeroSection({ hero }) {
   const { vw, vh } = viewport;
   const effectiveVw = clampVal(vw, 320, 1440);
 
+  // Below the `sm` breakpoint, NewNavbar renders its own compact glass-pill
+  // logo (mark 29.5×33.2, wordmark 85.93px wide, pill centered at top:13px
+  // height:74px) instead of the desktop pill logo (wordmark 117.08px wide,
+  // pill height ~96.38px). The outro must shrink into whichever one is
+  // actually on screen, or the hand-off leaves an oversized logo floating
+  // above a tiny navbar.
+  const isMobile = vw < 640;
+
   const scaleCenter = effectiveVw / 1440;
-  const scaleNavbar = 117.08 / 600;
+  const scaleNavbar = isMobile ? 85.93 / 600 : 117.08 / 600;
 
   const groupScale = progress <= 0.4
     ? scaleCenter
@@ -552,8 +560,8 @@ export default function HeroSection({ hero }) {
   const logoGap = 11.31 + phase1T * (31.09 - 11.31);
 
   // Logo Y drift
-  const figmaCenterY = vh * 0.4056;
-  const navbarCenterY = 48.19;
+  const figmaCenterY = vh * 0.5;
+  const navbarCenterY = isMobile ? 50 : 48.19;
   const driftToNavbar = navbarCenterY - figmaCenterY;
   const driftStart = vh * 0.05;
 
@@ -563,7 +571,8 @@ export default function HeroSection({ hero }) {
 
   // ── Beige curtain ──────────────────────────────────────────────────────────
   // Navbar height per Figma: padding-top 14 + inner 68.38 + padding-bottom 14 = 96.38px
-  const NAVBAR_H = 96.37937927246094;
+  // (mobile: glass-pill top offset 13px + pill height 74px = 87px)
+  const NAVBAR_H = isMobile ? 87 : 96.37937927246094;
   let beigeClipTopPx = vh;
   if (progress > 0.4 && progress <= 0.6) {
     beigeClipTopPx = vh - phase2T * (vh - NAVBAR_H);
@@ -649,7 +658,7 @@ export default function HeroSection({ hero }) {
             className="absolute z-30 flex flex-col items-center"
             style={{
               left: "50%",
-              top: "40.56vh",
+              top: "50%",
               gap: `${logoGap}px`,
               transform: `translate(-50%, -50%) translateY(${groupY}px) scale(${groupScale})`,
               transformOrigin: "center center",
@@ -728,60 +737,67 @@ export default function HeroSection({ hero }) {
           }}
         >
 
-          {/* ── Title 1: "Premium residence for those"
-              Figma: w:780  h:65  top:602.47  left:329.5
-              Relative to parent (602.47, 329.5) → top:0  left:0
+          {/* ── Heading — "Premium residence for those who seek refined living."
+              Rendered as ONE h1 (single sentence) with each line as an
+              absolutely-positioned span, so it stays one semantic heading
+              instead of two. Positioning/logic per line is unchanged.
           ─────────────────────────────────────────────────────── */}
-          <h1
-            style={{
-              position: "absolute",
-              top: "clamp(-30px, 1vh, -100px)",
-              left: 0,
-              width: "clamp(200px, 54.17vw, 780px)",   /* 780/1440 */
-              height: "clamp(40px, 6.35vh, 65px)",      /* 65/1024  */
-              fontFamily: "var(--font-roundo), 'Roundo', var(--font-outfit), system-ui, sans-serif",
-              fontWeight: 500,
-              fontSize: "clamp(26px, 4.595vw, 75.41px)",
-              lineHeight: "clamp(10px, 2.06vh, 29.08px)",   /* 64.08/1024 */
-              letterSpacing: "clamp(-0.8px, -0.133vw, -1.92px)",
-              color: "#ffffff",
-              textAlign: "center",
-              margin: 0,
-              padding: 0,
-              whiteSpace: "nowrap",
-              textShadow: "0 2px 16px rgba(0,0,0,0.30)",
-            }}
-          >
-            {hero?.heading || "Premium residence for those"}
-          </h1>
+          <h1 style={{ margin: 0, padding: 0 }}>
+            {/* ── Line 1: "Premium residence for those"
+                Figma: w:780  h:65  top:602.47  left:329.5
+                Relative to parent (602.47, 329.5) → top:0  left:0
+            ─────────────────────────────────────────────────────── */}
+            <span
+              style={{
+                position: "absolute",
+                top: "clamp(-30px, 1vh, -100px)",
+                left: 0,
+                width: "clamp(200px, 54.17vw, 780px)",   /* 780/1440 */
+                height: "clamp(40px, 6.35vh, 65px)",      /* 65/1024  */
+                fontFamily: "var(--font-roundo), 'Roundo', var(--font-outfit), system-ui, sans-serif",
+                fontWeight: 400,
+                fontSize: "clamp(26px, 4.595vw, 75.41px)",
+                lineHeight: "clamp(10px, 2.06vh, 29.08px)",   /* 64.08/1024 */
+                letterSpacing: "clamp(-0.8px, -0.133vw, -1.92px)",
+                color: "#ffffff",
+                textAlign: "center",
+                margin: 0,
+                padding: 0,
+                whiteSpace: "nowrap",
+                textShadow: "0 2px 16px rgba(0,0,0,0.30)",
+              }}
+            >
+              {hero?.heading || "Premium residence for those"}
+            </span>
 
-          {/* ── Title 2: "who seek refined living."
-              Figma: w:611  h:65  top:667.01  left:414.19
-              Relative to parent (602.47, 329.5):
-                top = 667.01 - 602.47 = 64.54px
-                left = 414.19 - 329.5 = 84.69px
-          ─────────────────────────────────────────────────────── */}
-          <h1
-            style={{
-              position: "absolute",
-              top: "clamp(-80px, -1vh, 30.54px)",   /* 64.54/1024 */
-              left: "clamp(14px, 5.88vw, 84.69px)",   /* 84.69/1440 */
-              width: "clamp(160px, 42.43vw, 611px)",   /* 611/1440   */
-              height: "clamp(40px, 6.35vh, 65px)",
-              fontFamily: "var(--font-roundo), 'Roundo'",
-              fontWeight: 500,
-              fontSize: "clamp(26px, 4.157vw, 75.41px)",
-              lineHeight: "clamp(30px, 12.26vh, 104.08px)",
-              letterSpacing: "clamp(-0.8px, -0.133vw, -1.92px)",
-              color: "#ffffff",
-              textAlign: "center",
-              margin: 0,
-              padding: 0,
-              whiteSpace: "nowrap",
-              textShadow: "0 2px 16px rgba(0,0,0,0.30)",
-            }}
-          >
-            {hero?.subheading1 || "who seek refined living."}
+            {/* ── Line 2: "who seek refined living."
+                Figma: w:611  h:65  top:667.01  left:414.19
+                Relative to parent (602.47, 329.5):
+                  top = 667.01 - 602.47 = 64.54px
+                  left = 414.19 - 329.5 = 84.69px
+            ─────────────────────────────────────────────────────── */}
+            <span
+              style={{
+                position: "absolute",
+                top: "clamp(-80px, -1vh, 30.54px)",   /* 64.54/1024 */
+                left: "clamp(14px, 5.88vw, 84.69px)",   /* 84.69/1440 */
+                width: "clamp(160px, 42.43vw, 611px)",   /* 611/1440   */
+                height: "clamp(40px, 6.35vh, 65px)",
+                fontFamily: "var(--font-roundo), 'Roundo'",
+                fontWeight: 400,
+                fontSize: "clamp(26px, 4.157vw, 75.41px)",
+                lineHeight: "clamp(30px, 12.26vh, 104.08px)",
+                letterSpacing: "clamp(-0.8px, -0.133vw, -1.92px)",
+                color: "#ffffff",
+                textAlign: "center",
+                margin: 0,
+                padding: 0,
+                whiteSpace: "nowrap",
+                textShadow: "0 2px 16px rgba(0,0,0,0.30)",
+              }}
+            >
+              {hero?.subheading1 || "who seek refined living."}
+            </span>
           </h1>
 
           {/* ── Horizontal Divider
@@ -822,7 +838,7 @@ export default function HeroSection({ hero }) {
             <span
               style={{
                 fontFamily: "var(--font-geist-sans), 'Geist', system-ui, sans-serif",
-                fontWeight: 600,
+                fontWeight: 500,
                 fontSize: "clamp(10px, 0.972vw, 14px)",
                 lineHeight: "clamp(12px, 1.600vh, 16.38px)",  /* 16.38/1024 */
                 letterSpacing: "clamp(0.8px, 0.0875vw, 1.26px)",
@@ -860,7 +876,7 @@ export default function HeroSection({ hero }) {
                 width: "clamp(50px, 22.78vw, 660px)",  /* 256/1440 */
                 height: "clamp(80px, 12.55vh, 250px)",
                 fontFamily: "var(--font-geist-sans), 'Geist', system-ui, sans-serif",
-                fontWeight: 400,
+                fontWeight: 300,
                 fontSize: "clamp(11px, 1.169vw, 20.4px)",
                 lineHeight: "clamp(15px, 2.551vh, 25px)",    /* 21/1024  */
                 letterSpacing: "0",
@@ -897,7 +913,7 @@ export default function HeroSection({ hero }) {
               opacity: head1T,
               transform: `translateY(${40 * (1 - head1T)}px)`,
               fontFamily: "var(--font-roundo), 'Roundo', var(--font-outfit), system-ui, sans-serif",
-              fontWeight: 500,
+              fontWeight: 400,
               fontSize: "clamp(30px, 9.385vw, 36.6px)",   /* 36.6/390 */
               lineHeight: "clamp(30px, 9.385vw, 36.6px)",
               letterSpacing: "-0.73px",
@@ -943,7 +959,7 @@ export default function HeroSection({ hero }) {
                 <span
                   style={{
                     fontFamily: "var(--font-instrument-sans), 'Instrument Sans', system-ui, sans-serif",
-                    fontWeight: 600,
+                    fontWeight: 500,
                     fontSize: "12px",
                     lineHeight: "16.38px",
                     letterSpacing: "1.26px",

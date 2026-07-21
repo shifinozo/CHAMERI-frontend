@@ -983,7 +983,7 @@ const ContactSection = () => {
                 className="font-sans font-normal text-[#6B859E] hover:underline transition-all"
                 style={{
                   fontSize:    'clamp(13.3px, 1.18vw, 28px)',
-                  paddingLeft: 'clamp(-60px, -1.95vw, 34.6px)',
+                  paddingLeft: 'clamp(20px, 0.95vw, 34.6px)',
                 }}
               >
                 +91 987654321
@@ -1018,7 +1018,7 @@ const ContactSection = () => {
                 className="font-sans font-normal text-[#6B859E] hover:underline transition-all"
                 style={{
                   fontSize:    'clamp(14px, 1.14vw, 28.3px)',
-                  paddingLeft: 'clamp(-15px, -1.95vw, 24.6px)',
+                  paddingLeft: 'clamp(20px, 0.95vw, 34.6px)',
                 }}
               >
                 Chameri@gmail.com
@@ -1031,12 +1031,13 @@ const ContactSection = () => {
             `contents` on mobile so the form can be reordered (order-2) between
             the TOP info block and the BOTTOM phone/email block above. */}
         <div className="contents lg:flex lg:flex-col flex-shrink-0 w-full"
-        style={{marginLeft: 'clamp(0px, 10%, 10%)'}}>
+        style={{
+          maxWidth:'clamp(100px,50.097vw,1140px)'
+        }}>
           {/* Heading — hidden on mobile, shown here from md+ (mobile version lives in the TOP block) */}
           <h2
             className="hidden lg:block font-roundo font-medium text-[#334454]"
             style={{
-              marginLeft: 'clamp(40px, 2.50vw, 57px)',
               fontSize:      'clamp(40px, 4.51vw, 65px)',
               lineHeight:    'clamp(37.5px, 4.17vw, 60px)',
               letterSpacing: 'clamp(-0.5px, -0.06vw, -0.9px)',
@@ -1048,10 +1049,12 @@ const ContactSection = () => {
           {/* Form */}
           <form
             onSubmit={(e) => e.preventDefault()}
-            className="order-2 lg:order-none flex flex-col bg-[#EDE7DE] w-full lg:w-[clamp(300px,50.097vw,1140px)] gap-[20px] lg:gap-[clamp(25px,2.78vw,40px)] px-0 lg:px-[clamp(34px,3.82vw,55px)]"
+            className="order-2 lg:order-none flex flex-col bg-[#EDE7DE] w-full lg:w-[clamp(400px,48.097vw,1240px)] lg:max-w-[clamp(300px,50.097vw,1140px)] gap-[20px] lg:gap-[clamp(25px,2.78vw,40px)] px-0 lg:px-[clamp(34px,3.82vw,55px)]"
             style={{
               paddingTop:    'clamp(17px, 1.88vw, 27px)',
               paddingBottom: 'clamp(17px, 1.88vw, 27px)',
+              paddingRight:  'clamp(7px, 1.88vw, 37px)',
+              // paddingLeft:   'clamp(7px, 3.88vw, 17px)',
               borderRadius:  'clamp(4px, 0.42vw, 6px)',
             }}
           >

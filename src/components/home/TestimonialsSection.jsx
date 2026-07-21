@@ -535,17 +535,6 @@ const STATIC_TESTIMONIALS = [
   },
 ];
 
-/* ─── Shared Arrow SVG ───────────────────────────────────────────────── */
-const ArrowRight = ({ size }) => (
-  <svg
-    viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
-    className="text-[#6B859E]"
-    style={{ width: size, height: size }}
-  >
-    <path d="M5 12h14M12 5l7 7-7 7" />
-  </svg>
-);
-
 /* ─── Fluid card dimensions via continuous vw formula ───────────────────
  *  Base (1440px / 3xl): cardW=800, cardH=550, sideH=467.5, gap=20
  *  Scaling: linear vw between mobile (375) and 4xl (1920)
@@ -973,93 +962,6 @@ const TestimonialsSection = ({ testimonial }) => {
           >
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
-        </button>
-      </div>
-
-      {/* ══ 3 — Learn More CTA ════════════════════════════════════════════ */}
-      <div
-        className="w-full flex justify-center items-center"
-        style={{ width: 'clamp(390px, 90.28vw, 1300px)' }}
-      >
-        <button
-          className="group relative flex items-center justify-center bg-[#6B859E] hover:bg-[#4a6074] transition-colors duration-500 overflow-hidden cursor-pointer border-none"
-          style={{
-            width:        'clamp(118.6px, 11.6vw, 167px)',
-            height:       'clamp(36.9px, 3.61vw, 52px)',
-            borderRadius: 'clamp(8.5px, 0.83vw, 12px)',
-          }}
-        >
-          {/* Sliding text */}
-          <div
-            className="absolute overflow-hidden"
-            style={{
-              top:    'clamp(10px, 1.01vw, 14.5px)',
-              left:   'clamp(10px, 1.23vw, 22px)',
-              width:  'clamp(70px, 6.74vw, 97px)',
-              height: 'clamp(18px, 1.6vw, 23px)',
-            }}
-          >
-            <div className="flex flex-col transition-transform duration-500 ease-in-out group-hover:-translate-y-1/2">
-              {['Learn More', 'Learn More'].map((label, i) => (
-                <span
-                  key={i}
-                  className="font-sans font-medium text-white whitespace-nowrap flex items-center"
-                  style={{
-                    height:   'clamp(18px, 1.6vw, 23px)',
-                    fontSize: 'clamp(13px, 1.04vw, 15px)',
-                  }}
-                >
-                  {label}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Arrow box */}
-          {/* <div
-            className="absolute bg-white group-hover:bg-[#EDE7DE] transition-colors duration-500 overflow-hidden"
-            style={{
-              right:        'clamp(8.5px, 0.83vw, 12px)',
-              width:        'clamp(21.3px, 2.08vw, 30px)',
-              height:       'clamp(21.3px, 2.08vw, 30px)',
-              borderRadius: 'clamp(5px, 0.49vw, 7px)',
-            }}
-          >
-            <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-in-out group-hover:translate-x-full">
-              <ArrowRight size="clamp(10px, 0.97vw, 14px)" />
-            </div>
-            <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-in-out -translate-x-full group-hover:translate-x-0">
-              <ArrowRight size="clamp(10px, 0.97vw, 14px)" />
-            </div>
-          </div> */}
-          <div
-                  className="absolute bg-white group-hover:bg-[#EDE7DE] transition-colors duration-500 overflow-hidden"
-                  style={{
-                    right:        'clamp(8.5px, 0.83vw, 12px)',
-                    width:        'clamp(21.3px, 2.08vw, 30px)',
-                    height:       'clamp(21.3px, 2.08vw, 30px)',
-                    borderRadius: 'clamp(5px, 0.49vw, 7px)',
-                  }}
-                >
-                  <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-in-out group-hover:translate-x-full">
-                    <svg
-                      viewBox="0 0 32 24" fill="none" stroke="currentColor" strokeWidth="2.5"
-                      className="text-black"
-                      style={{ width: 'clamp(10px, 0.97vw, 18px)', height: 'clamp(10px, 0.97vw, 14px)' }}
-                    >
-                      <path d="M5 12h24M24 5l7 7-7 7" />
-                    </svg>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-in-out -translate-x-full group-hover:translate-x-0">
-                    <svg
-                      viewBox="0 0 32 24" fill="none" stroke="currentColor" strokeWidth="2.5"
-                      className="text-black"
-                      style={{ width: 'clamp(10px, 0.97vw, 18px)', height: 'clamp(10px, 0.97vw, 14px)' }}
-                    >
-                      <path d="M5 12h24M24 5l7 7-7 7" />
-                    </svg>
-                  </div>
-                </div>
         </button>
       </div>
 

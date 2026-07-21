@@ -530,7 +530,7 @@ const ProjectCard = ({ villa, height }) => {
   return (
     <div
       ref={containerRef}
-      className="relative group"
+      className="relative group overflow-hidden"
       style={{ height }}
       onMouseEnter={trackCursor}
       onMouseMove={trackCursor}
@@ -594,11 +594,10 @@ const GalleryNew = ({ gallery }) => {
               1) TITLE CONTAINER
           ══════════════════════════════════════════ */}
           {/*
-            Desktop (≥1024px):  side-by-side flex row  (original layout)
-            Tablet  (768–1023): stack vertically
-            Mobile  (<768px):   stack vertically, smaller text
+            Desktop + Tablet (≥768px): side-by-side flex row (original layout)
+            Mobile (<768px): stack vertically, smaller text
           */}
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between w-full gap-6 lg:gap-0">
+          <div className="flex flex-col md:flex-row md:items-start md:justify-between w-full gap-6 md:gap-0">
 
             {/* Gallery Badge — left */}
             <div
@@ -650,7 +649,7 @@ const GalleryNew = ({ gallery }) => {
             </div>
 
             {/* Description — right */}
-            <div className="self-start lg:self-end" style={{ maxWidth: clamp(200, 284) }}>
+            <div className="self-start md:self-end" style={{ maxWidth: clamp(200, 284) }}>
               <p
                 className="font-geist text-[#334454]"
                 style={{

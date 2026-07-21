@@ -670,7 +670,7 @@ const Footer = () => {
               <div className="flex flex-col" style={{ gap: 'clamp(9.9px, 1.63vw, 33.3px)' }}>
                 <h3
                   className="font-roundo font-medium text-white"
-                  style={{ fontSize: 'clamp(14.2px, 1.4vw, 26.6px)' }}
+                  style={{ fontSize: 'clamp(18px, 1.4vw, 26.6px)' }}
                 >
                   Quick Links
                 </h3>
@@ -681,7 +681,7 @@ const Footer = () => {
                       href={href}
                       className="font-sans font-normal text-[#FFFFFF] hover:text-[#EDE7DE]/80 transition-colors"
                       style={{
-                        fontSize:   'clamp(11.3px, 1.11vw, 21.3px)',
+                        fontSize:   'clamp(15px, 1.11vw, 21.3px)',
                         lineHeight: 1.1,
                       }}
                     >
@@ -695,7 +695,7 @@ const Footer = () => {
               <div className="flex flex-col ml-0 sm:ml-[clamp(20px,4.63vw,150px)]" style={{ gap: 'clamp(14.2px, 1.4vw, 26.6px)' }}>
                 <h3
                   className="font-roundo font-medium text-white"
-                  style={{ fontSize: 'clamp(14.2px, 1.4vw, 26.6px)' }}
+                  style={{ fontSize: 'clamp(18px, 1.4vw, 26.6px)' }}
                 >
                   Address
                 </h3>
@@ -703,7 +703,7 @@ const Footer = () => {
                   href="#"
                   className="font-sans font-normal text-[#FFFFFF] hover:text-[#EDE7DE]/80 transition-colors"
                   style={{
-                    fontSize:   'clamp(10.6px, 1.04vw, 20px)',
+                    fontSize:   'clamp(14px, 1.04vw, 20px)',
                     lineHeight: 1.6,
                     maxWidth:   'clamp(141.6px, 13.82vw, 265.7px)',
                   }}
@@ -716,7 +716,7 @@ const Footer = () => {
               <div className="flex flex-col ml-0 sm:ml-[clamp(20px,3.63vw,140px)]" style={{ gap: 'clamp(14.2px, 1.4vw, 26.6px)' }}>
                 <h3
                   className="font-roundo font-medium text-white"
-                  style={{ fontSize: 'clamp(14.2px, 1.4vw, 26.6px)' }}
+                  style={{ fontSize: 'clamp(18px, 1.4vw, 26.6px)' }}
                 >
                   Contact Us
                 </h3>
@@ -726,7 +726,7 @@ const Footer = () => {
                       key={i}
                       href="tel:+919188913114"
                       className="font-sans font-normal text-[#FFFFFF] hover:text-[#EDE7DE]/80 transition-colors"
-                      style={{ fontSize: 'clamp(10.6px, 1.04vw, 20px)' }}
+                      style={{ fontSize: 'clamp(14px, 1.04vw, 20px)' }}
                     >
                       {num}
                     </a>
@@ -772,7 +772,7 @@ const Footer = () => {
           <a
             href="#"
             className="font-sans font-normal text-[#FFFFFF] hover:text-[#EDE7DE]/80 transition-colors mr-0 md:mr-[clamp(30px,5vw,75px)]"
-            style={{ fontSize: 'clamp(8.5px, 0.83vw, 16px)' }}
+            style={{ fontSize: 'clamp(12px, 0.83vw, 16px)' }}
           >
             © Chameri Builders pvt limited
           </a>

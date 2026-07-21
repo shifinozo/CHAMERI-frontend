@@ -852,8 +852,7 @@ const WhyChooseUs = ({ chooseUs }) => {
       <div
         className="hidden sm:flex w-full flex-col md:flex-row justify-center"
         style={{
-          maxWidth: 'clamp(375px, 96vw, 1920px)',
-          gap:      'clamp(6px, 0.69vw, 10px)',
+          gap: 'clamp(6px, 0.69vw, 10px)',
         }}
       >
         {cards.map((card, i) => {
@@ -866,7 +865,7 @@ const WhyChooseUs = ({ chooseUs }) => {
               className="relative rounded-[8px] overflow-hidden transition-all duration-700 ease-in-out cursor-pointer flex-shrink-0"
               style={{
                 width:        isActive ? 'clamp(280px, 31.81vw, 4658px)' : 'clamp(240px, 27.78vw, 600px)',
-                height:       'clamp(220px, 24.48vw, 452.5px)',
+                height:       'clamp(280px, 24.48vw, 452.5px)',
                 padding:      'clamp(20px, 2.6vw, 37.5px)',
                 borderRadius: 'clamp(6px, 0.56vw, 8px)',
               }}
@@ -919,7 +918,7 @@ const WhyChooseUs = ({ chooseUs }) => {
                       fontSize:      'clamp(22px, 2.29vw, 33px)',
                       lineHeight:    'clamp(26px, 2.64vw, 37.95px)',
                       letterSpacing: 'clamp(-0.44px, -0.05vw, -0.66px)',
-                      height:        'clamp(50px, 5.35vw, 77px)'
+                      minHeight:     'clamp(50px, 5.35vw, 77px)'
                     }}
                   >
                     {card.title}
@@ -931,7 +930,7 @@ const WhyChooseUs = ({ chooseUs }) => {
                     style={{
                       fontSize:   'clamp(12px, 1.04vw, 15px)',
                       lineHeight: 'clamp(18px, 1.56vw, 22.5px)',
-                      height:     'clamp(70px, 7.85vw, 113px)'
+                      minHeight:  'clamp(70px, 7.85vw, 113px)'
                     }}
                   >
                     {card.desc}

@@ -621,31 +621,37 @@ const TeamSection = ({ ourTeam }) => {
           </span>
         </div>
 
-        {/* Heading */}
-        <h2
-          className="font-roundo font-medium capitalize text-[#1A1A1A] m-0"
-          style={{
-            fontSize:      'clamp(36px, 4.17vw, 80px)',  // 60px @ 1440 → 80px @ 1920
-            lineHeight:    'clamp(36px, 4.17vw, 80px)',
-            letterSpacing: 'clamp(-0.64px, -0.078vw, -1.2px)',
-          }}
+        {/* Heading + Sub-heading — side-by-side on tablet (md–lg), stacked
+            in the sticky sidebar column on lg+ (original layout) */}
+        <div
+          className="flex flex-col md:flex-row md:items-start md:justify-between lg:flex-col w-full"
+          style={{ gap: 'clamp(14px, 1.3vw, 34.6px)' }}
         >
-          Peoples Builds<br/>This Firm
-        </h2>
+          <h2
+            className="font-roundo font-medium capitalize text-[#1A1A1A] m-0"
+            style={{
+              fontSize:      'clamp(36px, 4.17vw, 80px)',  // 60px @ 1440 → 80px @ 1920
+              lineHeight:    'clamp(36px, 4.17vw, 80px)',
+              letterSpacing: 'clamp(-0.64px, -0.078vw, -1.2px)',
+            }}
+          >
+            Peoples Builds<br/>This Firm
+          </h2>
 
-        {/* Sub-heading */}
-        <p
-          className="font-sans font-normal text-[#334454]/75 m-0"
-          style={{
-            fontSize:      'clamp(14.9px, 1.39vw, 26.6px)', // 20px @ 1440 → 26.6px @ 1920
-            lineHeight:    'clamp(18.4px, 1.72vw, 32.9px)',
-            letterSpacing: 'clamp(-0.27px, -0.03vw, -0.5px)',
-            maxWidth:      'clamp(262px, 26.88vw, 493px)',   // 370px @ 1440 → 493px @ 1920
-          }}
-        >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.
-        </p>
+          {/* Sub-heading */}
+          <p
+            className="font-sans font-normal text-[#334454]/75 m-0"
+            style={{
+              fontSize:      'clamp(14.9px, 1.39vw, 26.6px)', // 20px @ 1440 → 26.6px @ 1920
+              lineHeight:    'clamp(18.4px, 1.72vw, 32.9px)',
+              letterSpacing: 'clamp(-0.27px, -0.03vw, -0.5px)',
+              maxWidth:      'clamp(262px, 26.88vw, 493px)',   // 370px @ 1440 → 493px @ 1920
+            }}
+          >
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim.
+          </p>
+        </div>
       </aside>
 
       {/* ══ RIGHT: 2-col photo grid ══════════════════════════════════════ */}

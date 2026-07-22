@@ -62,7 +62,7 @@ const LogoMarquee = ({ logos: apiLogos }) => {
   return (
     <section className="w-full bg-[#EDE7DE] py-[clamp(30px,4.16vw,100px)] relative z-10 flex flex-col items-center justify-center overflow-hidden">
       {/* ── Marquee track container ─────────────────────────────────────── */}
-      <div className="flex items-center overflow-hidden w-[clamp(280px,83.33vw,1600px)] h-[clamp(50px,7.7vw,160px)]">
+      <div className="flex items-center overflow-hidden w-[clamp(280px,86.33vw,1700px)] h-[clamp(50px,7.7vw,160px)]">
         {/* ── Scrolling strip ──────────────────────────────────────────── */}
         <div className="flex animate-marquee whitespace-nowrap gap-[clamp(10px,1vw,20px)]">
           {scrollLogos.map((logo, index) => (

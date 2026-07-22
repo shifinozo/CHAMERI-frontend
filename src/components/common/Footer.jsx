@@ -765,13 +765,18 @@ const Footer = () => {
         </div>
 
         {/* ── Copyright bar ─────────────────────────────────────────────── */}
+        <style>{`
+          @media (min-width: 768px) {
+            .footer-copyright { margin-right: clamp(47.1px, 4.59vw, 88.3px) !important; }
+          }
+        `}</style>
         <div
           className="flex justify-center md:justify-end items-center border-t border-white/10"
           style={{ padding: 'clamp(14px, 1.37vw, 25px) 0' }}
         >
           <a
             href="#"
-            className="font-sans font-normal text-[#FFFFFF] hover:text-[#EDE7DE]/80 transition-colors mr-0 md:mr-[clamp(30px,5vw,75px)]"
+            className="footer-copyright font-sans font-normal text-[#FFFFFF] hover:text-[#EDE7DE]/80 transition-colors"
             style={{ fontSize: 'clamp(12px, 0.83vw, 16px)' }}
           >
             © Chameri Builders pvt limited

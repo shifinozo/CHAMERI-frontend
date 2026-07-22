@@ -441,7 +441,7 @@ const VillaPlansSection = ({ villaPlan }) => {
         className="flex flex-col items-center w-full"
         style={{
           gap:      'clamp(12px, 1.18vw, 17px)',
-          maxWidth: 'clamp(560px, 88vw, 92%)',
+          maxWidth: 'clamp(560px, 88vw, 96%)',
         }}
       >
 
@@ -484,7 +484,7 @@ const VillaPlansSection = ({ villaPlan }) => {
             IMAGE CARD
            ══════════════════════════════════════════════════════════════ */}
         <div
-          className="relative w-full overflow-hidden rounded-[8px] sm:rounded-[clamp(10px,1.05vw,15.12px)] h-[539px] sm:h-[clamp(400px,49.99vw,820px)]"
+          className="relative w-full overflow-hidden rounded-[8px] sm:rounded-[clamp(8px,1vw,13.12px)] h-[539px] sm:h-[clamp(400px,49.99vw,820px)]"
         >
           <Image
             src={activeTab === 'villas' ? tab1Image : tab2Image}

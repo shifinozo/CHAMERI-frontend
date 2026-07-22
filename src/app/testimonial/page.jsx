@@ -1,5 +1,6 @@
 import TestimonialHero from "@/components/testimonial/TestimonialHero";
 import TestimonialCarousel from "@/components/testimonial/TestimonialCarousel";
+import VideoTestimonialCarousel from "@/components/testimonial/VideoTestimonialCarousel";
 import Footer from "@/components/common/Footer";
 
 export const metadata = {
@@ -13,6 +14,7 @@ export default function TestimonialPage() {
     <main className="min-h-screen bg-[#EFEDE7]">
       <TestimonialHero />
       <TestimonialCarousel />
+      <VideoTestimonialCarousel />
       <Footer />
     </main>
   );

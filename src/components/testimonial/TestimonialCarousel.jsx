@@ -1,8 +1,138 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
 import { TESTIMONIALS as DEFAULT_TESTIMONIALS } from '@/data/testimonials';
+
+/* Quote text — masked vertical reveal. The wrapping slot is fixed-height
+ * with `overflow: hidden`, so the two `motion.p`s (each `position:
+ * absolute`, full width) are clipped to that box instead of being visible
+ * as they travel. No `mode="wait"` here — the outgoing and incoming text
+ * animate at the same time: outgoing goes translateY(0%) → translateY(-100%)
+ * and exits through the top, while incoming starts at translateY(100%) and
+ * lands at translateY(0%). Because both move in lockstep and the container
+ * never resizes, it reads as the new line being "revealed" rather than the
+ * old one sliding away. */
+const revealVariants = {
+  initial: { y: '100%' },
+  animate: { y: '0%', transition: { duration: 1.1, ease: [0.65, 0, 0.35, 1] } },
+  exit:    { y: '-100%', transition: { duration: 1.1, ease: [0.65, 0, 0.35, 1] } },
+};
+
+/* Groups `text` into the lines it actually wraps into at its rendered
+ * width/font — measured via a hidden clone with one <span> per word, since
+ * the real width depends on the responsive clamp() font-size and can't be
+ * computed from the string alone. Re-measures on resize so it stays
+ * correct across breakpoints. Capped to `maxLines`, matching the old
+ * line-clamp limit. */
+function useMeasuredLines(text, maxLines) {
+  const measureRef = useRef(null);
+  const [lines, setLines] = useState([]);
+
+  useEffect(() => {
+    const el = measureRef.current;
+    if (!el) return undefined;
+
+    const measure = () => {
+      const words = el.querySelectorAll('[data-word]');
+      const grouped = [];
+      let lastTop = null;
+      words.forEach((word) => {
+        const top = Math.round(word.offsetTop);
+        if (lastTop === null || top !== lastTop) {
+          grouped.push([]);
+          lastTop = top;
+        }
+        grouped[grouped.length - 1].push(word.textContent.trim());
+      });
+      setLines(grouped.map((w) => w.join(' ')).slice(0, maxLines));
+    };
+
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [text, maxLines]);
+
+  return { measureRef, lines };
+}
+
+/* Renders the quote as `maxLines` fixed-height, overflow-hidden slots (so
+ * the block's total height never changes) and reveals each line
+ * independently: when `current` changes, line i of the outgoing quote and
+ * line i of the incoming quote swap in the same slot, at the same time,
+ * with the same translateY reveal used elsewhere. A quote shorter than
+ * maxLines just leaves its trailing slots empty rather than resizing the
+ * block. */
+function AnimatedQuoteLines({ text, current, maxLines, textStyle }) {
+  const { measureRef, lines } = useMeasuredLines(text, maxLines);
+
+  return (
+    <div style={{ position: 'relative', width: '100%' }}>
+      <p
+        ref={measureRef}
+        aria-hidden="true"
+        className="font-sans m-0"
+        style={{
+          ...textStyle,
+          position:   'absolute',
+          top:        0,
+          left:       0,
+          width:      '100%',
+          visibility: 'hidden',
+          pointerEvents: 'none',
+        }}
+      >
+        {text.split(' ').map((word, i) => (
+          <span key={i} data-word style={{ display: 'inline-block' }}>
+            {word}&nbsp;
+          </span>
+        ))}
+      </p>
+
+      {Array.from({ length: maxLines }).map((_, i) => (
+        <div key={i} style={{ position: 'relative', overflow: 'hidden', height: textStyle.lineHeight }}>
+          <AnimatePresence>
+            <motion.p
+              key={current}
+              variants={revealVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="font-sans m-0"
+              style={{ ...textStyle, position: 'absolute', top: 0, left: 0, width: '100%' }}
+            >
+              {lines[i] || ' '}
+            </motion.p>
+          </AnimatePresence>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* Name/designation and the Google review score — plain crossfade, no
+ * vertical movement, so they "fade smoothly without any abrupt jump". */
+const fadeVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0.6, ease: 'easeOut' } },
+  exit:    { opacity: 0, transition: { duration: 0.45, ease: 'easeIn' } },
+};
+
+/* Photo — morph/crossfade portrait transition. No `mode="wait"` on its
+ * AnimatePresence: outgoing and incoming images overlap and animate at the
+ * same time (rather than exit-then-enter), which is what produces the
+ * ghosting/morph look instead of a hard cut. Opacity crossfades while a
+ * slight scale (incoming grows in from 0.98, outgoing pushes out to 1.02)
+ * and filter blur peak mid-transition give it motion-blur-like softness.
+ * The container itself (position, size, overflow:hidden, border-radius)
+ * never moves — only the image inside is animated. */
+const imageVariants = {
+  initial: { opacity: 0, scale: 0.98, filter: 'blur(10px)' },
+  animate: { opacity: 1, scale: 1,    filter: 'blur(0px)', transition: { duration: 0.9, ease: [0.65, 0, 0.35, 1] } },
+  exit:    { opacity: 0, scale: 1.02, filter: 'blur(10px)', transition: { duration: 0.9, ease: [0.65, 0, 0.35, 1] } },
+};
 
 /**
  * ─────────────────────────────────────────────────────────────────────────────
@@ -67,25 +197,7 @@ export default function TestimonialCarousel({ testimonials }) {
         className="hidden md:block relative w-full mx-auto"
         style={{ height: 'clamp(400px, 36.667vw, 728px)' }}
       >
-        {/* ── Photo thumbnail ─────────────────────────────────────────────── */}
-        <div
-          className="absolute overflow-hidden"
-          style={{
-            top:          '24.932%',
-            left:         '5.361%',
-            width:        'clamp(120px, 11.334vw, 163.21px)',
-            height:       'clamp(140px, 14.895vw, 214.49px)',
-            borderRadius: 'clamp(3px, 0.341vw, 4.91px)',
-          }}
-        >
-          <Image src={item.avatar} alt={item.name} fill className="object-cover" />
-          <div
-            className="absolute inset-0"
-            style={{ background: 'linear-gradient(0deg, #000000 0%, rgba(0,0,0,0) 39%)' }}
-          />
-        </div>
-
-        {/* ── Quote glyph ─────────────────────────────────────────────────── */}
+        {/* ── Quote glyph (static — decorative, does not change per testimonial) ── */}
         <div
           className="absolute"
           style={{
@@ -98,21 +210,137 @@ export default function TestimonialCarousel({ testimonials }) {
           <Image src="/icons/Vector (16).svg" alt="" fill />
         </div>
 
-        {/* ── Quote text ──────────────────────────────────────────────────── */}
-        <p
-          className="absolute font-sans m-0"
+        {/*
+         * ── Animated content ─────────────────────────────────────────────
+         * Each piece below lives in its own fixed, never-animated "slot"
+         * div (position + size only) with an AnimatePresence/motion.div
+         * nested inside it. The photo, name/designation, and Google score
+         * use a plain crossfade (fadeVariants) — they "fade smoothly
+         * without any abrupt jump". Only the quote text also slides
+         * (slideVariants). All four share the same `key={current}`, so
+         * they swap in lockstep.
+         */}
+
+        {/* Photo thumbnail — morph/crossfade with motion blur */}
+        <div
+          className="absolute overflow-hidden"
           style={{
-            top:           '24.242%',
-            left:          '25.278%',
-            width:         'clamp(280px, 57.778vw, 992px)',
-            color:         '#212325',
-            fontWeight:    500,
-            fontSize:      'clamp(22px, 4.222vw, 52px)',
-            lineHeight:    'clamp(26px, 3.586vw, 73px)',
+            top:          '24.932%',
+            left:         '5.361%',
+            width:        'clamp(120px, 11.334vw, 463.21px)',
+            height:       'clamp(140px, 14.895vw, 274.49px)',
+            borderRadius: 'clamp(3px, 0.341vw, 4.91px)',
           }}
         >
-          {item.quote}
-        </p>
+          <AnimatePresence>
+            <motion.div
+              key={current}
+              variants={imageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="absolute inset-0"
+            >
+              <Image src={item.avatar} alt={item.name} fill className="object-cover" />
+              <div
+                className="absolute inset-0"
+                style={{ background: 'linear-gradient(0deg, #000000 0%, rgba(0,0,0,0) 39%)' }}
+              />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Quote text — line-by-line masked reveal. Each wrapped line gets
+            its own fixed-height, overflow:hidden slot so the block's total
+            height never changes, however long the incoming quote is */}
+        <div
+          className="absolute"
+          style={{ top: '24.242%', left: '25.278%', width: 'clamp(280px, 57.778vw, 992px)' }}
+        >
+          <AnimatedQuoteLines
+            text={item.quote}
+            current={current}
+            maxLines={4}
+            textStyle={{
+              color:      '#212325',
+              fontWeight: 500,
+              fontSize:   'clamp(22px, 4.222vw, 52px)',
+              lineHeight: 'clamp(26px, 3.586vw, 73px)',
+            }}
+          />
+        </div>
+
+        {/* Name / designation — pure fade, aligned with the quote text's left edge */}
+        <div
+          className="absolute"
+          style={{ top: '77.462%', left: '25.278%', width: 'clamp(140px, 12.599vw, 181.42px)' }}
+        >
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current}
+              variants={fadeVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="flex flex-col"
+              style={{ gap: 'clamp(4px, 0.374vw, 5.39px)' }}
+            >
+              <p
+                className="font-sans m-0"
+                style={{
+                  color:      '#1A1A1A',
+                  fontWeight: 400,
+                  fontSize:   'clamp(15px, 1.382vw, 19.9px)',
+                  lineHeight: 'clamp(20px, 1.8vw, 25.92px)',
+                }}
+              >
+                {item.name}
+              </p>
+              <p
+                className="font-sans uppercase m-0"
+                style={{
+                  color:         '#21232599',
+                  fontWeight:    500,
+                  fontSize:      'clamp(9px, 0.75vw, 10.8px)',
+                  lineHeight:    '14px',
+                  letterSpacing: 'clamp(0.6px, 0.0597vw, 0.86px)',
+                }}
+              >
+                {item.role}
+              </p>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Google review score — pure fade, icon first then text */}
+        <div className="absolute" style={{ top: '80.19%', left: '73.79%' }}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current}
+              variants={fadeVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="flex items-center"
+              style={{ gap: 'clamp(7px, 0.749vw, 10.79px)' }}
+            >
+              <GoogleIcon size="clamp(14px, 1.25vw, 18px)" />
+              <span
+                className="font-sans uppercase underline"
+                style={{
+                  color:         '#21232599',
+                  fontWeight:    500,
+                  fontSize:      'clamp(9px, 0.75vw, 10.8px)',
+                  lineHeight:    '14px',
+                  letterSpacing: 'clamp(0.6px, 0.0597vw, 0.86px)',
+                  whiteSpace:    'nowrap',
+                }}
+              >
+                Google Review Score: {googleScore} of 5
+              </span>
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
         {/* ── Top meta row: badge + counter ──────────────────────────────── */}
         <div
@@ -211,67 +439,6 @@ export default function TestimonialCarousel({ testimonials }) {
             <ArrowIcon size="clamp(12px, 1.319vw, 19px)" />
           </button>
         </div>
-
-        {/* ── Footer row: name/designation + google score ────────────────── */}
-        {/* Name / designation — aligned with the quote text's left edge */}
-        <div
-          className="absolute flex flex-col"
-          style={{
-            top:    '77.462%',
-            left:   '25.278%',
-            width:  'clamp(140px, 12.599vw, 181.42px)',
-            gap:    'clamp(4px, 0.374vw, 5.39px)',
-          }}
-        >
-          <p
-            className="font-sans m-0"
-            style={{
-              color:      '#1A1A1A',
-              fontWeight: 400,
-              fontSize:   'clamp(15px, 1.382vw, 19.9px)',
-              lineHeight: 'clamp(20px, 1.8vw, 25.92px)',
-            }}
-          >
-            {item.name}
-          </p>
-          <p
-            className="font-sans uppercase m-0"
-            style={{
-              color:         '#21232599',
-              fontWeight:    500,
-              fontSize:      'clamp(9px, 0.75vw, 10.8px)',
-              lineHeight:    '14px',
-              letterSpacing: 'clamp(0.6px, 0.0597vw, 0.86px)',
-            }}
-          >
-            {item.role}
-          </p>
-        </div>
-
-        {/* Google review score — icon first, then text */}
-        <div
-          className="absolute flex items-center"
-          style={{
-            top:   '80.19%',
-            left:  '73.79%',
-            gap:   'clamp(7px, 0.749vw, 10.79px)',
-          }}
-        >
-          <GoogleIcon size="clamp(14px, 1.25vw, 18px)" />
-          <span
-            className="font-sans uppercase underline"
-            style={{
-              color:         '#21232599',
-              fontWeight:    500,
-              fontSize:      'clamp(9px, 0.75vw, 10.8px)',
-              lineHeight:    '14px',
-              letterSpacing: 'clamp(0.6px, 0.0597vw, 0.86px)',
-              whiteSpace:    'nowrap',
-            }}
-          >
-            Google Review Score: {googleScore} of 5
-          </span>
-        </div>
       </div>
 
       {/* ══════════════════════════════ MOBILE (< md) ═══════════════════════════ */}
@@ -295,46 +462,102 @@ export default function TestimonialCarousel({ testimonials }) {
           </span>
         </div>
 
-        {/* Photo + quote glyph */}
-        <div className="flex items-start" style={{ gap: '16px' }}>
-          <div className="relative overflow-hidden flex-shrink-0" style={{ width: '100px', height: '132px', borderRadius: '4px' }}>
-            <Image src={item.avatar} alt={item.name} fill className="object-cover" />
-            <div className="absolute inset-0" style={{ background: 'linear-gradient(0deg, #000000 0%, rgba(0,0,0,0) 39%)' }} />
+        {/*
+         * Fixed-height "text container" slot — height is reserved up front
+         * (photo 132px + gap 16 + quote clamped to 4 lines @ 26px = 104px +
+         * gap 16 + name/designation ~40px) so the swap never resizes the
+         * card or pushes the content below it, no matter how long the
+         * incoming quote is. The photo morphs/crossfades, name/designation
+         * crossfades with no vertical movement, and the quote text reveals
+         * line by line.
+         */}
+        <div className="relative" style={{ height: '312px' }}>
+          {/* Photo + quote glyph — pinned to top:0, morph/crossfade with motion blur */}
+          <div className="absolute flex items-start" style={{ top: 0, left: 0, right: 0, gap: '16px' }}>
+            <div className="relative overflow-hidden flex-shrink-0" style={{ width: '100px', height: '132px', borderRadius: '4px' }}>
+              <AnimatePresence>
+                <motion.div
+                  key={current}
+                  variants={imageVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  className="absolute inset-0"
+                >
+                  <Image src={item.avatar} alt={item.name} fill className="object-cover" />
+                  <div className="absolute inset-0" style={{ background: 'linear-gradient(0deg, #000000 0%, rgba(0,0,0,0) 39%)' }} />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+            <div className="relative flex-shrink-0" style={{ width: '20px', height: '15px' }}>
+              <Image src="/icons/Vector (16).svg" alt="" fill />
+            </div>
           </div>
-          <div className="relative flex-shrink-0" style={{ width: '20px', height: '15px' }}>
-            <Image src="/icons/Vector (16).svg" alt="" fill />
+
+          {/* Quote text — pinned to top:148px, line-by-line masked reveal
+              capped to 4 lines (104px) so it can never grow past its
+              reserved slot, however long the source text is */}
+          <div className="absolute" style={{ top: '148px', left: 0, right: 0 }}>
+            <AnimatedQuoteLines
+              text={item.quote}
+              current={current}
+              maxLines={4}
+              textStyle={{
+                color:      '#212325',
+                fontWeight: 500,
+                fontSize:   '18px',
+                lineHeight: '26px',
+              }}
+            />
           </div>
-        </div>
 
-        {/* Quote text */}
-        <p className="font-sans m-0" style={{ color: '#212325', fontWeight: 500, fontSize: '18px', lineHeight: '26px' }}>
-          {item.quote}
-        </p>
-
-        {/* Name / designation */}
-        <div className="flex flex-col" style={{ gap: '4px' }}>
-          <p className="font-sans m-0" style={{ color: '#1A1A1A', fontSize: '16px', lineHeight: '20px' }}>
-            {item.name}
-          </p>
-          <p
-            className="font-sans uppercase m-0"
-            style={{ color: '#21232599', fontWeight: 500, fontSize: '10px', letterSpacing: '0.6px' }}
-          >
-            {item.role}
-          </p>
+          {/* Name / designation — pinned to top:268px, pure fade */}
+          <div className="absolute" style={{ top: '268px', left: 0 }}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={current}
+                variants={fadeVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                className="flex flex-col"
+                style={{ gap: '4px' }}
+              >
+                <p className="font-sans m-0" style={{ color: '#1A1A1A', fontSize: '16px', lineHeight: '20px' }}>
+                  {item.name}
+                </p>
+                <p
+                  className="font-sans uppercase m-0"
+                  style={{ color: '#21232599', fontWeight: 500, fontSize: '10px', letterSpacing: '0.6px' }}
+                >
+                  {item.role}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
 
         {/* Google score + arrows */}
         <div className="flex items-center justify-between">
-          <div className="flex items-center" style={{ gap: '8px' }}>
-            <GoogleIcon size="14px" />
-            <span
-              className="font-sans uppercase underline"
-              style={{ color: '#21232599', fontWeight: 500, fontSize: '10px', letterSpacing: '0.6px' }}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current}
+              variants={fadeVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="flex items-center"
+              style={{ gap: '8px' }}
             >
-              Google Review: {googleScore} of 5
-            </span>
-          </div>
+              <GoogleIcon size="14px" />
+              <span
+                className="font-sans uppercase underline"
+                style={{ color: '#21232599', fontWeight: 500, fontSize: '10px', letterSpacing: '0.6px' }}
+              >
+                Google Review: {googleScore} of 5
+              </span>
+            </motion.div>
+          </AnimatePresence>
           <div className="flex items-center" style={{ gap: '10px' }}>
             <button
               onClick={prev}

@@ -630,7 +630,7 @@ const Footer = () => {
               desktop-only treatment. */}
           <div
             className="relative flex-1 order-1 md:order-none md:border md:border-white/10"
-            style={{ minHeight: 'clamp(200px, 26.1vw, 503px)' }}
+            style={{ minHeight: 'clamp(100px, 28.1vw, 533px)' }}
           >
 
             {/* md+ absolute positioning for links grid */}
@@ -640,7 +640,7 @@ const Footer = () => {
                   position: absolute;
                   padding-top: 0 !important;
                   padding-left: 0 !important;
-                  top:  clamp(32.9px, 3.01vw, 61.7px);
+                  top:  clamp(1.9px, 3.01vw, 61.7px);
                   left: clamp(51.9px, 5.05vw, 97.3px);
                   gap:  clamp(45px, 4.79vw, 118.7px) !important;
                 }
@@ -657,7 +657,7 @@ const Footer = () => {
 
             {/* Links grid — 3 columns */}
             <div
-              className="footer-links-grid flex flex-col sm:flex-row flex-wrap md:flex-nowrap"
+              className="footer-links-grid flex flex-col md:flex-row flex-wrap md:flex-nowrap"
               style={{
                 // maxWidth: 'clamp(1000px, 120vw, 1920px)',
                 paddingTop:  'clamp(20px, 1.3vw, 25px)',
@@ -692,7 +692,7 @@ const Footer = () => {
               </div>
 
               {/* Address */}
-              <div className="flex flex-col ml-0 sm:ml-[clamp(20px,4.63vw,150px)]" style={{ gap: 'clamp(14.2px, 1.4vw, 26.6px)' }}>
+              <div className="flex flex-col ml-0 md:ml-[clamp(20px,4.63vw,150px)]" style={{ gap: 'clamp(14.2px, 1.4vw, 26.6px)' }}>
                 <h3
                   className="font-roundo font-medium text-white"
                   style={{ fontSize: 'clamp(18px, 1.4vw, 26.6px)' }}
@@ -713,7 +713,7 @@ const Footer = () => {
               </div>
 
               {/* Contact Us */}
-              <div className="flex flex-col ml-0 sm:ml-[clamp(20px,3.63vw,140px)]" style={{ gap: 'clamp(14.2px, 1.4vw, 26.6px)' }}>
+              <div className="flex flex-col ml-0 md:ml-[clamp(20px,3.63vw,140px)]" style={{ gap: 'clamp(14.2px, 1.4vw, 26.6px)' }}>
                 <h3
                   className="font-roundo font-medium text-white"
                   style={{ fontSize: 'clamp(18px, 1.4vw, 26.6px)' }}

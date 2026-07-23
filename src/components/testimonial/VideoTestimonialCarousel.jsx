@@ -30,13 +30,10 @@ import { TESTIMONIALS as DEFAULT_TESTIMONIALS } from '@/data/testimonials';
  *   Role           : font-size:10.95 line-height:14.94  letter-spacing:-0.3  color: rgba(255,255,255,.6)
  *
  * The row runs edge-to-edge with no side gutter. Cards use
- * `flex: 1 0 clamp(...)` — 302px is a floor, not a fixed width, so with few
- * cards they grow to fill the full row (no dead space on either side); once
- * enough cards are added that they'd have to shrink below that floor, they
- * hold their size instead and the row scrolls horizontally
- * (`.scrollbar-hide`) rather than squeezing, matching the bleed-off-the-edge
- * look of the 5-card Figma frame. No changes needed as cards are added or
- * removed from the data file.
+ * `flex: 0 0 clamp(...)` — a fixed 302×498 size at 1440px that never grows
+ * or shrinks; the row scrolls horizontally (`.scrollbar-hide`) once cards
+ * overflow it, matching the bleed-off-the-edge look of the 5-card Figma
+ * frame. No changes needed as cards are added or removed from the data file.
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
@@ -52,12 +49,6 @@ const QuoteIcon = ({ width, height }) => (
 const StarIcon = ({ size }) => (
   <svg viewBox="0 0 24 24" style={{ width: size, height: size, flexShrink: 0 }} fill="#FFC107">
     <path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.18 21 12 17.27 5.82 21 7 14.14l-5-4.87 7.1-1.01L12 2z" />
-  </svg>
-);
-
-const PlayIcon = ({ size }) => (
-  <svg viewBox="0 0 24 24" style={{ width: size, height: size }} fill="#FFFFFF">
-    <path d="M8 5.14v13.72c0 .63.69 1.02 1.24.7l11-6.86a.8.8 0 000-1.4l-11-6.86A.8.8 0 008 5.14z" />
   </svg>
 );
 
@@ -80,7 +71,8 @@ function VideoCard({ item }) {
     <div
       className="relative overflow-hidden"
       style={{
-        flex:   '1 0 clamp(220px, 20.972vw, 302px)',
+        flex:   '0 0 clamp(220px, 20.972vw, 302px)',
+        width:  'clamp(220px, 20.972vw, 302px)',
         height: 'clamp(360px, 34.583vw, 498px)',
         scrollSnapAlign: 'start',
       }}
@@ -113,30 +105,28 @@ function VideoCard({ item }) {
         type="button"
         onClick={togglePlay}
         aria-label={playing ? 'Pause video' : 'Play video'}
-        className="absolute rounded-full border-none cursor-pointer flex items-center justify-center transition-opacity duration-300"
+        className="absolute rounded-full border-none cursor-pointer transition-opacity duration-300"
         style={{
           top:            '50%',
           left:           '50%',
           transform:      'translate(-50%, -50%)',
           width:          'clamp(40px, 3.889vw, 56px)',
           height:         'clamp(40px, 3.889vw, 56px)',
-          background:     'rgba(255,255,255,0.28)',
-          backdropFilter: 'blur(6px)',
-          WebkitBackdropFilter: 'blur(6px)',
-          border:         '1px solid rgba(255,255,255,0.4)',
           opacity:        playing ? 0 : 1,
         }}
       >
-        <PlayIcon size="clamp(16px, 1.528vw, 22px)" />
+        <Image src="/icons/Vector (17).svg" alt="" fill />
       </button>
 
       {/* Bottom content — quote glyph + stars, quote text, avatar row */}
       <div
         className="absolute flex flex-col"
-        style={{ top: '68.26%', left: '8%', width: '84%', gap: 'clamp(10px, 1.141vw, 16.43px)' }}
+        style={{ top: '68.26%', left: '12%', width: '84%', gap: 'clamp(10px, 1.141vw, 16.43px)' }}
       >
-        <div className="flex items-center" style={{ gap: 'clamp(6px, 8.856vw, 200px)'}}>
-          <QuoteIcon width="clamp(14px, 1.54vw, 22.18px)" height="clamp(10px, 1.141vw, 16.43px)" />
+        <div className="flex items-center" style={{ gap: 'clamp(6px, 8.156vw, 180px)'}}>
+          <div style={{ position: 'relative', top: 'clamp(4px, 0.556vw, 8px)',right: 'clamp(4px, 0.756vw, 14px)' }}>
+            <QuoteIcon width="clamp(14px, 1.54vw, 22.18px)" height="clamp(10px, 1.141vw, 16.43px)" />
+          </div>
           <div className="flex items-center" style={{ gap: 'clamp(1px, 0.1vw, 2px)' }}>
             {Array.from({ length: 5 }).map((_, i) => (
               <StarIcon key={i} size="clamp(8px, 0.773vw, 11.13px)" />
@@ -207,7 +197,7 @@ export default function VideoTestimonialCarousel({ testimonials }) {
   return (
     <section
       className="relative w-full"
-      style={{ background: '#EDE7DE', borderTop: '1px solid #21232533' }}
+      style={{ background: '#EDE7DE' }}
     >
       <div
         className="flex overflow-x-auto scrollbar-hide"

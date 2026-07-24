@@ -35,15 +35,6 @@ const PROJECTS = [
     image: '/dummyimages/68de01d498421b4e83d9a6e24ebe57bd5e9ea354.png',
     href: '/kiwano-villament',
   },
-  {
-    id: 'kiwano-villa-2',
-    tag: 'Kiwano Villa',
-    title: 'Creating spaces that elevate life',
-    description:
-      'Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim adipiscing',
-    image: '/dummyimages/93ea3b68dd0f3cef6bc8fd39cb67ca7fed7d3057.png',
-    href: '/kiwano',
-  },
 ];
 
 export default function ProjectsShowcase({ projects }) {

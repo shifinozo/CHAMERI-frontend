@@ -1,5 +1,6 @@
 import ProjectListHero from "@/components/project-list/ProjectListHero";
 import ProjectsShowcase from "@/components/project-list/ProjectsShowcase";
+import ProjectContactUs from "@/components/project-list/ProjectContactUs";
 import SmoothScroll from "@/components/project-list/SmoothScroll";
 import Footer from "@/components/common/Footer";
 
@@ -15,6 +16,7 @@ export default function ProjectListPage() {
       <SmoothScroll />
       <ProjectListHero />
       <ProjectsShowcase />
+      <ProjectContactUs />
       <Footer />
     </main>
   );

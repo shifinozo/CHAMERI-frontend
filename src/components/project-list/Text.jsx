@@ -28,16 +28,7 @@ export default function Text({ project }) {
   return (
     <>
       <style>{`
-        @media (max-width: 1099px) {
-          .ptext-info    {
-            left: 5% !important; width: 90% !important; top: 6% !important;
-            background: rgba(16,16,16,0.55) !important;
-            backdrop-filter: blur(6px) !important;
-            -webkit-backdrop-filter: blur(6px) !important;
-            border-radius: 8px !important;
-            padding: 14px !important;
-            box-sizing: border-box !important;
-          }
+        @media (max-width: 767px) {
           .ptext-row     { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; }
           .ptext-right   { flex-direction: column !important; align-items: flex-start !important; width: 100% !important; gap: 12px !important; }
           .ptext-heading { width: 100% !important; font-size: clamp(24px, 5.5vw, 32px) !important; }
@@ -55,17 +46,22 @@ export default function Text({ project }) {
           zIndex: 10,
           top: 'clamp(56px, 6.794vw, 97.84px)',
           left: 'clamp(30px, 24.779vw, 356.81px)',
-          width: 'clamp(280px, 63.542vw, 915px)',
+          width: 'clamp(240px, 69vw, 1175px)',
           gap: 'clamp(10px, 1.181vw, 17px)',
         }}
       >
         <div style={{ width: '100%', height: '1px', background: '#00000099' }} />
 
         <div className="ptext-row flex items-start" style={{ gap: 'clamp(20px, 8.611vw, 124px)' }}>
-          {/* Tag pill */}
+          {/* Tag pill — fixed width (Figma: 142.6px) so a longer project tag
+              never eats into the heading/description column's space */}
           <div
             className="flex items-center flex-shrink-0"
-            style={{ gap: 'clamp(5px, 0.5vw, 7.2px)', borderRadius: '90px' }}
+            style={{
+              gap: 'clamp(5px, 0.5vw, 7.2px)',
+              borderRadius: '90px',
+              width: 'clamp(100px, 9.903vw, 142.6px)',
+            }}
           >
             <span
               className="inline-block flex-shrink-0"
@@ -93,7 +89,7 @@ export default function Text({ project }) {
           <div className="ptext-right flex items-start" style={{ gap: 'clamp(24px, 10.625vw, 153px)' }}>
             <div
               className="ptext-desc flex flex-col flex-shrink-0"
-              style={{ gap: 'clamp(8px, 0.833vw, 12px)', width: 'clamp(150px, 16.875vw, 243px)' }}
+              style={{ gap: 'clamp(8px, 0.833vw, 12px)', width: 'clamp(150px, 26.875vw, 603px)' }}
             >
               <p
                 className="font-sans m-0"
@@ -138,13 +134,13 @@ export default function Text({ project }) {
             </div>
 
             <h2
-              className="ptext-heading font-roundo m-0"
+              className="ptext-heading font-roundo m-0 flex-shrink-0"
               style={{
                 fontWeight: 500,
                 fontSize: 'clamp(26px, 3.333vw, 48px)',
                 lineHeight: '102%',
                 letterSpacing: 'clamp(-1.4px, -0.139vw, -2px)',
-                color: '#212325',
+                color: ' #212325',
                 width: 'clamp(180px, 20.278vw, 292px)',
               }}
             >

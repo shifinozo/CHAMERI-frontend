@@ -453,7 +453,7 @@ export default function ContactPageForm() {
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const inputBase =
-    'font-sans font-normal text-[#334454] bg-transparent border-0 border-b border-[#334454]/35 outline-none w-full placeholder-[#334454]/40 focus:border-[#334454] transition-colors';
+    'font-geist font-regular text-[#333333CC] bg-transparent border-0 border-b border-[#000000] outline-none w-full placeholder-[#000000]/40 focus:border-[#000000] transition-colors';
 
   return (
     /*
@@ -558,7 +558,7 @@ export default function ContactPageForm() {
                  * letterSpacing: -0.32px (fixed sub-pixel)
                  */}
                 <span
-                  className="font-geist font-normal text-[#334454] uppercase whitespace-nowrap"
+                  className="font-geist font-normal text-[#000000] uppercase whitespace-nowrap"
                   style={{
                     fontSize:      'clamp(11px, 1.125vw, 26.2px)',
                     lineHeight:    'clamp(14px, 1.550vw, 24.44px)',
@@ -636,7 +636,7 @@ export default function ContactPageForm() {
                       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.53 2 2 0 0 1 3.6 1.35h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
                     </svg>
                     <span
-                      className="font-geist font-normal text-[#334454]"
+                      className="font-geist font-normal text-[#000000]"
                       style={{
                         fontSize:      'clamp(13px, 1.250vw, 22px)',
                         letterSpacing: '-1px',
@@ -647,7 +647,7 @@ export default function ContactPageForm() {
                   </div>
                   <a
                     href="tel:+91987654321"
-                    className="font-geist font-medium text-[#6B859E] underline hover:text-[#334454] transition-colors"
+                    className="font-geist font-medium text-[#6B859E] underline hover:text-[#000000] transition-colors"
                     style={{ fontSize: 'clamp(13px, 1.250vw, 22px)' }}
                   >
                     +91 987654321
@@ -677,7 +677,7 @@ export default function ContactPageForm() {
                       <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                     </svg>
                     <span
-                      className="font-geist font-normal text-[#334454]"
+                      className="font-geist font-normal text-[#000000]"
                       style={{
                         fontSize:      'clamp(13px, 1.250vw, 22px)',
                         letterSpacing: '-1px',
@@ -688,7 +688,7 @@ export default function ContactPageForm() {
                   </div>
                   <a
                     href="mailto:Chameri@gmail.com"
-                    className="font-geist font-medium text-[#6B859E] underline hover:text-[#334454] transition-colors"
+                    className="font-geist font-medium text-[#6B859E] underline hover:text-[#000000] transition-colors"
                     style={{ fontSize: 'clamp(13px, 1.250vw, 22px)' }}
                   >
                     Chameri@gmail.com
@@ -715,7 +715,7 @@ export default function ContactPageForm() {
                     key={label}
                     href="#"
                     aria-label={label}
-                    className="text-[#334454] hover:text-[#6B859E] hover:scale-110 transition-all flex items-center justify-center flex-shrink-0"
+                    className="text-[#000000] hover:text-[#6B859E] hover:scale-110 transition-all flex items-center justify-center flex-shrink-0"
                     style={{ width, height }}
                   >
                     {svg}
@@ -813,7 +813,7 @@ export default function ContactPageForm() {
              * gap:             8px → 0.556vw   floor  6px  ceil  8px
              */}
             <div
-              className="flex items-center border-b border-[#334454]/35 bg-transparent w-full"
+              className="flex items-center border-b border-[#000000] bg-transparent w-full"
               style={{
                 gap:    'clamp(6px, 0.556vw, 8px)',
                 height: 'clamp(40px, 3.750vw, 56px)',
@@ -874,37 +874,33 @@ export default function ContactPageForm() {
              *   borderRadius:  7px → 0.486vw  floor  5px  ceil  7px
              *   svg:          14px → 0.972vw  floor 10px  ceil 14px
              */}
-            <div
-              className="flex items-center w-full"
-              style={{ height: 'clamp(40px, 3.333vw, 48px)' }}
-            >
+            {/* Submit button */}
+            <div className="flex items-center w-full">
               <button
                 type="submit"
-                className="group relative flex items-center justify-center bg-[#6B859E] hover:bg-[#4a6074] transition-colors duration-500 overflow-hidden cursor-pointer border-none"
+                className="group relative flex items-center justify-center bg-[#6B859E] hover:bg-[#4a6074] transition-colors duration-500 overflow-hidden cursor-pointer border-none w-[clamp(118.6px,11.6vw,167px)] h-[clamp(36.9px,3.61vw,52px)]"
                 style={{
-                  width:        'clamp(130px, 11.042vw, 159px)',
-                  height:       'clamp(40px, 3.333vw, 48px)',
-                  borderRadius: 'clamp(8px, 0.833vw, 12px)',
+                  borderRadius: 'clamp(8.5px, 0.83vw, 12px)',
                 }}
               >
                 {/* Sliding text */}
                 <div
                   className="absolute overflow-hidden"
                   style={{
-                    top:    'clamp(9px, 0.868vw, 12.5px)',
-                    left:   'clamp(8px, 0.833vw, 12px)',
-                    width:  'clamp(78px, 6.736vw, 97px)',
-                    height: 'clamp(18px, 1.597vw, 23px)',
+                    top:    'clamp(10px, 1.01vw, 14.5px)',
+                    left:   'clamp(10px, 1.83vw, 22px)',
+                    width:  'clamp(70px, 6.74vw, 97px)',
+                    height: 'clamp(18px, 1.6vw, 23px)',
                   }}
                 >
                   <div className="flex flex-col transition-transform duration-500 ease-in-out group-hover:-translate-y-1/2">
                     {['Contact Us', 'Contact Us'].map((label, i) => (
                       <span
                         key={i}
-                        className="font-sans font-medium text-white whitespace-nowrap flex items-center"
+                        className="font-sans font-medium text-[#EDE7DE] whitespace-nowrap flex items-center"
                         style={{
-                          height:   'clamp(18px, 1.597vw, 23px)',
-                          fontSize: 'clamp(12px, 1.042vw, 15px)',
+                          height:   'clamp(18px, 1.6vw, 23px)',
+                          fontSize: 'clamp(13px, 1.04vw, 15px)',
                         }}
                       >
                         {label}
@@ -915,40 +911,30 @@ export default function ContactPageForm() {
 
                 {/* Arrow box */}
                 <div
-                  className="absolute bg-white group-hover:bg-[#EDE7DE] transition-colors duration-500 overflow-hidden"
+                  className="absolute bg-[#EDE7DE] group-hover:bg-[#EDE7DE] transition-colors duration-500 overflow-hidden"
                   style={{
-                    right:        'clamp(8px, 0.833vw, 12px)',
-                    width:        'clamp(24px, 2.083vw, 30px)',
-                    height:       'clamp(24px, 2.083vw, 30px)',
-                    borderRadius: 'clamp(5px, 0.486vw, 7px)',
+                    right:        'clamp(8.5px, 0.83vw, 12px)',
+                    width:        'clamp(21.3px, 2.08vw, 30px)',
+                    height:       'clamp(21.3px, 2.08vw, 30px)',
+                    borderRadius: 'clamp(5px, 0.49vw, 7px)',
                   }}
                 >
-                  {/* Arrow out */}
                   <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-in-out group-hover:translate-x-full">
                     <svg
-                      viewBox="0 0 24 24" fill="none"
-                      stroke="currentColor" strokeWidth="2.5"
-                      className="text-[#6B859E]"
-                      style={{
-                        width:  'clamp(10px, 0.972vw, 14px)',
-                        height: 'clamp(10px, 0.972vw, 14px)',
-                      }}
+                      viewBox="0 0 32 24" fill="none" stroke="currentColor" strokeWidth="2.5"
+                      className="text-black"
+                      style={{ width: 'clamp(10px, 1.97vw, 22px)', height: 'clamp(10px, 1.97vw, 22px)' }}
                     >
-                      <path d="M5 12h14M12 5l7 7-7 7" />
+                      <path d="M8 12h18M20 5l7 7-7 7" />
                     </svg>
                   </div>
-                  {/* Arrow in */}
                   <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-in-out -translate-x-full group-hover:translate-x-0">
                     <svg
-                      viewBox="0 0 24 24" fill="none"
-                      stroke="currentColor" strokeWidth="2.5"
-                      className="text-[#6B859E]"
-                      style={{
-                        width:  'clamp(10px, 0.972vw, 14px)',
-                        height: 'clamp(10px, 0.972vw, 14px)',
-                      }}
+                      viewBox="0 0 32 24" fill="none" stroke="currentColor" strokeWidth="2.5"
+                      className="text-black"
+                      style={{ width: 'clamp(10px, 1.97vw, 22px)', height: 'clamp(10px, 1.97vw,22px)' }}
                     >
-                      <path d="M5 12h14M12 5l7 7-7 7" />
+                      <path d="M8 12h18M20 5l7 7-7 7" />
                     </svg>
                   </div>
                 </div>

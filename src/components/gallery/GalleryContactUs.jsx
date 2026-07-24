@@ -89,7 +89,7 @@ const GalleryContactUs = () => {
 
   /* shared input className — only non-sizing utilities */
   const inputBase =
-    'font-sans font-normal text-[#334454] bg-transparent border-0 border-b border-[#334454]/35 outline-none w-full placeholder-[#334454]/40 focus:border-[#334454] transition-colors';
+    'font-geist font-regular text-[#333333CC] bg-transparent border-0 border-b border-[#000000] outline-none w-full placeholder-[#000000]/40 focus:border-[#000000] transition-colors';
 
   /* shared input inline style — reused for name, email, phone height, textarea */
   const inputStyle = {
@@ -147,7 +147,7 @@ const GalleryContactUs = () => {
                 }}
               />
               <span
-                className="font-sans font-normal uppercase text-[#334454] tracking-widest"
+                className="font-sans font-normal uppercase text-[#000000] tracking-widest"
                 style={{ fontSize: 'clamp(10px, 1vw, 18px)' }}
               >
                 Contact Us
@@ -156,7 +156,7 @@ const GalleryContactUs = () => {
 
             {/* Description */}
             <p
-              className="font-sans font-normal text-[#334454]"
+              className="font-sans font-normal text-[#1C1C1CCC]"
               style={{
                 fontSize:      'clamp(14px, 1.79vw, 40px)',
                 lineHeight:    '1',
@@ -184,7 +184,7 @@ const GalleryContactUs = () => {
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.53 2 2 0 0 1 3.6 1.35h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
                 </svg>
                 <span
-                  className="font-sans font-normal text-[#334454]"
+                  className="font-sans font-normal text-[#000000]"
                   style={{
                     fontSize:      'clamp(14px, 1.39vw, 22px)',
                     lineHeight:    '1',
@@ -219,7 +219,7 @@ const GalleryContactUs = () => {
                   <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                 </svg>
                 <span
-                  className="font-sans font-normal text-[#334454]"
+                  className="font-sans font-normal text-[#000000]"
                   style={{
                     fontSize:      'clamp(14px, 1.39vw, 20px)',
                     lineHeight:    '1',
@@ -254,7 +254,7 @@ const GalleryContactUs = () => {
         >
           {/* Heading */}
           <h2
-            className="font-roundo font-medium text-[#334454]"
+            className="font-roundo font-medium text-[#000000]"
             style={{
               marginLeft: 'clamp(40px, 2.50vw, 57px)',
               fontSize:      'clamp(40px, 4.51vw, 65px)',
@@ -298,7 +298,7 @@ const GalleryContactUs = () => {
 
             {/* Phone */}
             <div
-              className="flex items-center border-b border-[#334454]/35 bg-transparent w-full"
+              className="flex items-center border-b border-[#000000] bg-transparent w-full"
               style={{ height: 'clamp(33.75px, 3.75vw, 54px)' }}
             >
               <PhoneInput
@@ -322,13 +322,11 @@ const GalleryContactUs = () => {
             </div>
 
             {/* Submit button */}
-            <div className="flex items-center">
+            <div className="flex items-center w-full">
               <button
                 type="submit"
-                className="group relative flex items-center justify-center bg-[#6B859E] hover:bg-[#4a6074] transition-colors duration-500 overflow-hidden cursor-pointer border-none"
+                className="group relative flex items-center justify-center bg-[#6B859E] hover:bg-[#4a6074] transition-colors duration-500 overflow-hidden cursor-pointer border-none w-[clamp(118.6px,11.6vw,167px)] h-[clamp(36.9px,3.61vw,52px)]"
                 style={{
-                  width:        'clamp(118.6px, 11.6vw, 167px)',
-                  height:       'clamp(36.9px, 3.61vw, 52px)',
                   borderRadius: 'clamp(8.5px, 0.83vw, 12px)',
                 }}
               >
@@ -337,7 +335,7 @@ const GalleryContactUs = () => {
                   className="absolute overflow-hidden"
                   style={{
                     top:    'clamp(10px, 1.01vw, 14.5px)',
-                    left:   'clamp(10px, 0.83vw, 12px)',
+                    left:   'clamp(10px, 1.83vw, 22px)',
                     width:  'clamp(70px, 6.74vw, 97px)',
                     height: 'clamp(18px, 1.6vw, 23px)',
                   }}
@@ -346,7 +344,7 @@ const GalleryContactUs = () => {
                     {['Contact Us', 'Contact Us'].map((label, i) => (
                       <span
                         key={i}
-                        className="font-sans font-medium text-white whitespace-nowrap flex items-center"
+                        className="font-sans font-medium text-[#EDE7DE] whitespace-nowrap flex items-center"
                         style={{
                           height:   'clamp(18px, 1.6vw, 23px)',
                           fontSize: 'clamp(13px, 1.04vw, 15px)',
@@ -360,7 +358,7 @@ const GalleryContactUs = () => {
 
                 {/* Arrow box */}
                 <div
-                  className="absolute bg-white group-hover:bg-[#EDE7DE] transition-colors duration-500 overflow-hidden"
+                  className="absolute bg-[#EDE7DE] group-hover:bg-[#EDE7DE] transition-colors duration-500 overflow-hidden"
                   style={{
                     right:        'clamp(8.5px, 0.83vw, 12px)',
                     width:        'clamp(21.3px, 2.08vw, 30px)',
@@ -370,20 +368,20 @@ const GalleryContactUs = () => {
                 >
                   <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-in-out group-hover:translate-x-full">
                     <svg
-                      viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
-                      className="text-[#6B859E]"
-                      style={{ width: 'clamp(10px, 0.97vw, 14px)', height: 'clamp(10px, 0.97vw, 14px)' }}
+                      viewBox="0 0 32 24" fill="none" stroke="currentColor" strokeWidth="2.5"
+                      className="text-black"
+                      style={{ width: 'clamp(10px, 1.97vw, 22px)', height: 'clamp(10px, 1.97vw, 22px)' }}
                     >
-                      <path d="M5 12h14M12 5l7 7-7 7" />
+                      <path d="M8 12h18M20 5l7 7-7 7" />
                     </svg>
                   </div>
                   <div className="absolute inset-0 flex items-center justify-center transition-transform duration-500 ease-in-out -translate-x-full group-hover:translate-x-0">
                     <svg
-                      viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
-                      className="text-[#6B859E]"
-                      style={{ width: 'clamp(10px, 0.97vw, 14px)', height: 'clamp(10px, 0.97vw, 14px)' }}
+                      viewBox="0 0 32 24" fill="none" stroke="currentColor" strokeWidth="2.5"
+                      className="text-black"
+                      style={{ width: 'clamp(10px, 1.97vw, 22px)', height: 'clamp(10px, 1.97vw,22px)' }}
                     >
-                      <path d="M5 12h14M12 5l7 7-7 7" />
+                      <path d="M8 12h18M20 5l7 7-7 7" />
                     </svg>
                   </div>
                 </div>
